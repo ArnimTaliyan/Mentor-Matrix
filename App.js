@@ -16,6 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native-web';
+import SignupScreen from './screens/SignupScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -73,6 +74,7 @@ function App() {
           <>
             <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: true }} />
           </>
         )}
