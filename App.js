@@ -8,7 +8,6 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import SettingScreen from './screens/SettingScreen'; // Correct import
 import SignupScreen from './screens/SignupScreen';
 import { db } from './firebase'; // Import db from firebase.js
-import ProfileScreen from './screens/ProfileScreen';
 import LoginScreen from './screens/LoginScreen';
 import Timetable from './screens/Timetable';
 import Announcement from './screens/Announcement';
@@ -39,7 +38,6 @@ function App() {
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainTabScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer>

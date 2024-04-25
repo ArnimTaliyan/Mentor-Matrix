@@ -29,9 +29,6 @@ export default function HomeScreen({ navigation }) {
                         {userName ? <Text style={styles.greetingText}>Hello, {userName}</Text> : null}
                     </View>
                 </View>
-                <TouchableOpacity style={styles.profileButton} onPress={() => navigation.navigate('ProfileScreen')}>
-                    <Text>image</Text>
-                </TouchableOpacity>
                 <View style={styles.overlayContainer}></View>
                 <View style={styles.BG}>
                     <SearchBar></SearchBar>
