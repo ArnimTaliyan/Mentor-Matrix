@@ -1,72 +1,87 @@
-// Import necessary modules
 import React from 'react';
-import { SafeAreaView, StyleSheet, View, Alert } from 'react-native';
+import { SafeAreaView, StyleSheet, View, ScrollView, Alert } from 'react-native';
 import TimeTableView, { genTimeBlock } from 'react-native-timetable';
-
 
 // Your events data
 const events_data = [
-    {
-      title: "Math",
-      startTime: genTimeBlock("MON", 9),
-      endTime: genTimeBlock("MON", 10, 50),
-      location: "Classroom 403",
-      extra_descriptions: ["Kim", "Lee"],
+  {
+    title: "System Provisioning and Config.",
+    startTime: genTimeBlock("MON", 10),
+    endTime: genTimeBlock("MON", 11, 60),
+    location: "Classroom 11112",
+    extra_descriptions: ["Hitesh"],
     },
-    {
-      title: "AD",
-      startTime: genTimeBlock("WED", 9,0),
-      endTime: genTimeBlock("WED", 10, 50),
-      location: "Room no. 11114",
-      extra_descriptions: ["Mitali Chugh"],
+  {
+      title: "Applied Devops",
+      startTime: genTimeBlock("MON", 13),
+      endTime: genTimeBlock("MON", 14, 50),
+      location: "Classroom 11114",
+      extra_descriptions: ["Mitali", "chugh"],
     },
-    {
-      title: "Physics",
-      startTime: genTimeBlock("MON", 11),
-      endTime: genTimeBlock("MON", 11, 50),
-      location: "Lab 404",
-      extra_descriptions: ["Einstein"],
+  {
+      title: "Test Automation Lab",
+      startTime: genTimeBlock("MON", 15),
+      endTime: genTimeBlock("MON", 16, 50),
+      location: "Classroom 10004",
+      extra_descriptions: ["Divya", "Rose"],
     },
-    {
-      title: "Physics",
-      startTime: genTimeBlock("WED", 11),
-      endTime: genTimeBlock("WED", 11, 50),
-      location: "Lab 404",
-      extra_descriptions: ["Einstein"],
+  {
+      title: "Applied Devops",
+      startTime: genTimeBlock("TUE", 13),
+      endTime: genTimeBlock("TUE", 14, 50),
+      location: "Classroom 11112",
+      extra_descriptions: ["Mitali", "chugh"],
     },
-    {
-      title: "Mandarin",
-      startTime: genTimeBlock("TUE", 9),
-      endTime: genTimeBlock("TUE", 10, 50),
-      location: "Language Center",
-      extra_descriptions: ["Chen"],
+  {
+      title: "System Monitoring",
+      startTime: genTimeBlock("TUE", 15),
+      endTime: genTimeBlock("TUE", 16, 50),
+      location: "Classroom 11112",
+      extra_descriptions: ["Mitali", "chugh"],
     },
-    {
-      title: "Japanese",
-      startTime: genTimeBlock("FRI", 9),
-      endTime: genTimeBlock("FRI", 10, 50),
-      location: "Language Center",
-      extra_descriptions: ["Nakamura"],
+  {
+      title: "System Monitoring Lab",
+      startTime: genTimeBlock("WED", 13),
+      endTime: genTimeBlock("WED", 14, 50),
+      location: "Classroom 9208",
+      extra_descriptions: ["Hitesh"],
     },
-    {
-      title: "Club Activity",
-      startTime: genTimeBlock("THU", 9),
-      endTime: genTimeBlock("THU", 10, 50),
-      location: "Activity Center",
+  {
+      title: "System Monitoring",
+      startTime: genTimeBlock("THU", 13),
+      endTime: genTimeBlock("THU", 14, 50),
+      location: "Classroom 11112",
+      extra_descriptions: ["Hitesh"],
     },
-    {
-      title: "Club Activity",
-      startTime: genTimeBlock("FRI", 13, 30),
-      endTime: genTimeBlock("FRI", 14, 50),
-      location: "Activity Center",
+  {
+      title: "Test Automation",
+      startTime: genTimeBlock("THU", 15),
+      endTime: genTimeBlock("THU", 16, 50),
+      location: "Classroom 11112",
+      extra_descriptions: ["Alind"],
     },
-    {
-        title: "sex",
-        startTime: genTimeBlock("TUE", 13, 0),
-        endTime: genTimeBlock("TUE", 14, 60),
-        location: "Activity Center",
+  {
+      title: "System Provisioning and Config.",
+      startTime: genTimeBlock("FRI", 10),
+      endTime: genTimeBlock("FRI", 11, 50),
+      location: "Classroom 11112",
+      extra_descriptions: ["Hitesh"],
       },
-  ];
+  {
+     title: "EDGE",
+     startTime: genTimeBlock("FRI", 12),
+     endTime: genTimeBlock("FRI", 13, 50),
+     location: "Classroom 11112",
+     extra_descriptions: ["Sumit"],
+      },
+  {
+     title: "Test Automation",
+     startTime: genTimeBlock("FRI", 14),
+     endTime: genTimeBlock("FRI", 15, 50),
+     location: "Classroom 11112",
+     extra_descriptions: ["Alind"],
+        },
+];
 
 // Your Timetable component
 const Timetable = () => {
@@ -81,21 +96,23 @@ const Timetable = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        {/* TimeTableView component */}
-        <TimeTableView
-          events={events_data}
-          pivotTime={9} // Set pivot time to 9:00 AM (as a number)
-          pivotDate={pivotDate}
-          numberOfDays={numOfDays}
-          onEventPress={handleEventPress}
-          headerStyle={styles.headerStyle}
-          formatDateHeader="dddd" // Change to "dddd" for English full day names
-          locale="en" // Set locale to English
-          nDays={numOfDays}
-          formatTimeLabel={(time) => `${time.hour}:${time.minute < 10 ? '0' : ''}${time.minute} ${time.isAM ? 'AM' : 'PM'}`} // Format time with AM/PM
-        />
-      </View>
+      <ScrollView horizontal={true}>
+        <View style={styles.container}>
+          {/* TimeTableView component */}
+          <TimeTableView
+            events={events_data}
+            pivotTime={9} // Set pivot time to 9:00 AM (as a number)
+            pivotDate={pivotDate}
+            numberOfDays={numOfDays}
+            onEventPress={handleEventPress}
+            headerStyle={styles.headerStyle}
+            formatDateHeader="dddd" // Change to "dddd" for English full day names
+            locale="en" // Set locale to English
+            nDays={numOfDays}
+            formatTimeLabel={(time) => `${time.hour}:${time.minute < 10 ? '0' : ''}${time.minute} ${time.isAM ? 'AM' : 'PM'}`} // Fix syntax error here
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -106,7 +123,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue'
   },
   container: {
-    flex: 1,
+    flexDirection: 'row', // Ensure horizontal layout
+    width: 400,
+    height: 1000, // Fix typo here
     backgroundColor: '#F8F8F8',
   },
 });
