@@ -1,12 +1,9 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image,SafeAreaView,ScrollView, ActivityIndicator , StyleSheet, TouchableOpacity} from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { storage,ref, get } from '../firebase'; // Import the storage from your firebase.js file
 import SettingScreen from './SettingScreen';
 import Scheduler from './Scheduler';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView } from 'react-native';
 import SearchBar from '../Components/Searchbar';
 
 export {
@@ -15,32 +12,59 @@ export {
 }
 
 export default function HomeScreen({ navigation }) {
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <View style={styles.overlayContainer}>
-      <View style={{ paddingHorizontal: 16 }}>
-        <Text style={styles.greetingText}>Hello,</Text>
-        
-      </View>
-    </View>
-        <TouchableOpacity style={styles.profileButton} onPress={() => navigation.navigate('ProfileScreen')}>
-          <Image source={require('../assets/images/profile.jpeg')} style={{ width: 40, height: 40, borderRadius: 25 }} />
-        </TouchableOpacity>
-        <View style={styles.overlayContainer}>
-          <View style={{ paddingHorizontal: 16 }}>
-            <Text style={styles.greetingText}>Hello,</Text>
-            <Text style={styles.nameText}>        Amar Jindal</Text>
-          </View>
-        </View>
-        <View style={styles.BG}>
-          <SearchBar></SearchBar>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+    const route = useRoute();
+    const userName = route.params?.userName;
+    const [imageUrl, setImageUrl] = useState(null);
+    const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        // Function to fetch image URL from Firestore
+        const fetchImageUrl = async () => {
+            try {
+                // Assuming you have stored the image URL in a Firestore document field called 'imageUrl'
+                const imageUrlRef = storage.ref('images').child('download.jpg'); // Update 'your_image_file_name.jpg' with your actual file name
+                const url = await imageUrlRef.getDownloadURL();
+                setImageUrl(url);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching image:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchImageUrl();
+    }, []); // Run this effect only once on component mount
+
+    return (
+        
+        <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={styles.overlayContainer}>
+        <View style={{ paddingHorizontal: 16 }}>
+        {userName ? <Text style={styles.greetingText}>Hello, {userName}</Text> : null}
+          
+        </View>
+      </View>
+          <TouchableOpacity style={styles.profileButton} onPress={() => navigation.navigate('ProfileScreen')}>
+          {loading ? (
+                <ActivityIndicator size="large" color="blue" />
+            ) : imageUrl ? (
+                <Image source={{ uri: imageUrl }} style={{ width: 200, height: 200 }} />
+            ) : (
+                <Text>No image found</Text>
+            )}
+          </TouchableOpacity>
+          <View style={styles.overlayContainer}>
+            
+          </View>
+          <View style={styles.BG}>
+            <SearchBar></SearchBar>
+          </View>
+          
+        </ScrollView>
+      </SafeAreaView>
+    );
+}
 const styles = StyleSheet.create({
   profileButton: {
     position: 'absolute',
