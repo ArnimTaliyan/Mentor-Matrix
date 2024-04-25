@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
-import { View,Image, Text, TextInput, TouchableOpacity, ScrollView, StatusBar, StyleSheet } from 'react-native';
+import { View, Image, Text, TextInput, TouchableOpacity, ScrollView, StatusBar, StyleSheet } from 'react-native';
 import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/database'; // Import Realtime Database module
-import { get, getDatabase, ref, set,  } from 'firebase/database';
 import { encode } from 'base-64';
+import { db } from '../firebase'; // Import db from firebase.js
+import { get, ref, set } from 'firebase/database';
 import { Alert } from 'react-native';
-
-
-
-
 
 export default function SignupScreen() {
     const navigation = useNavigation();
@@ -24,11 +19,11 @@ export default function SignupScreen() {
 
     const Notification = ({ message }) => (
         <View style={styles.notification}>
-          <Text style={styles.notificationText}>{message}</Text>
+            <Text style={styles.notificationText}>{message}</Text>
         </View>
-      );
+    );
 
-      const dataAddon = () => {
+    const dataAddon = () => {
         // Check if any of the fields are empty
         if (!name || !email || !password) {
             console.log('Fields are empty. Showing notification...');
@@ -37,11 +32,11 @@ export default function SignupScreen() {
             setTimeout(() => setShowNotification1(false), 3000);
             return;
         }
-    
+
         // Encode the email to create a valid database path
         const encodedEmail = encode(email);
-        const userRef = ref(getDatabase(), `users/${encodedEmail}`);
-    
+        const userRef = ref(db, `users/${encodedEmail}`);
+
         // Fetch the data for the specified email
         get(userRef, 'value')
             .then((snapshot) => {
@@ -54,7 +49,7 @@ export default function SignupScreen() {
                 } else {
                     // If the snapshot doesn't exist, it means the email is unique, proceed to add data to the database
                     // Set data in the database with the encoded email as part of the path
-                    set(ref(getDatabase(), `users/${encodedEmail}`), {
+                    set(ref(db, `users/${encodedEmail}`), {
                         name: name,
                         email: email,
                         password: password,
@@ -76,7 +71,6 @@ export default function SignupScreen() {
                 console.error('Error fetching data:', error);
             });
     }
-    
 
     return (
         <View>
@@ -131,15 +125,15 @@ export default function SignupScreen() {
 
 const styles = StyleSheet.create({
     notification: {
-      backgroundColor: 'green',
-      padding: 10,
-      borderRadius: 5,
-      alignSelf: 'center',
-      position: 'absolute',
-      top: -50,
-      zIndex: 999,
+        backgroundColor: 'green',
+        padding: 10,
+        borderRadius: 5,
+        alignSelf: 'center',
+        position: 'absolute',
+        top: -50,
+        zIndex: 999,
     },
     notificationText: {
-      color: 'white',
+        color: 'white',
     },
-  });
+});
