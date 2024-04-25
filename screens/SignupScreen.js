@@ -6,14 +6,35 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/database'; // Import Realtime Database module
 import { getDatabase, ref, set } from 'firebase/database';
 import { encode } from 'base-64';
+import { Alert } from 'react-native';
+
+
 
 export default function SignupScreen() {
     const navigation = useNavigation();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [showNotification1, setShowNotification1] = useState(false);
+    const [notificationMessage1, setNotificationMessage1] = useState('');
+
+    const Notification = ({ message }) => (
+        <View style={styles.notification}>
+          <Text style={styles.notificationText}>{message}</Text>
+        </View>
+      );
 
     const dataAddon = () => {
+        // Check if any of the fields are empty
+    if (!name || !email || !password) {
+        console.log('Fields are empty. Showing notification...');
+        setNotificationMessage1('Please fill in all fields');
+        setShowNotification1(true);
+        setTimeout(() => setShowNotification1(false), 3000);
+        return;
+    }
         // Encode the email to create a valid database path
         const encodedEmail = encode(email);
 
@@ -28,6 +49,8 @@ export default function SignupScreen() {
             setEmail('');
             setPassword('');
             console.log('Data added successfully');
+            setShowNotification(true);
+        setTimeout(() => setShowNotification(false), 3000);
         })
         .catch((error) => {
             console.error('Error adding data:', error);
@@ -75,10 +98,26 @@ export default function SignupScreen() {
                             <Text className="text-sky-600">Login</Text>
                         </TouchableOpacity>
                     </Animated.View>
+                    {showNotification && <Notification message="Account added successfully" />}
+                    {showNotification1 && <Notification message={notificationMessage1} />}
                 </View>
             </View>
+            
         </ScrollView>
     );
 }
 
-
+const styles = StyleSheet.create({
+    notification: {
+      backgroundColor: 'green',
+      padding: 10,
+      borderRadius: 5,
+      alignSelf: 'center',
+      position: 'absolute',
+      bottom: -50,
+      zIndex: 999,
+    },
+    notificationText: {
+      color: 'white',
+    },
+  });
