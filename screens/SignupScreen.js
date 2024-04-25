@@ -4,9 +4,11 @@ import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated'
 import { useNavigation } from '@react-navigation/native';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database'; // Import Realtime Database module
-import { getDatabase, ref, set } from 'firebase/database';
+import { get, getDatabase, ref, set,  } from 'firebase/database';
 import { encode } from 'base-64';
 import { Alert } from 'react-native';
+
+
 
 
 
@@ -26,38 +28,58 @@ export default function SignupScreen() {
         </View>
       );
 
-    const dataAddon = () => {
+      const dataAddon = () => {
         // Check if any of the fields are empty
-    if (!name || !email || !password) {
-        console.log('Fields are empty. Showing notification...');
-        setNotificationMessage1('Please fill in all fields');
-        setShowNotification1(true);
-        setTimeout(() => setShowNotification1(false), 3000);
-        return;
-    }
+        if (!name || !email || !password) {
+            console.log('Fields are empty. Showing notification...');
+            setNotificationMessage1('Please fill in all fields');
+            setShowNotification1(true);
+            setTimeout(() => setShowNotification1(false), 3000);
+            return;
+        }
+    
         // Encode the email to create a valid database path
         const encodedEmail = encode(email);
-
-        // Set data in the database with the encoded email as part of the path
-        set(ref(getDatabase(), `users/${encodedEmail}`), {
-            name: name,
-            email: email,
-            password: password,
-        })
-        .then(() => {
-            setName('');
-            setEmail('');
-            setPassword('');
-            console.log('Data added successfully');
-            setShowNotification(true);
-        setTimeout(() => setShowNotification(false), 3000);
-        })
-        .catch((error) => {
-            console.error('Error adding data:', error);
-        });
+        const userRef = ref(getDatabase(), `users/${encodedEmail}`);
+    
+        // Fetch the data for the specified email
+        get(userRef, 'value')
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    // If the snapshot exists, it means the email already exists in the database
+                    console.log('Email already exists. Showing notification...');
+                    setNotificationMessage1('Email already exists');
+                    setShowNotification1(true);
+                    setTimeout(() => setShowNotification1(false), 3000);
+                } else {
+                    // If the snapshot doesn't exist, it means the email is unique, proceed to add data to the database
+                    // Set data in the database with the encoded email as part of the path
+                    set(ref(getDatabase(), `users/${encodedEmail}`), {
+                        name: name,
+                        email: email,
+                        password: password,
+                    })
+                    .then(() => {
+                        setName('');
+                        setEmail('');
+                        setPassword('');
+                        console.log('Data added successfully');
+                        setShowNotification(true);
+                        setTimeout(() => setShowNotification(false), 3000);
+                    })
+                    .catch((error) => {
+                        console.error('Error adding data:', error);
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
     }
+    
 
     return (
+        <View>
         <ScrollView className="bg-white h-full w-full">
             <StatusBar style="light" />
             <Image className="h-full w-full absolute" source={require('../assets/images/background.png')}/>
@@ -103,7 +125,7 @@ export default function SignupScreen() {
                 </View>
             </View>
             
-        </ScrollView>
+        </ScrollView></View>
     );
 }
 
@@ -114,7 +136,7 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       alignSelf: 'center',
       position: 'absolute',
-      bottom: -50,
+      top: -50,
       zIndex: 999,
     },
     notificationText: {
