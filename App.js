@@ -10,6 +10,8 @@ import SignupScreen from './screens/SignupScreen';
 import { db } from './firebase'; // Import db from firebase.js
 import ProfileScreen from './screens/ProfileScreen';
 import LoginScreen from './screens/LoginScreen';
+import Timetable from './screens/Timetable';
+import Announcement from './screens/Announcement';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -33,6 +35,7 @@ function App() {
       <Stack.Navigator>
         {/* Adjusted screen structure based on user authentication */}
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Timetable" component={Timetable} options={{ headerShown: true }} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainTabScreen} options={{ headerShown: false }} />
@@ -49,9 +52,15 @@ function MainTabScreen() {
       <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: ({ focused }) => (
         <AntDesign name="home" size={24} color="black" />
       ) }} />
-      <Tab.Screen name="TimeTable" component={Scheduler} options={{ tabBarIcon: ({ focused }) => (
+      <Tab.Screen name="Scheduler" component={Scheduler} options={{ tabBarIcon: ({ focused }) => (
         <MaterialCommunityIcons name="timetable" size={24} color="black" />
       ) }} />
+      <Tab.Screen name="TimeTable" component={Timetable} options={{ tabBarIcon: ({ focused }) => (
+        <Ionicons name="calendar-outline" size={24} color="black" />
+        ) }} />
+        <Tab.Screen name="Announcement" component={Announcement} options={{ tabBarIcon: ({ focused }) => (
+          <Ionicons name="megaphone-outline" size={24} color="black" />
+         ) }} />
       <Tab.Screen name="Settings" component={SettingScreen} options={{ tabBarIcon: ({ focused }) => (
         <Ionicons name="settings-outline" size={24} color="black" />
       ) }} />
