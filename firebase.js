@@ -1,5 +1,7 @@
 import { getDatabase } from 'firebase/database';
 import firebase from 'firebase/compat/app';
+import { getStorage } from 'firebase/storage';
+import { initializeApp } from "firebase/app";
 
 
 // Your web app's Firebase configuration
@@ -14,8 +16,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig);
-}
+const app = firebase.initializeApp(firebaseConfig);
+const storage = getStorage(app);
 const db = getDatabase();
+
+
+
   export {db} 
+  export{storage}
