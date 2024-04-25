@@ -18,6 +18,12 @@ export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View style={styles.overlayContainer}>
+      <View style={{ paddingHorizontal: 16 }}>
+        <Text style={styles.greetingText}>Hello,</Text>
+        <Text style={styles.nameText}>{currentUser ? currentUser.displayName : 'Guest'}</Text>
+      </View>
+    </View>
         <TouchableOpacity style={styles.profileButton} onPress={() => navigation.navigate('ProfileScreen')}>
           <Image source={require('../assets/images/profile.jpeg')} style={{ width: 40, height: 40, borderRadius: 25 }} />
         </TouchableOpacity>

@@ -17,6 +17,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native-web';
 import SignupScreen from './screens/SignupScreen';
+import 'firebase/compat/database';
+import { getDatabase } from 'firebase/database';
+
 
 
 const Tab = createBottomTabNavigator();
@@ -36,7 +39,9 @@ const screenOptions = {
 }
 
 function App() {
+  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
@@ -55,10 +60,10 @@ function App() {
   }
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged((user) => {
       setIsLoggedIn(!!user);
+      setCurrentUser(user);
     });
-    return unsubscribe;
   }, []);
 
   return (

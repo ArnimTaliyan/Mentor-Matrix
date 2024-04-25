@@ -29,18 +29,22 @@ export default function LoginScreen() {
     
     }
 
-    function Login(){
-
-        const {email, pwd}= values
-        firebase.auth().signInWithEmailAndPassword( email, pwd)
-  .then(() => {
-    
-  })
-  .catch((error) => {
-    alert(error.message)
-  });
-
-    }
+    function Login() {
+        const { email, pwd } = values;
+        firebase.database().ref('users').orderByChild('email').equalTo(email).once('value', (snapshot) => {
+          if (snapshot.exists()) {
+            const userData = snapshot.val();
+            // Check password
+            if (userData.password === pwd) {
+              // Navigate to HomeScreen or set authentication state
+            } else {
+              alert("Invalid password");
+            }
+          } else {
+            alert("User not found");
+          }
+        });
+      }
 
 
 

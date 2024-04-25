@@ -1,34 +1,21 @@
-import { onAuthStateChanged, getAuth } from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
 import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY", // Replace with your actual API key
-  authDomain: "your-project-id.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project-id.appspot.com",
-  messagingSenderId: "your-sender-id",
-  appId: "your-app-id",
+  apiKey: "AIzaSyCwu3H0Xsktux9AQuhrwpx-2u5dZiwA-8k",
+  authDomain: "mentor-matrix-4204b.firebaseapp.com",
+  databaseURL: "https://mentor-matrix-4204b-default-rtdb.firebaseio.com",
+  projectId: "mentor-matrix-4204b",
+  storageBucket: "mentor-matrix-4204b.appspot.com",
+  messagingSenderId: "1072171754165",
+  appId: "1:1072171754165:web:20071f758a1064031294fc"
 };
 
 // Initialize Firebase
-let app;
 if (firebase.apps.length === 0) {
-  app = firebase.initializeApp(firebaseConfig);
-} else {
-  app = firebase.app();
+  firebase.initializeApp(firebaseConfig);
 }
-
-const auth = getAuth(app); // Get auth instance
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("User logged in:", user.email); // Access user data (e.g., email)
-    // Perform actions based on logged-in user
-  } else {
-    console.log("No user logged in");
-  }
-});
-
-export { auth };
+const db = getDatabase();
+  export {db} 
