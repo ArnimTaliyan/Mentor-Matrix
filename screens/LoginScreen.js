@@ -4,10 +4,12 @@ import { StatusBar, TextInput } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOut } from 'react-native-reanimated';
 import {useNavigation} from '@react-navigation/native';
-import firebase from 'firebase/compat/app';
+import { db } from '../firebase';
 import 'firebase/compat/auth';
+import { encode } from 'base-64';
 
-
+import firebase from 'firebase/compat/app';
+import { getDatabase, ref, get, orderByChild } from 'firebase/database';
 
 
 export default function LoginScreen() {
@@ -31,20 +33,30 @@ export default function LoginScreen() {
 
     function Login() {
         const { email, pwd } = values;
-        firebase.database().ref('users').orderByChild('email').equalTo(email).once('value', (snapshot) => {
-          if (snapshot.exists()) {
-            const userData = snapshot.val();
-            // Check password
-            if (userData.password === pwd) {
-              // Navigate to HomeScreen or set authentication state
-            } else {
-              alert("Invalid password");
-            }
-          } else {
-            alert("User not found");
-          }
-        });
-      }
+        const encodedEmail = encode(email); // Encode email for use in database path
+        const userRef = ref(db, `users/${encodedEmail}`);
+    
+        // Fetch user data from the database based on the email
+        get(userRef, 'value')
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    // Check if the password matches
+                    if (userData.password === pwd) {
+                        // Password is correct, navigate to HomeScreen or set authentication state
+                        navigation.navigate('Main'); // Navigate to HomeScreen
+                    } else {
+                        alert("Invalid password");
+                    }
+                } else {
+                    alert("User not found");
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    
 
 
 

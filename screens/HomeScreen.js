@@ -21,7 +21,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.overlayContainer}>
       <View style={{ paddingHorizontal: 16 }}>
         <Text style={styles.greetingText}>Hello,</Text>
-        <Text style={styles.nameText}>{currentUser ? currentUser.displayName : 'Guest'}</Text>
+        
       </View>
     </View>
         <TouchableOpacity style={styles.profileButton} onPress={() => navigation.navigate('ProfileScreen')}>
