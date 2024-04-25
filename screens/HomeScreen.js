@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, ScrollView, ActivityIndicator, StyleSheet,Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, ActivityIndicator, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { storage } from '../firebase'; // Import the storage from your firebase.js file
 import SettingScreen from './SettingScreen';
@@ -21,6 +21,11 @@ export default function HomeScreen({ navigation }) {
         setLoading(false);
     }, []); // Run this effect only once on component mount
 
+    const navigateToNextScreen = (imageName) => {
+        // Navigate to the next screen, passing the image name as a parameter
+        navigation.navigate('NextScreen', { imageName });
+    };
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -33,24 +38,22 @@ export default function HomeScreen({ navigation }) {
                 <View style={styles.BG}>
                     <SearchBar></SearchBar>
                 </View>
+            
+            <View style={styles.container}>
+                <TouchableOpacity onPress={() => navigateToNextScreen('Image1')}>
+                    <Image source={require('../assets/images/socs.jpeg')} style={styles.image} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigateToNextScreen('Image2')}>
+                    <Image source={require('../assets/images/SOHS.jpeg')} style={styles.image} />
+                </TouchableOpacity>
+            </View>
             </ScrollView>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    profileButton: {
-        position: 'absolute',
-        top: 25,
-        right: 20,
-        width: 45,
-        height: 45,
-        borderRadius: 25,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#0B646B',
-        zIndex: 1, // Ensure the TouchableOpacity is above other views
-    },
     overlayContainer: {
         flex: 1,
         alignItems: 'flex-start',
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
         paddingTop: 20, // Adjust as needed
         paddingLeft: 20, // Adjust as needed
         zIndex: 0,
-        backgroundColor: '#FFF' // Set a lower zIndex for the overlayContainer to ensure it's below the TouchableOpacity
+        backgroundColor: '#FFF'
     },
     greetingText: {
         fontSize: 30,
@@ -74,5 +77,16 @@ const styles = StyleSheet.create({
     BG: {
         backgroundColor: '#FFF',
         flex: 1
+    },
+    container: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+    },
+    image: {
+        width: 100,
+        height: 100,
+        marginBottom: 200,
     }
 });
