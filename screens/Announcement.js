@@ -9,9 +9,13 @@ import * as FileSystem from 'expo-file-system';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/storage';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRoute } from '@react-navigation/native';
+
 
 export default function AnnouncementScheduler() {
+    const route = useRoute(); 
+const userName = route.params?.userName;
+
     const [ProjectName, setProjectName] = useState(''); 
     const [Role, setRole] = useState('');
     const [Number, setNumber] = useState('');
@@ -106,7 +110,7 @@ export default function AnnouncementScheduler() {
         }
     };
 
-    const dataAddon = async (documentUrl) => {
+    const dataAddon = async (documentUrl, publisher) => {
         const encodedProjectName = encode(ProjectName);
     
         try {
@@ -116,6 +120,7 @@ export default function AnnouncementScheduler() {
                 Number: Number,
                 ProjectDetail: ProjectDetail,
                 DocumentUrl: documentUrl, // Store the document URL in the database
+                Publisher: publisher, // Store the username as the publisher
             });
             setProjectName('');
             setRole('');
@@ -140,8 +145,6 @@ export default function AnnouncementScheduler() {
                     <AntDesign name="pushpin" size={24} color="#7289DA" style={{ marginRight: 10 }} />
                     <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#7289DA' }}>Announcements</Text>
                 </View>
-
-                
 
                 <Animated.View style={[styles.inputContainer, { borderBottomColor: isProjectNameFocused ? '#7289DA' : 'black' }]}>
                     <Text style={[styles.placeholder, { top: ProjectName !== '' || isProjectNameFocused ? -20 : 12 }]}>Project Name</Text>
@@ -196,22 +199,21 @@ export default function AnnouncementScheduler() {
 
                 {document && <Text style={styles.document}>{document}</Text>}
                 <TouchableOpacity
-    style={[styles.uploadButton, { marginTop: 20 }]}
-    onPress={() => {
-        if (document && ProjectName && Role && Number && ProjectDetail) {
-            uploadDocument().then(() => {
-                dataAddon(document); // Pass the document URL to dataAddon
-            });
-        } else {
-            Alert.alert('Please fill in all fields and select a document');
-        }
-    }}
-    disabled={!document || !ProjectName || !Role || !Number || !ProjectDetail}
->
-    <Text style={styles.buttonText}>Post Announcement</Text>
-</TouchableOpacity>
-
-
+                    style={[styles.uploadButton, { marginTop: 20 }]}
+                    onPress={() => {
+                        if (document && ProjectName && Role && Number && ProjectDetail) {
+                            uploadDocument().then(() => {
+                                // Pass the document URL and the username to dataAddon
+                                dataAddon(document, route.params.userName);
+                            });
+                        } else {
+                            Alert.alert('Please fill in all fields and select a document');
+                        }
+                    }}
+                    disabled={!document || !ProjectName || !Role || !Number || !ProjectDetail}
+                >
+                    <Text style={styles.buttonText}>Post Announcement</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );

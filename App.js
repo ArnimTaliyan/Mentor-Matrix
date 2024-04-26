@@ -14,6 +14,7 @@ import Announcement from './screens/Announcement';
 import SOCS from './screens/SOCS';
 import AnnouncementScreen from './screens/AnnouncementScreen';
 import FetchData from './screens/AnnouncementScreen';
+import AnnouncementScheduler from './screens/Announcement';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -42,7 +43,7 @@ function App() {
         <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainTabScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: true }} />
-        
+        <Stack.Screen name="AnnouncementScheduler" component={AnnouncementScheduler} options={{ headerShown: true }} />
         <Stack.Screen name="FetchData" component={FetchData} options={{ headerShown: true }} />
 
       </Stack.Navigator>
@@ -62,8 +63,8 @@ function MainTabScreen() {
       <Tab.Screen name="TimeTable" component={Timetable} options={{ tabBarIcon: ({ focused }) => (
         <Ionicons name="calendar-outline" size={24} color="black" />
         ) }} />
-        <Tab.Screen name="Announcement" component={Announcement} options={{ tabBarIcon: ({ focused }) => (
-          <Ionicons name="megaphone-outline" size={24} color="black" />
+        <Tab.Screen name="FetchData" component={FetchData} options={{ tabBarIcon: ({ focused }) => (
+          <Ionicons name="notifications-outline" size={35} color="black" />
          ) }} />
       <Tab.Screen name="Settings" component={SettingScreen} options={{ tabBarIcon: ({ focused }) => (
         <Ionicons name="settings-outline" size={24} color="black" />

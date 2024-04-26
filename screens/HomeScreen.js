@@ -23,9 +23,11 @@ export default function HomeScreen() {
                     <View style={{ flex: 1 , marginTop:10}}>
                         {userName ? <Text style={styles.greetingText}>Hello, {userName}</Text> : null}
                     </View>
-                    <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.push('FetchData')}>
-                        <Ionicons name="notifications-outline" size={35} color="black" />
-                    </TouchableOpacity>
+                    <TouchableOpacity 
+    style={styles.iconContainer} 
+    onPress={() => navigation.push('AnnouncementScheduler', { userName: userName })}>
+    <Ionicons name="megaphone-outline" size={24} color="black" />
+</TouchableOpacity>
                 </View>
             </ScrollView>
         </SafeAreaView>
