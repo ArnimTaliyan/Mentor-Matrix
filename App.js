@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons,MaterialIcons, Ionicons } from '@expo/vector-icons';
 import HomeScreen, { Scheduler } from './screens/HomeScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import SettingScreen from './screens/SettingScreen'; // Correct import
@@ -15,6 +15,7 @@ import SOCS from './screens/SOCS';
 import AnnouncementScreen from './screens/AnnouncementScreen';
 import FetchData from './screens/AnnouncementScreen';
 import AnnouncementScheduler from './screens/Announcement';
+import Profile from './screens/Profile';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -37,6 +38,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         {/* Adjusted screen structure based on user authentication */}
+        
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Timetable" component={Timetable} options={{ headerShown: true }} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
@@ -45,6 +47,7 @@ function App() {
         <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: true }} />
         <Stack.Screen name="AnnouncementScheduler" component={AnnouncementScheduler} options={{ headerShown: true }} />
         <Stack.Screen name="FetchData" component={FetchData} options={{ headerShown: true }} />
+        <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
 
       </Stack.Navigator>
     </NavigationContainer>
