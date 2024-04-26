@@ -98,7 +98,7 @@ export default function AnnouncementScheduler() {
             const ref = firebase.storage().ref().child(filename);
             await ref.put(blob);
             setUploading(false);
-            Alert.alert('Document Uploaded!');
+            
             setDocument(null);
         } catch (error) {
             console.error(error);
@@ -106,16 +106,17 @@ export default function AnnouncementScheduler() {
         }
     };
 
-    const dataAddon = () => {
+    const dataAddon = async (documentUrl) => {
         const encodedProjectName = encode(ProjectName);
-
-        set(ref(db, `announcement/${encodedProjectName}`), {
-            ProjectName: ProjectName,
-            Role: Role,
-            Number: Number,
-            ProjectDetail: ProjectDetail,
-        })
-        .then(() => {
+    
+        try {
+            await set(ref(db, `announcement/${encodedProjectName}`), {
+                ProjectName: ProjectName,
+                Role: Role,
+                Number: Number,
+                ProjectDetail: ProjectDetail,
+                DocumentUrl: documentUrl, // Store the document URL in the database
+            });
             setProjectName('');
             setRole('');
             setNumber('');
@@ -124,12 +125,13 @@ export default function AnnouncementScheduler() {
             setIsRoleFocused(false);
             setIsNumberFocused(false);
             setIsProjectDetailFocused(false);
-            console.log('Data added successfully');
-        })
-        .catch((error) => {
+            setDocument(null);
+            Alert.alert('Announcement posted successfully!');
+        } catch (error) {
             console.error('Error adding data:', error);
-        });
-    }
+            Alert.alert('Failed to post announcement!');
+        }
+    };
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -196,17 +198,19 @@ export default function AnnouncementScheduler() {
                 <TouchableOpacity
     style={[styles.uploadButton, { marginTop: 20 }]}
     onPress={() => {
-      if (document && ProjectName && Role && Number && ProjectDetail) {
-        uploadDocument(); // Upload the document
-        dataAddon(); // Add the announcement data
-    } else {
-        Alert.alert('Please fill in all fields and select a document');
-    }
+        if (document && ProjectName && Role && Number && ProjectDetail) {
+            uploadDocument().then(() => {
+                dataAddon(document); // Pass the document URL to dataAddon
+            });
+        } else {
+            Alert.alert('Please fill in all fields and select a document');
+        }
     }}
     disabled={!document || !ProjectName || !Role || !Number || !ProjectDetail}
 >
     <Text style={styles.buttonText}>Post Announcement</Text>
 </TouchableOpacity>
+
 
             </View>
         </ScrollView>
