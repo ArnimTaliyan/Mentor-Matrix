@@ -11,6 +11,9 @@ import { db } from './firebase'; // Import db from firebase.js
 import LoginScreen from './screens/LoginScreen';
 import Timetable from './screens/Timetable';
 import Announcement from './screens/Announcement';
+import SOCS from './screens/SOCS';
+import AnnouncementScreen from './screens/AnnouncementScreen';
+import FetchData from './screens/AnnouncementScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -39,6 +42,9 @@ function App() {
         <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainTabScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: true }} />
+        
+        <Stack.Screen name="FetchData" component={FetchData} options={{ headerShown: true }} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
