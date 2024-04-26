@@ -98,7 +98,7 @@ export default function AnnouncementScheduler() {
             const ref = firebase.storage().ref().child(filename);
             await ref.put(blob);
             setUploading(false);
-            Alert.alert('Anouncement Posted!');
+            Alert.alert('Document Uploaded!');
             setDocument(null);
         } catch (error) {
             console.error(error);
@@ -106,36 +106,30 @@ export default function AnnouncementScheduler() {
         }
     };
 
-    const dataAddon = async () => {
-      const encodedProjectName = encode(ProjectName);
-  
-      try {
-          const uploadTaskSnapshot = await firebase.storage().ref().child(document).put(document);
-          const downloadURL = await uploadTaskSnapshot.ref.getDownloadURL();
-  
-          await set(ref(db, `announcement/${encodedProjectName}`), {
-              ProjectName: ProjectName,
-              Role: Role,
-              Number: Number,
-              ProjectDetail: ProjectDetail,
-              DocumentURL: downloadURL, // Store the URL of the uploaded document
-          });
-  
-          setProjectName('');
-          setRole('');
-          setNumber('');
-          setProjectDetail('');
-          setDocument(null);
-          setIsProjectNameFocused(false);
-          setIsRoleFocused(false);
-          setIsNumberFocused(false);
-          setIsProjectDetailFocused(false);
-          console.log('Data added successfully');
-      } catch (error) {
-          console.error('Error adding data:', error);
-      }
-  };
-  
+    const dataAddon = () => {
+        const encodedProjectName = encode(ProjectName);
+
+        set(ref(db, `announcement/${encodedProjectName}`), {
+            ProjectName: ProjectName,
+            Role: Role,
+            Number: Number,
+            ProjectDetail: ProjectDetail,
+        })
+        .then(() => {
+            setProjectName('');
+            setRole('');
+            setNumber('');
+            setProjectDetail('');
+            setIsProjectNameFocused(false);
+            setIsRoleFocused(false);
+            setIsNumberFocused(false);
+            setIsProjectDetailFocused(false);
+            console.log('Data added successfully');
+        })
+        .catch((error) => {
+            console.error('Error adding data:', error);
+        });
+    }
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -199,19 +193,17 @@ export default function AnnouncementScheduler() {
                 </TouchableOpacity>
 
                 {document && <Text style={styles.document}>{document}</Text>}
-
-                {/*post button*/}
                 <TouchableOpacity
     style={[styles.uploadButton, { marginTop: 20 }]}
     onPress={() => {
-        if (document) {
-            uploadDocument(); // Upload the document
-            dataAddon(); // Add the announcement data
-        } else {
-            Alert.alert('Please select a document');
-        }
+      if (document && ProjectName && Role && Number && ProjectDetail) {
+        uploadDocument(); // Upload the document
+        dataAddon(); // Add the announcement data
+    } else {
+        Alert.alert('Please fill in all fields and select a document');
+    }
     }}
-    disabled={!document}
+    disabled={!document || !ProjectName || !Role || !Number || !ProjectDetail}
 >
     <Text style={styles.buttonText}>Post Announcement</Text>
 </TouchableOpacity>
