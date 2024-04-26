@@ -1,80 +1,178 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert, ScrollView } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import React, { useState, useRef } from 'react';
+import { View, Text, TextInput, StyleSheet, Button, ScrollView, Animated } from 'react-native';
+import { ref, set } from 'firebase/database';
 import { db } from '../firebase';
+import { encode } from 'base-64';
+import { AntDesign } from '@expo/vector-icons';
 
-const Announcement = () => {
-  const [announcementText, setAnnouncementText] = useState('');
-  const [announcements, setAnnouncements] = useState([]);
+export default function SignupScreen() {
+    const [ProjectName, setProjectName] = useState(''); 
+    const [Role, setRole] = useState('');
+    const [Number, setNumber] = useState('');
+    const [ProjectDetail, setProjectDetail] = useState('');
+    const [isProjectNameFocused, setIsProjectNameFocused] = useState(false);
+    const [isRoleFocused, setIsRoleFocused] = useState(false);
+    const [isNumberFocused, setIsNumberFocused] = useState(false);
+    const [isProjectDetailFocused, setIsProjectDetailFocused] = useState(false);
 
-  // Fetch announcements from Firebase database on component mount
-  useEffect(() => {
-    const fetchAnnouncements = async () => {
-      try {
-        const snapshot = await db.ref('announcements').once('value');
-        const announcementsData = snapshot.val();
-        if (announcementsData) {
-          const announcementsArray = Object.values(announcementsData);
-          setAnnouncements(announcementsArray);
-        }
-      } catch (error) {
-        console.error('Error fetching announcements:', error);
-      }
+    const inputRefs = {
+        ProjectName: useRef(),
+        Role: useRef(),
+        Number: useRef(),
+        ProjectDetail: useRef(),
     };
 
-    fetchAnnouncements();
-  }, []);
+    const handleFocus = (field) => {
+        switch (field) {
+            case 'ProjectName':
+                setIsProjectNameFocused(true);
+                break;
+            case 'Role':
+                setIsRoleFocused(true);
+                break;
+            case 'Number':
+                setIsNumberFocused(true);
+                break;
+            case 'ProjectDetail':
+                setIsProjectDetailFocused(true);
+                break;
+            default:
+                break;
+        }
+    };
 
-  const handleUploadAnnouncement = async () => {
-    try {
-      if (!announcementText.trim()) {
-        Alert.alert('Error', 'Please enter announcement text');
-        return;
-      }
-  
-      await db.ref('announcements').push({
-        text: announcementText.trim(),
-        timestamp: new Date().toISOString()
-      });
-  
-      setAnnouncementText('');
-      Alert.alert('Success', 'Announcement uploaded successfully');
-    } catch (error) {
-      console.error('Error uploading announcement:', error);
-      Alert.alert('Error', 'Failed to upload announcement. Please try again.');
+    const handleBlur = (field) => {
+        switch (field) {
+            case 'ProjectName':
+                setIsProjectNameFocused(ProjectName !== '');
+                break;
+            case 'Role':
+                setIsRoleFocused(Role !== '');
+                break;
+            case 'Number':
+                setIsNumberFocused(Number !== '');
+                break;
+            case 'ProjectDetail':
+                setIsProjectDetailFocused(ProjectDetail !== '');
+                break;
+            default:
+                break;
+        }
+    };
+
+    const dataAddon = () => {
+        const encodedProjectName = encode(ProjectName);
+
+        set(ref(db, `announcement/${encodedProjectName}`), {
+            ProjectName: ProjectName,
+            Role: Role,
+            Number: Number,
+            ProjectDetail: ProjectDetail,
+        })
+        .then(() => {
+            setProjectName('');
+            setRole('');
+            setNumber('');
+            setProjectDetail('');
+            setIsProjectNameFocused(false);
+            setIsRoleFocused(false);
+            setIsNumberFocused(false);
+            setIsProjectDetailFocused(false);
+            console.log('Data added successfully');
+        })
+        .catch((error) => {
+            console.error('Error adding data:', error);
+        });
     }
-  };
-  
-  
-  return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <View style={{ flex: 1, padding: 20 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-          <AntDesign name="pushpin" size={24} color="#7289DA" style={{ marginRight: 10 }} />
-          <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#7289DA' }}>Announcements</Text>
-        </View>
-        <TextInput
-          style={{ borderWidth: 1, borderColor: '#7289DA', padding: 10, marginBottom: 20, borderRadius: 5 }}
-          placeholder="Enter announcement text"
-          value={announcementText}
-          onChangeText={text => setAnnouncementText(text)}
-        />
-        <TouchableOpacity
-          style={{ backgroundColor: '#7289DA', padding: 12, borderRadius: 5, alignItems: 'center' }}
-          onPress={handleUploadAnnouncement}
-        >
-          <Text style={{ color: 'white', fontSize: 16 }}>Post Announcement</Text>
-        </TouchableOpacity>
-        {/* Render posted announcements */}
-        <View style={{ marginTop: 20 }}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Posted Announcements:</Text>
-          {announcements.map((announcement, index) => (
-            <Text key={index} style={{ marginBottom: 5 }}>{announcement.text}</Text>
-          ))}
-        </View>
-      </View>
-    </ScrollView>
-  );
-};
 
-export default Announcement;
+    return (
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <View style={styles.container}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+                    <AntDesign name="pushpin" size={24} color="#7289DA" style={{ marginRight: 10 }} />
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#7289DA' }}>Announcements</Text>
+                </View>
+                
+                <Animated.View style={[styles.inputContainer, { borderBottomColor: isProjectNameFocused ? '#7289DA' : 'black' }]}>
+                    <Text style={[styles.placeholder, { top: ProjectName !== '' || isProjectNameFocused ? -20 : 12 }]}>Project Name</Text>
+                    <TextInput
+                        ref={inputRefs.ProjectName}
+                        style={styles.input}
+                        value={ProjectName}
+                        onChangeText={(text) => setProjectName(text)}
+                        onFocus={() => handleFocus('ProjectName')}
+                        onBlur={() => handleBlur('ProjectName')}
+                    />
+                </Animated.View>
+
+                <Animated.View style={[styles.inputContainer, { borderBottomColor: isRoleFocused ? '#7289DA' : 'black' }]}>
+                    <Text style={[styles.placeholder, { top: Role !== '' || isRoleFocused ? -20 : 12 }]}>Role Needed</Text>
+                    <TextInput
+                        ref={inputRefs.Role}
+                        style={styles.input}
+                        value={Role}
+                        onChangeText={(text) => setRole(text)}
+                        onFocus={() => handleFocus('Role')}
+                        onBlur={() => handleBlur('Role')}
+                    />
+                </Animated.View>
+
+                <Animated.View style={[styles.inputContainer, { borderBottomColor: isNumberFocused ? '#7289DA' : 'black' }]}>
+                    <Text style={[styles.placeholder, { top: Number !== '' || isNumberFocused ? -20 : 12 }]}>No. Of Students Required</Text>
+                    <TextInput
+                        ref={inputRefs.Number}
+                        style={styles.input}
+                        value={Number}
+                        onChangeText={(text) => setNumber(text)}
+                        onFocus={() => handleFocus('Number')}
+                        onBlur={() => handleBlur('Number')}
+                    />
+                </Animated.View>
+
+                <Animated.View style={[styles.inputContainer, { borderBottomColor: isProjectDetailFocused ? '#7289DA' : 'black' }]}>
+                    <Text style={[styles.placeholder, { top: ProjectDetail !== '' || isProjectDetailFocused ? -20 : 12 }]}>Project Detail</Text>
+                    <TextInput
+                        ref={inputRefs.ProjectDetail}
+                        style={styles.input}
+                        value={ProjectDetail}
+                        onChangeText={(text) => setProjectDetail(text)}
+                        onFocus={() => handleFocus('ProjectDetail')}
+                        onBlur={() => handleBlur('ProjectDetail')}
+                    />
+                </Animated.View>
+
+                <Button title='Post Announcement' onPress={dataAddon} style={styles.button}/>
+            </View>
+        </ScrollView>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    inputContainer: {
+        width: '80%',
+        borderWidth: 1,
+        borderColor: '#7289DA',
+        borderRadius: 5,
+        marginBottom: 20,
+    },
+    input: {
+        height: 40,
+        fontSize: 16,
+        paddingLeft: 10,
+    },
+    placeholder: {
+        position: 'absolute',
+        left: 10,
+        fontSize: 16,
+        color: 'gray',
+    },
+    button: {
+        marginTop: 20,
+    },
+});
