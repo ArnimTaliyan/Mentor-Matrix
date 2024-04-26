@@ -1,19 +1,29 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, ScrollView, Animated } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, ScrollView, Animated, TouchableOpacity, Alert } from 'react-native';
 import { ref, set } from 'firebase/database';
 import { db } from '../firebase';
 import { encode } from 'base-64';
 import { AntDesign } from '@expo/vector-icons';
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/storage';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function SignupScreen() {
+export default function AnnouncementScheduler() {
     const [ProjectName, setProjectName] = useState(''); 
     const [Role, setRole] = useState('');
     const [Number, setNumber] = useState('');
     const [ProjectDetail, setProjectDetail] = useState('');
+    const [document, setDocument] = useState(null);
+
     const [isProjectNameFocused, setIsProjectNameFocused] = useState(false);
     const [isRoleFocused, setIsRoleFocused] = useState(false);
     const [isNumberFocused, setIsNumberFocused] = useState(false);
     const [isProjectDetailFocused, setIsProjectDetailFocused] = useState(false);
+
+    const [uploading, setUploading] = useState(false);
 
     const inputRefs = {
         ProjectName: useRef(),
@@ -60,30 +70,72 @@ export default function SignupScreen() {
         }
     };
 
-    const dataAddon = () => {
-        const encodedProjectName = encode(ProjectName);
+    const pickDocument = async () => {
+        let result = await DocumentPicker.getDocumentAsync({});
+        if (!result.canceled) {
+            setDocument(result.assets[0].uri);
+        }
+    };
 
-        set(ref(db, `announcement/${encodedProjectName}`), {
-            ProjectName: ProjectName,
-            Role: Role,
-            Number: Number,
-            ProjectDetail: ProjectDetail,
-        })
-        .then(() => {
-            setProjectName('');
-            setRole('');
-            setNumber('');
-            setProjectDetail('');
-            setIsProjectNameFocused(false);
-            setIsRoleFocused(false);
-            setIsNumberFocused(false);
-            setIsProjectDetailFocused(false);
-            console.log('Data added successfully');
-        })
-        .catch((error) => {
-            console.error('Error adding data:', error);
-        });
-    }
+    const uploadDocument = async () => {
+        setUploading(true);
+        try {
+            const { uri } = await FileSystem.getInfoAsync(document);
+            const blob = await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = () => {
+                    resolve(xhr.response);
+                };
+                xhr.onerror = (e) => {
+                    reject(new TypeError('Network request failed'));
+                };
+                xhr.responseType = 'blob';
+                xhr.open('GET', uri, true);
+                xhr.send(null);
+            });
+
+            const filename = document.substring(document.lastIndexOf('/') + 1);
+            const ref = firebase.storage().ref().child(filename);
+            await ref.put(blob);
+            setUploading(false);
+            Alert.alert('Anouncement Posted!');
+            setDocument(null);
+        } catch (error) {
+            console.error(error);
+            setUploading(false);
+        }
+    };
+
+    const dataAddon = async () => {
+      const encodedProjectName = encode(ProjectName);
+  
+      try {
+          const uploadTaskSnapshot = await firebase.storage().ref().child(document).put(document);
+          const downloadURL = await uploadTaskSnapshot.ref.getDownloadURL();
+  
+          await set(ref(db, `announcement/${encodedProjectName}`), {
+              ProjectName: ProjectName,
+              Role: Role,
+              Number: Number,
+              ProjectDetail: ProjectDetail,
+              DocumentURL: downloadURL, // Store the URL of the uploaded document
+          });
+  
+          setProjectName('');
+          setRole('');
+          setNumber('');
+          setProjectDetail('');
+          setDocument(null);
+          setIsProjectNameFocused(false);
+          setIsRoleFocused(false);
+          setIsNumberFocused(false);
+          setIsProjectDetailFocused(false);
+          console.log('Data added successfully');
+      } catch (error) {
+          console.error('Error adding data:', error);
+      }
+  };
+  
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -92,7 +144,9 @@ export default function SignupScreen() {
                     <AntDesign name="pushpin" size={24} color="#7289DA" style={{ marginRight: 10 }} />
                     <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#7289DA' }}>Announcements</Text>
                 </View>
+
                 
+
                 <Animated.View style={[styles.inputContainer, { borderBottomColor: isProjectNameFocused ? '#7289DA' : 'black' }]}>
                     <Text style={[styles.placeholder, { top: ProjectName !== '' || isProjectNameFocused ? -20 : 12 }]}>Project Name</Text>
                     <TextInput
@@ -140,8 +194,28 @@ export default function SignupScreen() {
                         onBlur={() => handleBlur('ProjectDetail')}
                     />
                 </Animated.View>
+                <TouchableOpacity style={styles.uploadButton} onPress={pickDocument}>
+                    <Text style={styles.buttonText}>Upload Project Details</Text>
+                </TouchableOpacity>
 
-                <Button title='Post Announcement' onPress={dataAddon} style={styles.button}/>
+                {document && <Text style={styles.document}>{document}</Text>}
+
+                {/*post button*/}
+                <TouchableOpacity
+    style={[styles.uploadButton, { marginTop: 20 }]}
+    onPress={() => {
+        if (document) {
+            uploadDocument(); // Upload the document
+            dataAddon(); // Add the announcement data
+        } else {
+            Alert.alert('Please select a document');
+        }
+    }}
+    disabled={!document}
+>
+    <Text style={styles.buttonText}>Post Announcement</Text>
+</TouchableOpacity>
+
             </View>
         </ScrollView>
     );
@@ -172,7 +246,20 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'gray',
     },
-    button: {
+    uploadButton: {
+        borderRadius: 5,
+        width: 200,
+        height: 50,
+        backgroundColor: '#7289DA',
+        alignItems: 'center',
+        justifyContent: 'center',
         marginTop: 20,
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    document: {
+        marginVertical: 10,
     },
 });
