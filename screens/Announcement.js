@@ -1,33 +1,25 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, ScrollView, Animated, TouchableOpacity, Alert } from 'react-native';
+import React, { useState,useRef } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { ref, set } from 'firebase/database';
 import { db } from '../firebase';
 import { encode } from 'base-64';
 import { AntDesign } from '@expo/vector-icons';
-import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/storage';
 import { useRoute } from '@react-navigation/native';
-
+import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOut } from 'react-native-reanimated';
 
 export default function AnnouncementScheduler() {
     const route = useRoute(); 
-const userName = route.params?.userName;
+    const userName = route.params?.userName;
 
     const [ProjectName, setProjectName] = useState(''); 
     const [Role, setRole] = useState('');
     const [Number, setNumber] = useState('');
     const [ProjectDetail, setProjectDetail] = useState('');
-    const [document, setDocument] = useState(null);
 
     const [isProjectNameFocused, setIsProjectNameFocused] = useState(false);
     const [isRoleFocused, setIsRoleFocused] = useState(false);
     const [isNumberFocused, setIsNumberFocused] = useState(false);
     const [isProjectDetailFocused, setIsProjectDetailFocused] = useState(false);
-
-    const [uploading, setUploading] = useState(false);
 
     const inputRefs = {
         ProjectName: useRef(),
@@ -74,43 +66,7 @@ const userName = route.params?.userName;
         }
     };
 
-    const pickDocument = async () => {
-        let result = await DocumentPicker.getDocumentAsync({});
-        if (!result.canceled) {
-            setDocument(result.assets[0].uri);
-        }
-    };
-
-    const uploadDocument = async () => {
-        setUploading(true);
-        try {
-            const { uri } = await FileSystem.getInfoAsync(document);
-            const blob = await new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.onload = () => {
-                    resolve(xhr.response);
-                };
-                xhr.onerror = (e) => {
-                    reject(new TypeError('Network request failed'));
-                };
-                xhr.responseType = 'blob';
-                xhr.open('GET', uri, true);
-                xhr.send(null);
-            });
-
-            const filename = document.substring(document.lastIndexOf('/') + 1);
-            const ref = firebase.storage().ref().child(filename);
-            await ref.put(blob);
-            setUploading(false);
-            
-            setDocument(null);
-        } catch (error) {
-            console.error(error);
-            setUploading(false);
-        }
-    };
-
-    const dataAddon = async (documentUrl, publisher) => {
+    const dataAddon = async () => {
         const encodedProjectName = encode(ProjectName);
     
         try {
@@ -119,8 +75,7 @@ const userName = route.params?.userName;
                 Role: Role,
                 Number: Number,
                 ProjectDetail: ProjectDetail,
-                DocumentUrl: documentUrl, // Store the document URL in the database
-                Publisher: publisher, // Store the username as the publisher
+                Publisher: userName, // Store the username as the publisher
             });
             setProjectName('');
             setRole('');
@@ -130,13 +85,13 @@ const userName = route.params?.userName;
             setIsRoleFocused(false);
             setIsNumberFocused(false);
             setIsProjectDetailFocused(false);
-            setDocument(null);
             Alert.alert('Announcement posted successfully!');
         } catch (error) {
             console.error('Error adding data:', error);
             Alert.alert('Failed to post announcement!');
         }
     };
+    
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -193,24 +148,18 @@ const userName = route.params?.userName;
                         onBlur={() => handleBlur('ProjectDetail')}
                     />
                 </Animated.View>
-                <TouchableOpacity style={styles.uploadButton} onPress={pickDocument}>
-                    <Text style={styles.buttonText}>Upload Project Details</Text>
-                </TouchableOpacity>
 
-                {document && <Text style={styles.document}>{document}</Text>}
                 <TouchableOpacity
                     style={[styles.uploadButton, { marginTop: 20 }]}
                     onPress={() => {
-                        if (document && ProjectName && Role && Number && ProjectDetail) {
-                            uploadDocument().then(() => {
-                                // Pass the document URL and the username to dataAddon
-                                dataAddon(document, route.params.userName);
-                            });
+                        if (ProjectName && Role && Number && ProjectDetail) {
+                            // Pass the username to dataAddon
+                            dataAddon();
                         } else {
-                            Alert.alert('Please fill in all fields and select a document');
+                            Alert.alert('Please fill in all fields');
                         }
                     }}
-                    disabled={!document || !ProjectName || !Role || !Number || !ProjectDetail}
+                    disabled={!ProjectName || !Role || !Number || !ProjectDetail}
                 >
                     <Text style={styles.buttonText}>Post Announcement</Text>
                 </TouchableOpacity>
@@ -256,8 +205,5 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#fff',
         fontWeight: 'bold',
-    },
-    document: {
-        marginVertical: 10,
     },
 });

@@ -86,7 +86,7 @@ const events_data = [
 // Your Timetable component
 const Timetable = () => {
   // Define the number of days and pivot date
-  const numOfDays = 5;
+  const numOfDays = 6;
   const pivotDate = genTimeBlock('mon');
 
   // Function to handle event press
@@ -109,7 +109,12 @@ const Timetable = () => {
             formatDateHeader="dddd" // Change to "dddd" for English full day names
             locale="en" // Set locale to English
             nDays={numOfDays}
-            formatTimeLabel={(time) => `${time.hour}:${time.minute < 10 ? '0' : ''}${time.minute} ${time.isAM ? 'AM' : 'PM'}`} // Fix syntax error here
+            formatTimeLabel={(time) => `${time.hour}:${time.minute < 10 ? '0' : ''}${time.minute} ${time.isAM ? 'AM' : 'PM'}`}
+            eventCellStyle={{
+              // Adjust cell size by customizing eventCellStyle
+              height: 120, // Increase cell height
+              width: 1600, // Increase cell width
+            }}
           />
         </View>
       </ScrollView>
@@ -124,7 +129,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row', // Ensure horizontal layout
-    width: 400,
+    width: 400, // Increase container width
     height: 1000, // Fix typo here
     backgroundColor: '#F8F8F8',
   },
