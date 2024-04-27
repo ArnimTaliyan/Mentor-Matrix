@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-const Profile8 = ({ navigation }) => {
+const Alok_negi = ({ navigation }) => {
   const handleEmailPress = () => {
     Linking.openURL('https://in.linkedin.com/in/alok-negi-a0633513');
   };
@@ -252,4 +252,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile8;
+export default Alok_negi;

@@ -15,16 +15,17 @@ import SOCS from './screens/SOCS';
 import AnnouncementScreen from './screens/AnnouncementScreen';
 import FetchData from './screens/AnnouncementScreen';
 import AnnouncementScheduler from './screens/Announcement';
-import Profile from './screens/amar_jindal';
-import Profile1 from './screens/amar_jindal';
-import Profile2 from './screens/amrendra_tripathi';
-import Profile3 from './screens/milly_singh';
-import Profile4 from './screens/monika_yadav';
-import Profile5 from './screens/ranjan_mishra';
-import Profile6 from './screens/atul_rawat';
-import Profile7 from './screens/sonal_singh';
-import Profile8 from './screens/alok_negi';
-import Profile9 from './screens/hitesh';
+
+import Amar_jindal from './screens/amar_jindal';
+import Alok_negi from './screens/alok_negi';
+import Amrendra_tripathi from './screens/amrendra_tripathi';
+import Atul_rawat from './screens/atul_rawat';
+import Hitesh from './screens/hitesh';
+import Milly_singh from './screens/milly_singh';
+import Monika_yadav from './screens/monika_yadav';
+import Ranjan_mishra from './screens/ranjan_mishra';
+import Sonal_singh from './screens/sonal_singh';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -59,15 +60,15 @@ function App() {
 
 
         {/*profilescreens */}
-        <Stack.Screen name="Profile6" component={Profile6} options={{ headerShown: false }} />
-        <Stack.Screen name="Profile9" component={Profile9} options={{ headerShown: false }} />
-        <Stack.Screen name="Profile8" component={Profile8} options={{ headerShown: false }} />
-        <Stack.Screen name="Profile7" component={Profile7} options={{ headerShown: false }} />
-        <Stack.Screen name="Profile5" component={Profile5} options={{ headerShown: false }} />
-        <Stack.Screen name="Profile4" component={Profile4} options={{ headerShown: false }} />
-        <Stack.Screen name="Profile3" component={Profile3} options={{ headerShown: false }} />
-        <Stack.Screen name="Profile2" component={Profile2} options={{ headerShown: false }} />
-        <Stack.Screen name="Profile1" component={Profile1} options={{ headerShown: false }} />
+        <Stack.Screen name="amar_jindal" component={Amar_jindal} options={{ headerShown: false }} />
+        <Stack.Screen name="alok_negi" component={Alok_negi} options={{ headerShown: false }} />
+        <Stack.Screen name="amrendra_tripathi" component={Amrendra_tripathi} options={{ headerShown: false }} />
+        <Stack.Screen name="atul_rawat" component={Atul_rawat} options={{ headerShown: false }} />
+        <Stack.Screen name="hitesh" component={Hitesh} options={{ headerShown: false }} />
+        <Stack.Screen name="milly_singh" component={Milly_singh} options={{ headerShown: false }} />
+        <Stack.Screen name="monika_yadav" component={Monika_yadav} options={{ headerShown: false }} />
+        <Stack.Screen name="ranjan_mishra" component={Ranjan_mishra} options={{ headerShown: false }} />
+        <Stack.Screen name="sonal_singh" component={Sonal_singh} options={{ headerShown: false }} />
         
       </Stack.Navigator>
     </NavigationContainer>

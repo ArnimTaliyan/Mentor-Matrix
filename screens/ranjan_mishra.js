@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-const Profile5 = ({ navigation }) => {
+const Ranjan_mishra = ({ navigation }) => {
   const handleEmailPress = () => {
     Linking.openURL('https://in.linkedin.com/in/ranjan-mishra-66a33314b?trk=public_profile_browsemap');
   };
@@ -250,4 +250,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile5;
+export default Ranjan_mishra;

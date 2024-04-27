@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-const Profile4 = ({ navigation }) => {
+const Monika_yadav = ({ navigation }) => {
   const handleEmailPress = () => {
     Linking.openURL('https://in.linkedin.com/in/yadav22');
   };
@@ -243,4 +243,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile4;
+export default Monika_yadav;

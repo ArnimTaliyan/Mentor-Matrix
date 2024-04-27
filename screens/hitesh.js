@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-const Profile9 = ({ navigation }) => {
+const Hitesh = ({ navigation }) => {
   const handleEmailPress = () => {
     Linking.openURL('https://in.linkedin.com/in/hkshitesh');
   };
@@ -257,4 +257,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile9;
+export default Hitesh;
