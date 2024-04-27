@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, TextInput, Modal } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, TextInput, Modal, Image } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import SettingScreen from './SettingScreen';
 import Scheduler from './Scheduler';
@@ -136,9 +136,53 @@ export default function HomeScreen() {
                         <View style={styles.modalContent}>
                             {modalType === 'ComputerScience' && (
                                 <View>
-                                    <Text>School of Computer Science Information</Text>
-                                    {/* Add more detailed content here */}
+                                
+                                <View style={styles.cardContainer}>
+                                    {/* First Card */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/amar_jindal.jpg')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Amar Jindal</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Second Card */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/amrendra_tripathi.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Amrendra Tripathi</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Third Card */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity>
+                                            {/* Image */}
+                                            <Image
+                                                source={{ uri: 'image_url_here' }}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Teacher Name</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Add more cards as needed */}
                                 </View>
+                            </View>
                             )}
                             {modalType === 'AdvancedEngineering' && (
                                 <View>
@@ -261,5 +305,34 @@ const styles = StyleSheet.create({
     closeButton: {
         marginTop: 20,
         alignSelf: 'flex-end',
+    },
+    cardContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+    },
+    card: {
+        width: '48%', // Adjust width to fit two cards in one line with spacing
+        backgroundColor: '#e3e3e3',
+        borderRadius: 10,
+        marginBottom: 10,
+    },
+    cardImage: {
+        width: '100%',
+        height: 150,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+    },
+    cardTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginVertical: 8,
+    },
+    cardSubtitle: {
+        fontSize: 12,
+        textAlign: 'center',
+        color: 'gray',
+        marginBottom: 8,
     },
 });
