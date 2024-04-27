@@ -15,7 +15,16 @@ import SOCS from './screens/SOCS';
 import AnnouncementScreen from './screens/AnnouncementScreen';
 import FetchData from './screens/AnnouncementScreen';
 import AnnouncementScheduler from './screens/Announcement';
-import Profile from './screens/Profile';
+import Profile from './screens/amar_jindal';
+import Profile1 from './screens/amar_jindal';
+import Profile2 from './screens/amrendra_tripathi';
+import Profile3 from './screens/milly_singh';
+import Profile4 from './screens/monika_yadav';
+import Profile5 from './screens/ranjan_mishra';
+import Profile6 from './screens/atul_rawat';
+import Profile7 from './screens/sonal_singh';
+import Profile8 from './screens/alok_negi';
+import Profile9 from './screens/hitesh';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -47,8 +56,19 @@ function App() {
         <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: true }} />
         <Stack.Screen name="AnnouncementScheduler" component={AnnouncementScheduler} options={{ headerShown: true }} />
         <Stack.Screen name="FetchData" component={FetchData} options={{ headerShown: true }} />
-        <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
 
+
+        {/*profilescreens */}
+        <Stack.Screen name="Profile6" component={Profile6} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile9" component={Profile9} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile8" component={Profile8} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile7" component={Profile7} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile5" component={Profile5} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile4" component={Profile4} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile3" component={Profile3} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile2" component={Profile2} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile1" component={Profile1} options={{ headerShown: false }} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
