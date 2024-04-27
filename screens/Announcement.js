@@ -1,16 +1,16 @@
-import React, { useState,useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { ref, set } from 'firebase/database';
 import { db } from '../firebase';
 import { encode } from 'base-64';
 import { AntDesign } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
-import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOut } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated'; // Replaced FadeIn, FadeInDown, FadeInUp, FadeOut with Animated
+import * as DocumentPicker from 'expo-document-picker';
 
 export default function AnnouncementScheduler() {
     const route = useRoute(); 
     const userName = route.params?.userName;
-    const userEmail = route.params?.userEmail;
 
     const [ProjectName, setProjectName] = useState(''); 
     const [Role, setRole] = useState('');
@@ -77,7 +77,6 @@ export default function AnnouncementScheduler() {
                 Number: Number,
                 ProjectDetail: ProjectDetail,
                 Publisher: userName, // Store the username as the publisher
-                MailTo: userEmail, // Store the user email as mailto
             });
             setProjectName('');
             setRole('');
@@ -93,8 +92,6 @@ export default function AnnouncementScheduler() {
             Alert.alert('Failed to post announcement!');
         }
     };
-    
-    
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
