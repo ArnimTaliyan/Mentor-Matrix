@@ -1,63 +1,85 @@
-import { StyleSheet, View, Text } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import { db } from '../firebase'
-import { ref, onValue } from 'firebase/database'
-import { ScrollView } from 'react-native'
-
+import { StyleSheet, View, Text, Linking } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { db } from '../firebase';
+import { ref, onValue } from 'firebase/database';
+import { ScrollView } from 'react-native';
 
 const FetchData = () => {
-    const [todoData,setTodoData]= useState([])
-    useEffect(()=>{
-        const starCountRef= ref(db,'announcement/');
-        onValue(starCountRef, (snapshot)=>{
-            const data= snapshot.val();
-            const newPosts=Object.keys(data).map(key =>({
-                id:key,
-                ...data[key]
+    const [todoData, setTodoData] = useState([]);
+    useEffect(() => {
+        const starCountRef = ref(db, 'announcement/');
+        onValue(starCountRef, (snapshot) => {
+            const data = snapshot.val();
+            const newPosts = Object.keys(data).map((key) => ({
+                id: key,
+                ...data[key],
             }));
-            
+
             setTodoData(newPosts);
         });
-    },[])
-    return(<ScrollView>
-        <View style={styles.container }>
-            <Text style={styles.header}>Announcements</Text>
-            {
-                todoData.map((item, index) =>{
-                    return(
+    }, []);
+
+    return (
+        <ScrollView>
+            <View style={styles.container}>
+                <Text style={styles.header}>Announcements</Text>
+                {todoData.map((item, index) => {
+                    return (
                         <View key={index} style={styles.bubble}>
-                            <Text style={styles.text}>I want "{item.Number} Students" for "{item.Role}" to make  "{item.ProjectName}"</Text>
-                            <Text style={styles.text}>Project Description: "{item.ProjectDetail}"</Text>
-                            <Text style={styles.publishertext}>Published by: {item.Publisher}</Text>
+                            <Text style={styles.Htext}>"{item.ProjectName} "{'\n'}</Text>
+                            <Text style={styles.text}>
+                                I want "{item.Number} Students" for "{item.Role}" {'\n'}
+                            </Text>
+                            <Text style={styles.text}>Project Description: "{item.ProjectDetail} "{'\n'}</Text>
+                            <View style={styles.publisherContainer}>
+                                <Text style={styles.publisherText}>
+                                    Published By:{item.Publisher}
+                                </Text>
+                            </View>
+                            <View style={styles.contactContainer}>
+                                <Text
+                                    style={[styles.contactLink, styles.underline]}
+                                    onPress={() => {
+                                        // Handle click action, e.g., open email app
+                                        Linking.openURL(`mailto:${item.MailTo}`);
+                                    }}>
+                                    Contact
+                                </Text>
+                            </View>
                         </View>
-                    )
-                })
-            }
-        </View></ScrollView>
-    )}
+                    );
+                })}
+            </View>
+        </ScrollView>
+    );
+};
 
-    
- 
+export default FetchData;
 
-export default FetchData
-const styles= StyleSheet.create({
-    container:{
-        flex:1,
-        alignItems:'center',
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
         justifyContent: 'flex-start',
-        backgroundColor:'#fff',
+        backgroundColor: '#fff',
         paddingTop: 20,
     },
-    header:{
-        fontSize:30,
-        textAlign:'center',
-        marginTop:10,
-        fontWeight:'bold',
+    header: {
+        fontSize: 30,
+        textAlign: 'center',
+        marginTop: 10,
+        fontWeight: 'bold',
     },
-    text:{
-        fontSize:20,
-        textAlign:'center',
-        marginTop:5,
+    Htext: {
+        fontSize: 24,
+        textAlign: 'center',
+        marginTop: 5,
+        fontWeight:'bold'
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center',
+        marginTop: 5,
     },
     bubble: {
         backgroundColor: '#e3e3e3',
@@ -66,10 +88,26 @@ const styles= StyleSheet.create({
         marginBottom: 20,
         width: '80%',
     },
-    publishertext: {
-        fontSize: 16,
-        color: '#888',
-        textAlign: 'center',
+    publisherContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end', // Align "Published by" to the right
         marginTop: 10,
     },
-})
+    publisherText: {
+        fontSize: 16,
+        color: '#888',
+        textAlign: 'right',
+    },
+    contactContainer: {
+        marginTop: 5,
+        alignSelf: 'flex-end',
+    },
+    contactLink: {
+        fontSize: 16,
+        color: '#007bff',
+        textDecorationLine: 'underline',
+    },
+    underline: {
+        textDecorationLine: 'underline',
+    },
+});

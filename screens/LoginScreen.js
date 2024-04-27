@@ -33,7 +33,7 @@ export default function LoginScreen() {
                     const userData = snapshot.val();
                     console.log("User Data:", userData);
                     if (userData.password === pwd) {
-                        navigation.navigate('Main', { screen: 'Home', params: { userName: userData.name } });
+                        navigation.navigate('Main', { screen: 'Home', params: { userName: userData.name,userEmail: email } });
                     } else {
                         alert("Invalid password");
                     }

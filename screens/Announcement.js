@@ -10,6 +10,7 @@ import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOut } from 'react-native-re
 export default function AnnouncementScheduler() {
     const route = useRoute(); 
     const userName = route.params?.userName;
+    const userEmail = route.params?.userEmail;
 
     const [ProjectName, setProjectName] = useState(''); 
     const [Role, setRole] = useState('');
@@ -76,6 +77,7 @@ export default function AnnouncementScheduler() {
                 Number: Number,
                 ProjectDetail: ProjectDetail,
                 Publisher: userName, // Store the username as the publisher
+                MailTo: userEmail, // Store the user email as mailto
             });
             setProjectName('');
             setRole('');
@@ -91,6 +93,7 @@ export default function AnnouncementScheduler() {
             Alert.alert('Failed to post announcement!');
         }
     };
+    
     
 
     return (

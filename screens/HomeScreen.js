@@ -14,6 +14,7 @@ export default function HomeScreen() {
     const navigation = useNavigation();
     const route = useRoute();
     const userName = route.params?.userName;
+    const userEmail = route.params?.userEmail;
 
     const [searchQuery, setSearchQuery] = useState("");
     const [modalVisible, setModalVisible] = useState(false);
@@ -32,7 +33,7 @@ export default function HomeScreen() {
                     </View>
                     <TouchableOpacity
                         style={styles.iconContainer}
-                        onPress={() => navigation.push('AnnouncementScheduler', { userName: userName })}>
+                        onPress={() => navigation.push('AnnouncementScheduler', { userName: userName,  userEmail: userEmail })}>
                         <Ionicons name="megaphone-outline" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
