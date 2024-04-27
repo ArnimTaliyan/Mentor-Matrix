@@ -11,6 +11,7 @@ import * as DocumentPicker from 'expo-document-picker';
 export default function AnnouncementScheduler() {
     const route = useRoute(); 
     const userName = route.params?.userName;
+    const userEmail = route.params?.userEmail;
 
     const [ProjectName, setProjectName] = useState(''); 
     const [Role, setRole] = useState('');
@@ -77,6 +78,8 @@ export default function AnnouncementScheduler() {
                 Number: Number,
                 ProjectDetail: ProjectDetail,
                 Publisher: userName, // Store the username as the publisher
+                UserEmail: userEmail,
+                MailTo: userEmail, // Add the email address as MailTo field
             });
             setProjectName('');
             setRole('');

@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Linking } from 'react-native';
+import { StyleSheet, View, Text, Linking, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { ref, onValue } from 'firebase/database';
@@ -37,18 +37,22 @@ const FetchData = () => {
                                 </Text>
                             </View>
                             <View style={styles.contactContainer}>
+                                
                                 <Text
-                                    style={[styles.contactLink, styles.underline]}
-                                    onPress={() => {
-                                        // Handle click action, e.g., open email app
-                                        Linking.openURL(`mailto:${item.MailTo}`);
-                                    }}>
-                                    Contact
-                                </Text>
+                                style={[styles.contactLink, styles.underline]}
+                                onPress={() => {
+                                    Linking.openURL(`mailto:${item.UserEmail}`);
+                                }}>
+                                Contact
+                            </Text>
                             </View>
+                          
                         </View>
                     );
                 })}
+                  <TouchableOpacity>
+  <Text style={{ fontSize: 80, color: 'white' }}>hi</Text>
+</TouchableOpacity>
             </View>
         </ScrollView>
     );

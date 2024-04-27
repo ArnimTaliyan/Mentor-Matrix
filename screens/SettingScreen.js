@@ -48,7 +48,7 @@ const Settings = ({  }) => {
   };
 
   const addAccount = () => {
-    console.log("Aadd account ");
+    console.log("Add account");
   };
 
   const logout = () => {
@@ -102,6 +102,7 @@ const Settings = ({  }) => {
     },
     { icon: "people-outline", text: "Add Account", action: addAccount },
     { icon: "logout", text: "Log out", action: logout },
+    
   ];
 
   const renderSettingsItem = ({ icon, text, action }) => (
@@ -119,8 +120,7 @@ const Settings = ({  }) => {
       <Text
         style={{
           marginLeft: 36,
-          fontWeight:'bold',
-          fontWeight: 600,
+          fontWeight: 'bold',
           fontSize: 16,
         }}
       >
@@ -157,13 +157,13 @@ const Settings = ({  }) => {
           />
         </TouchableOpacity>
 
-        <Text style={{ fontSize:'18' }}>Settings</Text>
+        <Text style={{ fontSize: 18 }}>Settings</Text>
       </View>
 
       <ScrollView style={{ marginHorizontal: 12 }}>
         {/* Account Settings */}
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ fontSize:'16', marginVertical: 10 }}>Account</Text>
+          <Text style={{ fontSize: 16, marginVertical: 10 }}>Account</Text>
           <View
             style={{
               borderRadius: 12,
@@ -181,7 +181,7 @@ const Settings = ({  }) => {
         {/* Support and About settings */}
 
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ fontSize:'16', marginVertical: 10 }}>
+          <Text style={{ fontSize: 16, marginVertical: 10 }}>
             Support & About{" "}
           </Text>
           <View
@@ -200,7 +200,7 @@ const Settings = ({  }) => {
 
         {/* Cache & Cellular */}
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ fontSize:'16', marginVertical: 10 }}>
+          <Text style={{ fontSize: 16, marginVertical: 10 }}>
             Cache & Cellular{" "}
           </Text>
           <View
@@ -220,7 +220,7 @@ const Settings = ({  }) => {
         {/* Actions Settings */}
 
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ fontSize:'16', marginVertical: 10 }}>Actions</Text>
+          <Text style={{ fontSize: 16, marginVertical: 10 }}>Actions</Text>
           <View
             style={{
               borderRadius: 12,
@@ -232,7 +232,9 @@ const Settings = ({  }) => {
                 {renderSettingsItem(item)}
               </React.Fragment>
             ))}
-            
+            <TouchableOpacity>
+  <Text style={{ fontSize: 38, color: 'white' }}>hi</Text>
+</TouchableOpacity>
           </View>
         </View>
       </ScrollView>

@@ -109,7 +109,10 @@ const Timetable = () => {
             formatDateHeader="dddd" // Change to "dddd" for English full day names
             locale="en" // Set locale to English
             nDays={numOfDays}
-            formatTimeLabel={(time) => `${time.hour}:${time.minute < 10 ? '0' : ''}${time.minute} ${time.isAM ? 'AM' : 'PM'}`}
+            formatTimeLabel={(time) => {
+              let hour = time.hour % 12 || 12; // Convert hour to 12-hour format
+              return `${hour}:${time.minute < 10 ? '0' : ''}${time.minute} ${time.hour < 12 ? 'AM' : 'PM'}`;
+            }}
             eventCellStyle={{
               // Adjust cell size by customizing eventCellStyle
               height: 120, // Increase cell height
@@ -125,7 +128,8 @@ const Timetable = () => {
 // Styles
 const styles = StyleSheet.create({
   headerStyle: {
-    backgroundColor: 'blue'
+    backgroundColor: '#696969',
+    
   },
   container: {
     flexDirection: 'row', // Ensure horizontal layout
