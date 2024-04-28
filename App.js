@@ -25,6 +25,7 @@ import Milly_singh from './screens/milly_singh';
 import Monika_yadav from './screens/monika_yadav';
 import Ranjan_mishra from './screens/ranjan_mishra';
 import Sonal_singh from './screens/sonal_singh';
+import Timetableprofile from './screens/Timetableprofile';
 
 
 const Tab = createBottomTabNavigator();
@@ -57,6 +58,7 @@ function App() {
         <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: true }} />
         <Stack.Screen name="AnnouncementScheduler" component={AnnouncementScheduler} options={{ headerShown: true }} />
         <Stack.Screen name="FetchData" component={FetchData} options={{ headerShown: true }} />
+        <Stack.Screen name="Schedule" component={Timetableprofile} options={{ headerShown: true }} />
 
 
         {/*profilescreens */}

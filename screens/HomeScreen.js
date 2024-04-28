@@ -27,6 +27,7 @@ export default function HomeScreen() {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                
                 <View style={styles.container}>
                     <View style={{ flex: 1, marginTop: 10 }}>
                         {userName ? <Text style={styles.greetingText}>Hello, {userName}</Text> : null}

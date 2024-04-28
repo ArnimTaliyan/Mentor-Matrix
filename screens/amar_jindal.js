@@ -90,6 +90,10 @@ const Amar_jindal = ({ navigation }) => {
   <Ionicons name='logo-linkedin' size={24} color={'grey'} />
   <Text style={{ fontSize: 14, marginLeft: 4, color: 'grey' }}>LinkedIn</Text>
 </TouchableOpacity>
+<TouchableOpacity onPress={() => navigation.push('Schedule')} style={{ flexDirection: "row", marginVertical: 6, alignItems: 'center' }}>
+  <Ionicons name='calendar-outline' size={20} color={'grey'} />
+  <Text style={{ fontSize: 14, marginLeft: 4, color: 'grey' }}>Check Schedule</Text>
+</TouchableOpacity>
           </View>
           {isExpandedSummary ? (
             <TouchableOpacity onPress={toggleExpandSummary} style={styles.summaryContainer}>

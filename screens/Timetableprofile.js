@@ -83,7 +83,7 @@ const events_data = [
         },
 ];
 
-const Timetable = () => {
+const Timetableprofile = () => {
   // Define the number of days and pivot date
   const numOfDays = 5;
   const pivotDate = genTimeBlock('mon');
@@ -129,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Timetable;
+export default Timetableprofile;
