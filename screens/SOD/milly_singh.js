@@ -4,12 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-const Amrendra_tripathi = ({ navigation }) => {
+const Milly_singh = ({ navigation }) => {
   const handleEmailPress = () => {
-    Linking.openURL('https://in.linkedin.com/in/amrendra-tripathi-84443817');
+    Linking.openURL('https://in.linkedin.com/in/milly-singh-106782212');
   };
   const handleGetInTouchPress = () => {
-    Linking.openURL('mailto:an.tripathi@ddn.upes.ac.in');
+    Linking.openURL('mailto:milly.singh@ddn.upes.ac.in');
   };
 
 
@@ -81,11 +81,11 @@ const Amrendra_tripathi = ({ navigation }) => {
           <Ionicons name="chevron-back-outline" size={24} color="#242760" />
         </TouchableOpacity>
         <ScrollView>
-          <Image source={require('../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
+          <Image source={require('../../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
           <View style={{ flex: 1, alignItems: 'center' }}>
-            <Image source={require('../assets/images/amrendra_tripathi.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
-            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Amrendra Tripathi</Text>
-            <Text style={{ fontSize: 14, color: 'grey' }}>Assistant Professor, (SS)</Text>
+            <Image source={require('../../assets/images/milly_singh.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
+            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Milly Singh</Text>
+            <Text style={{ fontSize: 14, color: 'grey' }}>Associate Professor</Text>
             <TouchableOpacity onPress={handleEmailPress} style={{ flexDirection: "row", marginVertical: 6, alignItems: 'center' }}>
   <Ionicons name='logo-linkedin' size={24} color={'grey'} />
   <Text style={{ fontSize: 14, marginLeft: 4, color: 'grey' }}>LinkedIn</Text>
@@ -98,8 +98,7 @@ const Amrendra_tripathi = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Amrendra Tripathi is pursuing his PhD in CSE and completed his M.Tech in CSE from Motilal Nehru National Institute Of Technology, Allahabad, India. His area of interest is Signal Processing, Image Processing, Cloud Computing and Machine Learning. He has published several research articles in high-impact factor SCI / SCOPUS journals and conferences. He has also published technical books in his field.
-              </Text>
+              Milly Singh is a seasoned academician with a teaching career spanning over eighteen years. Throughout her professional journey, she has demonstrated a continuous commitment to personal growth, expanding her expertise and cultivating a deep understanding of various aspects of the arts, particularly in the realm of visual communication, graphic design, typography, type design, and design research methodology. Her extensive knowledge and sensitivity in these areas have made her a valuable resource for her students and peers alike. Passionate and enthusiastic, she consistently explores and adopts new pedagogical approaches to enhance the learning experience of her agile and budding professionals. She understands the importance of adapting teaching methods to meet the evolving needs of her students and believes in fostering a dynamic and interactive learning environment.              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandSummary} style={styles.summaryContainer}>
@@ -117,8 +116,7 @@ const Amrendra_tripathi = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              He has a total academic experience of more than 10 years. Before joining UPES, he worked at DIT University, Dehradun for 6 years as an Assistant Professor from 2011-2017.During the span of the last 10 years of his academic career, other than teaching he has served in various administrative roles like Placement Coordinator, Accreditation team member, Student chapters Coordinator, Spoken Tutorial Coordinator, Examination Team, and Project Committees. He has also organized academic events like UHackathon, International conferences like NGCT etc., several workshops and FDPs.
-              </Text>
+              An alum of Maharaja Sayajirao University of Baroda, Vadodara, she holds a bachelor's degree in applied arts and a master's degree in visual arts. Her educational background has equipped her with a solid foundation in the field of arts. Throughout her career, she has held diverse positions, displaying her versatility and expertise. She has excelled as a coordinator and curator of an art gallery demonstrating her keen eye for curation and organizational skills. Worked as a freelance designer, and in academics she has taken on the responsibilities of a course leader and Head of the Department, displaying her leadership abilities and dedication to fostering academic excellence.              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandExperience} style={styles.summaryContainer}>
@@ -136,8 +134,7 @@ const Amrendra_tripathi = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              His major research concentration has been in the areas of Signal Processing, BCI, Machine learning, Cloud Computing. His research has been published in reputed SCI/SCOPUS journals and conferences. He has guided more than 5 masters’ dissertations.
-              </Text>
+              Curriculum Design, Typography, Languages and Scripts, Cultural Studies, Partition Narrative, Historical Research              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandResearch} style={styles.summaryContainer}>
@@ -155,8 +152,9 @@ const Amrendra_tripathi = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              During the span of the last 10 years in academics, he has been teaching diverse subjects related to computer science engineering from core subjects to programming subjects and specialisation subjects. Some of the courses, which he has taught in recent years are- Design and Analysis of Algorithms, Data Structures, Operating Systems, Introduction to IT Infrastructure and Landscape, Data Communication and Computer Networks, Advance Computer Architecture, Object-Oriented Programming, Real-Time Systems, Advanced Database and Management Systems, Principles of Programming Language, Managing the Cloud, Software Quality Management, etc.
-              </Text>
+              Milly approaches teaching with great passion and enthusiasm to impart comprehensive knowledge and skills, ensuring that students develop a solid foundation in the areas of typography, basics of design, user interface design, design thinking, and design research methodology. She conducts expert sessions on portfolio building to emphasize its importance. Through interactive and engaging teaching methods, she aims to inspire creativity and critical thinking among students.
+
+</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandCourses} style={styles.summaryContainer}>
@@ -174,8 +172,7 @@ const Amrendra_tripathi = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              I believe that learning is most effective when it is active and experiential. I incorporate a variety of teaching methods such as discussions, debates, group work, projects, and hands-on activities to engage students and promote deeper understanding. I encourage collaboration, independent thinking, and reflection to enhance their learning experience.
-              </Text>
+              Milly’s teaching philosophy emphasizes creating an inclusive and dynamic learning environment that encourages students to take risks, think critically, and actively participate in their educational journeys. She aims to instil a love for learning while equipping students with the skills and knowledge they need to succeed in an ever-changing world.              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandScholarly} style={styles.summaryContainer}>
@@ -245,4 +242,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Amrendra_tripathi;
+export default Milly_singh;

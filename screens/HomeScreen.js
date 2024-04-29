@@ -137,10 +137,10 @@ export default function HomeScreen() {
                     <View style={styles.modalContainer}>
                         <View style={styles.modalContent}>
                             {modalType === 'ComputerScience' && (
-                                <View>
+                                <ScrollView>
                                 
                                 <View style={styles.cardContainer}>
-                                    {/* First Card */}
+                                    {/* Amar Jindal */}
                                     <View style={styles.card}>
                                         <TouchableOpacity onPress={() => {navigation.push('amar_jindal'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
@@ -154,7 +154,7 @@ export default function HomeScreen() {
                                             <Text style={styles.cardSubtitle}>Assistant Professor</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {/* Second Card */}
+                                    {/* Amrendra Tripathi*/}
                                     <View style={styles.card}>
                                         <TouchableOpacity onPress={() => {navigation.push('amrendra_tripathi'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
@@ -168,7 +168,7 @@ export default function HomeScreen() {
                                             <Text style={styles.cardSubtitle}>Assistant Professor</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {/* Third Card */}
+                                    {/* Hitesh Kumar Sharma*/}
                                     <View style={styles.card}>
                                         <TouchableOpacity onPress={() => {navigation.push('hitesh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
@@ -182,14 +182,112 @@ export default function HomeScreen() {
                                             <Text style={styles.cardSubtitle}>Senior Associate Professor</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {/* Add more cards as needed */}
+                                    {/* 4 Card */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('hitesh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/hitesh.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Hitesh Kumar Sharma</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Senior Associate Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* 5 Card */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('amar_jindal'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/amar_jindal.jpg')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Amar Jindal</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* 6 Card */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('amrendra_tripathi'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/amrendra_tripathi.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Amrendra Tripathi</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* 7 Card */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('hitesh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/hitesh.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Hitesh Kumar Sharma</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Senior Associate Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* 8 Card */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('hitesh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/hitesh.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Hitesh Kumar Sharma</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Senior Associate Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* 9 Card */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('hitesh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/hitesh.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Hitesh Kumar Sharma</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Senior Associate Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* 10 Card */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('hitesh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/hitesh.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Hitesh Kumar Sharma</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Senior Associate Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    
                                 </View>
-                            </View>
+                            </ScrollView>
                             )}
                             {modalType === 'AdvancedEngineering' && (
-                                <View>
+                                <ScrollView>
                                   <View style={styles.cardContainer}>
-                                    {/* First Card */}
+                                    {/* Monika Yadav */}
                                     <View style={styles.card}>
                                         <TouchableOpacity onPress={() => {navigation.push('monika_yadav'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
@@ -203,7 +301,7 @@ export default function HomeScreen() {
                                             <Text style={styles.cardSubtitle}>Assistant Professor</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {/* Second Card */}
+                                    {/* Rangan Mishra */}
                                     <View style={styles.card}>
                                         <TouchableOpacity onPress={() => {navigation.push('ranjan_mishra'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
@@ -217,12 +315,110 @@ export default function HomeScreen() {
                                             <Text style={styles.cardSubtitle}>Assistant Professor</Text>
                                         </TouchableOpacity>
                                     </View>
+                                    {/* Piyush Kuchhal */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('piyush_kuchhal'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/piyush_kuchhal.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Piyush Kuchhal</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}> Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Srinivasa Reddy Devarapu */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('srinivasa_reddy_devarapu'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/srinivasa_reddy_devarapu.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Ranjan Mishra</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Leena Kapoor*/}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('leena_kapoor'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/leena_kapoor.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Leena Kapoor</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Associate Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Dr.Geetanjali Raghav */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('geetanjali_raghav'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/geetanjali_raghav.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr.Geetanjali Raghav</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Assistant Professor SG</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Ashish Karn */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('ashish_karn'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/ashish_karn.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Ashish Karn</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Sr. Associate Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Madhuben Sharma */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('madhuben_sharma'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/madhuben_sharma.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Madhuben Sharma</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Assistant Professor (SG)</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Abhishek Nandan */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('abhishek_nandan'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/abhishek_nandan.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Abhishek Nandan</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Associate professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                     
                                 </View> 
-                                </View>
+                                </ScrollView>
                             )}
                             {modalType === 'Business' && (
-                                <View>
+                                <ScrollView>
                                     <View style={styles.cardContainer}>
                                     {/* First Card */}
                                     <View style={styles.card}>
@@ -254,10 +450,10 @@ export default function HomeScreen() {
                                     </View>
                                     
                                 </View> 
-                                </View>
+                                </ScrollView>
                             )}
                             {modalType === 'Design' && (
-                                <View>
+                                <ScrollView>
                                   <View style={styles.cardContainer}>
                                     {/* First Card */}
                                     <View style={styles.card}>
@@ -289,33 +485,149 @@ export default function HomeScreen() {
                                     </View>
                                     
                                 </View>  
-                                </View>
+                                </ScrollView>
                             )}
                             {modalType === 'Law' && (
-                                <View>
-                                    <Text>School of Law</Text>
-                                    {/* Add more detailed content here */}
-                                </View>
+                                <ScrollView>
+                                <View style={styles.cardContainer}>
+                                  {/* First Card */}
+                                  <View style={styles.card}>
+                                      <TouchableOpacity onPress={() => {navigation.push('milly_singh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                          {/* Image */}
+                                          <Image
+                                              source={require('../assets/images/milly_singh.png')}
+                                              style={styles.cardImage}
+                                          />
+                                          {/* Title */}
+                                          <Text style={styles.cardTitle}>Milly Singh</Text>
+                                          {/* Assistant Professor */}
+                                          <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                      </TouchableOpacity>
+                                  </View>
+                                  {/* Second Card */}
+                                  <View style={styles.card}>
+                                      <TouchableOpacity onPress={() => {navigation.push('sonal_singh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                          {/* Image */}
+                                          <Image
+                                              source={require('../assets/images/sonal_singh.png')}
+                                              style={styles.cardImage}
+                                          />
+                                          {/* Title */}
+                                          <Text style={styles.cardTitle}>Sonal Singh</Text>
+                                          {/* Assistant Professor */}
+                                          <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                      </TouchableOpacity>
+                                  </View>
+                                  
+                              </View>  
+                              </ScrollView>
                             )}
                             {modalType === 'Life' && (
-                                <View>
-                                    <Text>School of Life Information</Text>
-                                    {/* Add more detailed content here */}
-                                </View>
+                                <ScrollView>
+                                <View style={styles.cardContainer}>
+                                  {/* First Card */}
+                                  <View style={styles.card}>
+                                      <TouchableOpacity onPress={() => {navigation.push('milly_singh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                          {/* Image */}
+                                          <Image
+                                              source={require('../assets/images/milly_singh.png')}
+                                              style={styles.cardImage}
+                                          />
+                                          {/* Title */}
+                                          <Text style={styles.cardTitle}>Milly Singh</Text>
+                                          {/* Assistant Professor */}
+                                          <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                      </TouchableOpacity>
+                                  </View>
+                                  {/* Second Card */}
+                                  <View style={styles.card}>
+                                      <TouchableOpacity onPress={() => {navigation.push('sonal_singh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                          {/* Image */}
+                                          <Image
+                                              source={require('../assets/images/sonal_singh.png')}
+                                              style={styles.cardImage}
+                                          />
+                                          {/* Title */}
+                                          <Text style={styles.cardTitle}>Sonal Singh</Text>
+                                          {/* Assistant Professor */}
+                                          <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                      </TouchableOpacity>
+                                  </View>
+                                  
+                              </View>  
+                              </ScrollView>
                             )}
                             {modalType === 'Health' && (
-                                <View>
-                                    <Text>School of Health Sciences and Technology</Text>
-                                    {/* Add more detailed content here */}
-                                </View>
+                               <ScrollView>
+                               <View style={styles.cardContainer}>
+                                 {/* First Card */}
+                                 <View style={styles.card}>
+                                     <TouchableOpacity onPress={() => {navigation.push('milly_singh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                         {/* Image */}
+                                         <Image
+                                             source={require('../assets/images/milly_singh.png')}
+                                             style={styles.cardImage}
+                                         />
+                                         {/* Title */}
+                                         <Text style={styles.cardTitle}>Milly Singh</Text>
+                                         {/* Assistant Professor */}
+                                         <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                     </TouchableOpacity>
+                                 </View>
+                                 {/* Second Card */}
+                                 <View style={styles.card}>
+                                     <TouchableOpacity onPress={() => {navigation.push('sonal_singh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                         {/* Image */}
+                                         <Image
+                                             source={require('../assets/images/sonal_singh.png')}
+                                             style={styles.cardImage}
+                                         />
+                                         {/* Title */}
+                                         <Text style={styles.cardTitle}>Sonal Singh</Text>
+                                         {/* Assistant Professor */}
+                                         <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                     </TouchableOpacity>
+                                 </View>
+                                 
+                             </View>  
+                             </ScrollView>
                             )}
                             {modalType === 'Liberal' && (
-                                <View>
-                                    <Text>School of Liberal Studies</Text>
-                                    {/* Add more detailed content here */}
-                                </View>
+                                <ScrollView>
+                                <View style={styles.cardContainer}>
+                                  {/* First Card */}
+                                  <View style={styles.card}>
+                                      <TouchableOpacity onPress={() => {navigation.push('milly_singh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                          {/* Image */}
+                                          <Image
+                                              source={require('../assets/images/milly_singh.png')}
+                                              style={styles.cardImage}
+                                          />
+                                          {/* Title */}
+                                          <Text style={styles.cardTitle}>Milly Singh</Text>
+                                          {/* Assistant Professor */}
+                                          <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                      </TouchableOpacity>
+                                  </View>
+                                  {/* Second Card */}
+                                  <View style={styles.card}>
+                                      <TouchableOpacity onPress={() => {navigation.push('sonal_singh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                          {/* Image */}
+                                          <Image
+                                              source={require('../assets/images/sonal_singh.png')}
+                                              style={styles.cardImage}
+                                          />
+                                          {/* Title */}
+                                          <Text style={styles.cardTitle}>Sonal Singh</Text>
+                                          {/* Assistant Professor */}
+                                          <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                      </TouchableOpacity>
+                                  </View>
+                                  
+                              </View>  
+                              </ScrollView>
                             )}
-                            {/* Add more conditions for other modal types */}
+                            
                             <TouchableOpacity
                                 style={styles.closeButton}
                                 onPress={() => setModalVisible(false)}

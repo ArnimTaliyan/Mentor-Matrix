@@ -81,9 +81,9 @@ const Sonal_singh = ({ navigation }) => {
           <Ionicons name="chevron-back-outline" size={24} color="#242760" />
         </TouchableOpacity>
         <ScrollView>
-          <Image source={require('../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
+          <Image source={require('../../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
           <View style={{ flex: 1, alignItems: 'center' }}>
-            <Image source={require('../assets/images/sonal_singh.png')} resizeMode='contain' style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
+            <Image source={require('../../assets/images/sonal_singh.png')} resizeMode='contain' style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
             <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Sonal Singh</Text>
             <Text style={{ fontSize: 14, color: 'grey' }}>Assistant Professor</Text>
             <TouchableOpacity onPress={handleEmailPress} style={{ flexDirection: "row", marginVertical: 6, alignItems: 'center' }}>

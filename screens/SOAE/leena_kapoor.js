@@ -4,12 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-const Ranjan_mishra = ({ navigation }) => {
+const Leena_kapoor = ({ navigation }) => {
   const handleEmailPress = () => {
-    Linking.openURL('https://in.linkedin.com/in/ranjan-mishra-66a33314b?trk=public_profile_browsemap');
+    Linking.openURL('https://in.linkedin.com/in/leena-kapoor-68220337');
   };
   const handleGetInTouchPress = () => {
-    Linking.openURL('mailto:rmishra@ddn.upes.ac.in');
+    Linking.openURL('mailto:lkapoor@ddn.upes.ac.in');
   };
 
 
@@ -81,10 +81,10 @@ const Ranjan_mishra = ({ navigation }) => {
           <Ionicons name="chevron-back-outline" size={24} color="#242760" />
         </TouchableOpacity>
         <ScrollView>
-          <Image source={require('../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
+          <Image source={require('../../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
           <View style={{ flex: 1, alignItems: 'center' }}>
-            <Image source={require('../assets/images/ranjan_mishra.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
-            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Ranjan Mishra</Text>
+            <Image source={require('../../assets/images/leena_kapoor.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
+            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Dr. Leena Kapoor</Text>
             <Text style={{ fontSize: 14, color: 'grey' }}>Assistant Professor</Text>
             <TouchableOpacity onPress={handleEmailPress} style={{ flexDirection: "row", marginVertical: 6, alignItems: 'center' }}>
   <Ionicons name='logo-linkedin' size={24} color={'grey'} />
@@ -98,8 +98,7 @@ const Ranjan_mishra = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Dr. Ranjan Mishra has 24 years of teaching, administrative, and research experience. He obtained his graduation, post-graduation, and doctoral degrees from premier universities and claims to have teaching and administrative experience from some leading universities in the country. During his 24 years of teaching experience, he fostered knowledge and cultivated an atmosphere of communication and understanding. Proficiency in coordinating and adaptability with diligence in teaching are his strengths.
-
+              Dr. Leena Kapoor holds a PhD degree in Chemical Engineering. She is a distinguished academician with a keen interest in biomass conversion technologies for producing green fuels. Dr. Leena's work involves biomass pyrolysis and the upgradation of biofuels. She joined UPES in August 2011 and has made significant contributions with research papers published in prestigious journals such as SCI, Scopus, and Web of Science with high impact factors of 5. Additionally, she has authored several book chapters with Springer.
 </Text>
             </TouchableOpacity>
           ) : (
@@ -250,4 +249,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Ranjan_mishra;
+export default Leena_kapoor;

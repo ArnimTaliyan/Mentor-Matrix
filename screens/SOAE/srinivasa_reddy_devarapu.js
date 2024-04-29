@@ -4,12 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-const Monika_yadav = ({ navigation }) => {
+const Srinivasa_reddy_devarapu = ({ navigation }) => {
   const handleEmailPress = () => {
-    Linking.openURL('https://in.linkedin.com/in/yadav22');
+    Linking.openURL('https://in.linkedin.com/in/dr-srinivasa-reddy-devarapu-55706b19');
   };
   const handleGetInTouchPress = () => {
-    Linking.openURL('mailto:m.yadav@ddn.upes.ac.in');
+    Linking.openURL('mailto:sr.devarapu@ddn.upes.ac.in');
   };
 
 
@@ -81,10 +81,10 @@ const Monika_yadav = ({ navigation }) => {
           <Ionicons name="chevron-back-outline" size={24} color="#242760" />
         </TouchableOpacity>
         <ScrollView>
-          <Image source={require('../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
+          <Image source={require('../../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
           <View style={{ flex: 1, alignItems: 'center' }}>
-            <Image source={require('../assets/images/monika_yadav.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
-            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Monika Yadav</Text>
+            <Image source={require('../../assets/images/srinivasa_reddy_devarapu.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
+            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Dr. Srinivasa Reddy Devarapu</Text>
             <Text style={{ fontSize: 14, color: 'grey' }}>Assistant Professor</Text>
             <TouchableOpacity onPress={handleEmailPress} style={{ flexDirection: "row", marginVertical: 6, alignItems: 'center' }}>
   <Ionicons name='logo-linkedin' size={24} color={'grey'} />
@@ -98,7 +98,10 @@ const Monika_yadav = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Dr. Monika Yadav completed her Ph.D. on "Optimal allocation of DG for resilient electrical distribution grid" and M.Tech. in Electrical Engineering with a specialization in Power System Engineering in 2015 from IIT(ISM) Dhanbad, Jharkhand. Her research work has resulted in the publication of numerous articles in SCI/Scopus-indexed journals and conferences. She possesses expertise in Distribution Grid Expansion Planning, optimization and control problems, and energy alternatives.              </Text>
+              Dr. Srinivasa Reddy Devarapu brings a rich blend of industry and academic experience to his career. His previous roles include being an Associate Professor and Head of the Department of Petroleum Engineering at Koneru Lakshmaiah University, Andhra Pradesh, before joining UPES. With a Ph.D. earned in 2015 from IIT Madras, focusing on in-situ combustion-based enhanced oil recovery, he's a recognized authority in his field.
+
+During his tenure in academia, Dr. Devarapu's contributions have been substantial. He actively shaped petroleum engineering curricula at JNTU Kakinada and KL University and held roles such as committee member and chairman for their respective BOS committees. Further, he played a pivotal role in establishing and enhancing petroleum engineering laboratories, demonstrating his commitment to academic excellence. Dr. Devarapu's research spans areas like mathematical modeling of reservoir flow, eco-friendly drilling fluids, and adsorbents for water treatment. His research has been featured in numerous international journals and patents, solidifying his impact on the field.
+</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandSummary} style={styles.summaryContainer}>
@@ -116,7 +119,9 @@ const Monika_yadav = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Dr. Yadav has been an active member of the IEEE community, earning the status of an IEEE Senior Member since 2022. Additionally, she holds the certification of Distribution Engineer's Trainer from the Power Sector Skill Council of India (PSSCI), Ministry of Power, India, in 2019. Dr. Yadav's research endeavours focus on technology development for social benefits, including her involvement in delivering technical training programs to TATA Power Solar on "Grid code compliance for renewable energy (RE) integration."              </Text>
+              Before joining UPES in 2012, Dr. Ranjan Mishra worked at the ICFAI University, Dehradun, Mody University, Laxmangarh – Rajasthan, and the National Institute of Science and Technology, Berhampur, Orissa. He was associated with the International Centre for Radio Science and ISRO Jodhpur as a research intern. In his previous workplace, he was involved in teaching and administrative work and coordinated many positions.
+
+</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandExperience} style={styles.summaryContainer}>
@@ -134,8 +139,9 @@ const Monika_yadav = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Dr. Monika Yadav's research interests encompass various areas, including Distribution Grid Expansion Planning, Resiliency enhancement of distribution grid against disturbances, Sustainable planning of distribution systems, Grid code compliance for renewable energy (RE) integration, and Microgrid Reliability.
-              </Text>
+              Microstrip antenna | Cellular communication | Frequency-selective Surface.
+
+</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandResearch} style={styles.summaryContainer}>
@@ -149,17 +155,18 @@ const Monika_yadav = ({ navigation }) => {
           {isExpandedCourses ? (
             <TouchableOpacity onPress={toggleExpandCourses} style={styles.summaryContainer}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.summaryHText}>Teaching Philosophy</Text>
+                <Text style={styles.summaryHText}>Courses Taught</Text>
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Dr. Yadav firmly believes in prioritizing societal impact over mere technical and economic aspects in education. She strives to design and deliver technical curricula that align with current social needs. By infusing technical education with social imperatives, she empowers students to become responsible engineers and technologists who can contribute positively to society. Her teaching philosophy emphasizes holistic understanding and responsible innovation. She has also organized industrial trips for students to Dhanu thermal power plant to enhance their technical skills.
+              Dr. Ranjan Mishra teaches Analog and Digital Communication, Communication Systems, Satellite Communication, Wireless Communication, Data Communication and Networking, Cellular and Mobile Communication, Information theory and Coding, Microwave Engineering, Analog electronics, Antenna, and wave propagation in the undergraduate program. He is an active member of the course curriculum designing of the program.
+
 </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandCourses} style={styles.summaryContainer}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.summaryHText}>Teaching Philosophy</Text>
+                <Text style={styles.summaryHText}>Courses Taught</Text>
                 <Ionicons name={'chevron-down-outline'} size={24} color="black" />
               </View>
             </TouchableOpacity>
@@ -172,7 +179,8 @@ const Monika_yadav = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              As a mentor, Dr. Yadav has successfully guided a group of undergraduate students in developing cutting-edge technology solutions, resulting in the creation of a Universal portable charging kit. She actively engages students in research, fostering idea exchange and sharing her extensive knowledge in the field, leading to the publication of numerous research papers in prestigious SCI/Scopus-indexed journals and reputable conference proceedings.
+              In addition to supervising multiple PhD students, Dr. Mishra boasts a prolific academic record, with over 50 Scopus-indexed publications and 10 SCI/SCIE indexed articles since obtaining his doctorate in 2016. He has also authored two textbooks and is a certified instructor for the university's Cisco networking course.
+
 </Text>
             </TouchableOpacity>
           ) : (
@@ -243,4 +251,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Monika_yadav;
+export default Srinivasa_reddy_devarapu;

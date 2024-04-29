@@ -10,22 +10,44 @@ import SignupScreen from './screens/SignupScreen';
 import { db } from './firebase'; // Import db from firebase.js
 import LoginScreen from './screens/LoginScreen';
 import Timetable from './screens/Timetable';
-import Announcement from './screens/Announcement';
-import SOCS from './screens/SOCS';
-import AnnouncementScreen from './screens/AnnouncementScreen';
 import FetchData from './screens/AnnouncementScreen';
 import AnnouncementScheduler from './screens/Announcement';
-
-import Amar_jindal from './screens/amar_jindal';
-import Alok_negi from './screens/alok_negi';
-import Amrendra_tripathi from './screens/amrendra_tripathi';
-import Atul_rawat from './screens/atul_rawat';
-import Hitesh from './screens/hitesh';
-import Milly_singh from './screens/milly_singh';
-import Monika_yadav from './screens/monika_yadav';
-import Ranjan_mishra from './screens/ranjan_mishra';
-import Sonal_singh from './screens/sonal_singh';
 import Timetableprofile from './screens/Timetableprofile';
+
+
+//School of Computer Science
+import Amrendra_tripathi from './screens/SOCS/amrendra_tripathi';
+import Hitesh from './screens/SOCS/hitesh';
+import Amar_jindal from './screens/SOCS/amar_jindal';
+
+
+
+
+
+//School of Business
+import Alok_negi from './screens/SOB/alok_negi';
+import Atul_rawat from './screens/SOB/atul_rawat';
+
+
+//School of Design
+import Milly_singh from './screens/SOD/milly_singh';
+import Sonal_singh from './screens/SOD/sonal_singh';
+
+//School of Advanced Engineering
+import Monika_yadav from './screens/SOAE/monika_yadav';
+import Ranjan_mishra from './screens/SOAE/ranjan_mishra';
+import Piyush_kuchhal from './screens/SOAE/piyush_kuchhal';
+import Leena_kapoor from './screens/SOAE/leena_kapoor';
+import Srinivasa_reddy_devarapu from './screens/SOAE/srinivasa_reddy_devarapu';
+import Geetanjali_raghav from './screens/SOAE/geetanjali_raghav';
+import Ashish_karn from './screens/SOAE/ashish_karn';
+import Madhuben_sharma from './screens/SOAE/madhuben_sharma';
+import Abhishek_nandan from './screens/SOAE/abhishek_nandan';
+
+
+
+
+
 
 
 const Tab = createBottomTabNavigator();
@@ -62,15 +84,42 @@ function App() {
 
 
         {/*profilescreens */}
-        <Stack.Screen name="amar_jindal" component={Amar_jindal} options={{ headerShown: false }} />
-        <Stack.Screen name="alok_negi" component={Alok_negi} options={{ headerShown: false }} />
-        <Stack.Screen name="amrendra_tripathi" component={Amrendra_tripathi} options={{ headerShown: false }} />
-        <Stack.Screen name="atul_rawat" component={Atul_rawat} options={{ headerShown: false }} />
-        <Stack.Screen name="hitesh" component={Hitesh} options={{ headerShown: false }} />
-        <Stack.Screen name="milly_singh" component={Milly_singh} options={{ headerShown: false }} />
+        {/*SOAE */}
         <Stack.Screen name="monika_yadav" component={Monika_yadav} options={{ headerShown: false }} />
         <Stack.Screen name="ranjan_mishra" component={Ranjan_mishra} options={{ headerShown: false }} />
+        <Stack.Screen name="piyush_kuchhal" component={Piyush_kuchhal} options={{ headerShown: false }} />
+        <Stack.Screen name="srinivasa_reddy_devarapu" component={Srinivasa_reddy_devarapu} options={{ headerShown: false }} />
+        <Stack.Screen name="leena_kapoor" component={Leena_kapoor} options={{ headerShown: false }} />
+        <Stack.Screen name="geetanjali_raghav" component={Geetanjali_raghav} options={{ headerShown: false }} />
+        <Stack.Screen name="ashish_karn" component={Ashish_karn} options={{ headerShown: false }} />
+        <Stack.Screen name="madhuben_sharma" component={Madhuben_sharma} options={{ headerShown: false }} />
+        <Stack.Screen name="abhishek_nandan" component={Abhishek_nandan} options={{ headerShown: false }} />
+        
+
+
+
+        {/*SOB */}
+        <Stack.Screen name="alok_negi" component={Alok_negi} options={{ headerShown: false }} />
+        <Stack.Screen name="atul_rawat" component={Atul_rawat} options={{ headerShown: false }} />
+
+
+
+
+
+        {/*SOCS */}
+        <Stack.Screen name="amar_jindal" component={Amar_jindal} options={{ headerShown: false }} />
+        <Stack.Screen name="hitesh" component={Hitesh} options={{ headerShown: false }} />
+        <Stack.Screen name="amrendra_tripathi" component={Amrendra_tripathi} options={{ headerShown: false }} />
+
+
+
+
+        {/*SOD */}      
+        <Stack.Screen name="milly_singh" component={Milly_singh} options={{ headerShown: false }} />
         <Stack.Screen name="sonal_singh" component={Sonal_singh} options={{ headerShown: false }} />
+
+
+
         
       </Stack.Navigator>
     </NavigationContainer>

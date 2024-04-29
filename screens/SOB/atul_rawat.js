@@ -4,12 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-const Hitesh = ({ navigation }) => {
+const Atul_rawat = ({ navigation }) => {
   const handleEmailPress = () => {
-    Linking.openURL('https://in.linkedin.com/in/hkshitesh');
+    Linking.openURL('https://in.linkedin.com/in/atul-rawat-phd-2a469110');
   };
   const handleGetInTouchPress = () => {
-    Linking.openURL('mailto:hksharma@ddn.upes.ac.in');
+    Linking.openURL('mailto:a.rawat@ddn.upes.ac.in');
   };
 
 
@@ -81,10 +81,10 @@ const Hitesh = ({ navigation }) => {
           <Ionicons name="chevron-back-outline" size={24} color="#242760" />
         </TouchableOpacity>
         <ScrollView>
-          <Image source={require('../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
+          <Image source={require('../../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
           <View style={{ flex: 1, alignItems: 'center' }}>
-            <Image source={require('../assets/images/hitesh.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
-            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Hitesh Kumar Sharma</Text>
+            <Image source={require('../../assets/images/atul_rawat.png')} resizeMode='contain' style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
+            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>DR. Atul Rawat</Text>
             <Text style={{ fontSize: 14, color: 'grey' }}>Assistant Professor</Text>
             <TouchableOpacity onPress={handleEmailPress} style={{ flexDirection: "row", marginVertical: 6, alignItems: 'center' }}>
   <Ionicons name='logo-linkedin' size={24} color={'grey'} />
@@ -98,10 +98,9 @@ const Hitesh = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Dr. Hitesh Kumar Sharma has published 5 authored books, 35 patents, 100+ research papers in SCI/ESCI/Scopus/WoS indexed journals and conferences. He is also certified in many IT Specializations like Docker, Kubernetes, Neo4J, Maven, etc. Currently, he is working in the area of Artificial Intelligence, Image Processing, Deep Learning, Machine Learning and Blockchain. He has delivered many keynotes at various conferences and FDPs. He is a certified digital content creator and created some digital courses for online platforms. He is also the editorial board member of many journals. He has received Young Scientist Award, Research Excellence Award, Best Teacher Award in his academic career. He is GitHub Campus Ambassador and works as a Lead Administrator for UPES-GitHub Collaboration.
+              Dr. Atul Rawat has more than 16 years of experience in the energy research and consulting domain. He did Ph.D. in the field of energy management and is a Postgraduate in business administration from UPES Dehradun. He also holds a postgraduate degree in Mathematics from HNB Garhwal University, Dehradun.
 
-
-</Text>
+He has been instrumental in driving the industry engagement for B-School and has delivered lectures in training sessions conducted for IOCL, HPCL, and Accenture and represented UPES in various industry for as a speaker.              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandSummary} style={styles.summaryContainer}>
@@ -119,10 +118,12 @@ const Hitesh = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Before joining UPES at 2012, Dr. Hitesh was at ITM University, Gurugram as an Assistant Professor in School of Computer Science. He was associated with Dean Office, and he was working as Assistant Dean in Dean Academics office. He was also associated with IBM as an IBM Course in-charge in his previous organization.
+              Prior to UPES, he worked for the following:
 
-
-</Text>
+Worked as Assistant Manager for the oil and gas team at Ernst & Young. Worked closely with onshore team on client direct engagements, as well as executed projects requested by external and internal clients. Additionally, developed thought leadership reports on various issues impacting the energy industry to support the company’s business development initiatives.
+Worked as Senior Analyst for the oil and gas team at Deloitte. As a core responsibility, prepared strategic and financial reports for leading players of the energy industry, including all segments of the energy industry.
+Worked as Assistant Manager for the Industry Analytics team in Genpact India. As a core responsibility, conducted research and performed analysis on the energy and infrastructure industry, by identifying the different trends across the energy industry. Additionally, developed forecasting tools for demand estimation of energy equipment.
+Worked as Analyst for Global Energy team in DMV Business and Market Research Pvt. Ltd.              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandExperience} style={styles.summaryContainer}>
@@ -140,8 +141,7 @@ const Hitesh = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Machine Learning | Deep Learning | Cloud Computing Resource Management | Software Engineering | Data Mining.
-
+              Additionally, he has published research papers in reputed journals and conferences. His current areas of research are Energy Policy, Natural Gas, Sustainable Development, Energy Transition, and Climate Change. 
 
 </Text>
             </TouchableOpacity>
@@ -161,8 +161,7 @@ const Hitesh = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Dr Hitesh taught various computer science and engineering course in his academic career. In computer science and engineering, students are exposed to a diverse range of courses that cover fundamental concepts, practical skills, and advanced topics relevant to the field of computing and technology. The curriculum is designed to equip students with a strong foundation in computer science theory, programming languages, algorithms, data structures, software engineering, and hardware design. Some of the key courses Dr. Hitesh taught in computer science and engineering programs include Application Containerization, Build and Release Management, Advanced Java Programming, Advanced Data Structure, Advanced DBMS, etc.
-
+              Dr Atul teaches the core courses on Petroleum Economics, M&A and asset allocation, Natural Gas Markets and Operations and Energy Management. He likes to investigate the role of energy in economic and sustainable development. In another stream of work, he likes to study emerging technologies and their implementation across industries.
 
 </Text>
             </TouchableOpacity>
@@ -178,21 +177,18 @@ const Hitesh = ({ navigation }) => {
 {isExpandedScholarly ? (
             <TouchableOpacity onPress={toggleExpandScholarly} style={styles.summaryContainer}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.summaryHText}>Teaching Philosophy
-</Text>
+                <Text style={styles.summaryHText}>Teaching Philosophy</Text>
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Dr. Hitesh considers teaching a significant and rewarding part of his career. He has experience in teaching as an instructor for a number of courses. Challenges in instructing graduate and postgraduate students for his is finding ways to bring the students down into the nuts and bolts of the course and develop a system-level design approach without squandering their initial enthusiasm from the higher-level discussion. He found that allowing breadth in their final thesis/project report let the students explore any aspect of the topic of their interest while the tests and programming assignments provided a more hands-on working knowledge of computer algorithms in real-life implementation. His aim is to make frequent use of examples and motivate ideas by placing them in the context of both their applications and abstract generalizations. He favours a tutorial style of teaching that mixes lecturing with problem sessions in which students apply the ideas they are learning. This changes lectures from a passive experience to an interactive one and helps the teacher correct misapprehensions early on before the student’s tackle homework assignments on their own.
-
+              Dr Atul’s teaching philosophy is grounded in the understanding that it is his responsibility to create an industry-ready professional with adequate technical and leadership skill sets. He has incorporated some elements of “integrated role-play and case study” into his classes, in which students are exposed to real-time industry cases, suggested reading material, and other resources prior to coming to class. Using authentic problems helps students move from novice to expert thinking.
 
 </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandScholarly} style={styles.summaryContainer}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.summaryHText}>Teaching Philosophy
-</Text>
+                <Text style={styles.summaryHText}>Teaching Philosophy</Text>
                 <Ionicons name={'chevron-down-outline'} size={24} color="black" />
               </View>
             </TouchableOpacity>
@@ -257,4 +253,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Hitesh;
+export default Atul_rawat;

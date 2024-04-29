@@ -4,12 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-const Alok_negi = ({ navigation }) => {
+const Monika_yadav = ({ navigation }) => {
   const handleEmailPress = () => {
-    Linking.openURL('https://in.linkedin.com/in/alok-negi-a0633513');
+    Linking.openURL('https://in.linkedin.com/in/yadav22');
   };
   const handleGetInTouchPress = () => {
-    Linking.openURL('mailto:alok.negi@ddn.upes.ac.in');
+    Linking.openURL('mailto:m.yadav@ddn.upes.ac.in');
   };
 
 
@@ -81,10 +81,10 @@ const Alok_negi = ({ navigation }) => {
           <Ionicons name="chevron-back-outline" size={24} color="#242760" />
         </TouchableOpacity>
         <ScrollView>
-          <Image source={require('../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
+          <Image source={require('../../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
           <View style={{ flex: 1, alignItems: 'center' }}>
-            <Image source={require('../assets/images/alok_negi.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
-            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Alok Negi</Text>
+            <Image source={require('../../assets/images/monika_yadav.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
+            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Monika Yadav</Text>
             <Text style={{ fontSize: 14, color: 'grey' }}>Assistant Professor</Text>
             <TouchableOpacity onPress={handleEmailPress} style={{ flexDirection: "row", marginVertical: 6, alignItems: 'center' }}>
   <Ionicons name='logo-linkedin' size={24} color={'grey'} />
@@ -98,9 +98,7 @@ const Alok_negi = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Professor Alok Negi is a highly-accomplished technologist and educationist specializing in Artificial Intelligence, Machine Learning, Data Analytics, and IBM Mainframe Technology. His deep understanding of these areas enables him to stay at the forefront of industry advancements and incorporate cutting-edge knowledge into his teaching methodologies. With a strong educational background, including a B. Tech in Information Technology, M.Tech in Computer Science & Engineering, and a Ph.D. (CSE) from NIT Uttarakhand, he brings extensive knowledge and expertise to his teaching and research endeavours. Passionate about both research and teaching, Professor Negi possesses exceptional educational, analytical, and technical skills. His commitment to excellence is evident in his ability to effectively deliver theory and lab courses, develop comprehensive course material, and assess student performance through quizzes, tests, and examinations. With a keen focus on leveraging technology and innovative teaching methodologies, Professor Negi ensures that his students receive a comprehensive and industry-relevant education. By integrating real-world examples and practical applications into his teaching, he equips students with the necessary skills and knowledge to excel in their future careers.
-
-</Text>
+              Dr. Monika Yadav completed her Ph.D. on "Optimal allocation of DG for resilient electrical distribution grid" and M.Tech. in Electrical Engineering with a specialization in Power System Engineering in 2015 from IIT(ISM) Dhanbad, Jharkhand. Her research work has resulted in the publication of numerous articles in SCI/Scopus-indexed journals and conferences. She possesses expertise in Distribution Grid Expansion Planning, optimization and control problems, and energy alternatives.              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandSummary} style={styles.summaryContainer}>
@@ -118,9 +116,7 @@ const Alok_negi = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Before joining UPES, Prof. Negi has worked as IBM Program Training Consultant at Edunet Foundation, Gurgaon in alliance with IBM and Directorate General of Training, Ministry of Skill Development and Entrepreneurship at National Skill Training Institute, Dehradun, where he trained students in the IBM Program and delivered master classes in AI/ML domains. He also worked with IMS Unison University, Quantum University and DBS as an Assistant Professor. His industry experience includes working as a Software Engineer at NIIT Technologies Ltd, where he successfully coordinated with clients and onsite teams for software development.
-
-</Text>
+              Dr. Yadav has been an active member of the IEEE community, earning the status of an IEEE Senior Member since 2022. Additionally, she holds the certification of Distribution Engineer's Trainer from the Power Sector Skill Council of India (PSSCI), Ministry of Power, India, in 2019. Dr. Yadav's research endeavours focus on technology development for social benefits, including her involvement in delivering technical training programs to TATA Power Solar on "Grid code compliance for renewable energy (RE) integration."              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandExperience} style={styles.summaryContainer}>
@@ -138,9 +134,8 @@ const Alok_negi = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Artificial Intelligence I Machine Learning I Deep Learning I Computer Vision I Evolutionary Algorithms I Biomedical I Image and Video processing I Cloud Computing I Data Analytics
-
-</Text>
+              Dr. Monika Yadav's research interests encompass various areas, including Distribution Grid Expansion Planning, Resiliency enhancement of distribution grid against disturbances, Sustainable planning of distribution systems, Grid code compliance for renewable energy (RE) integration, and Microgrid Reliability.
+              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandResearch} style={styles.summaryContainer}>
@@ -154,18 +149,17 @@ const Alok_negi = ({ navigation }) => {
           {isExpandedCourses ? (
             <TouchableOpacity onPress={toggleExpandCourses} style={styles.summaryContainer}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.summaryHText}>Courses Taught</Text>
+                <Text style={styles.summaryHText}>Teaching Philosophy</Text>
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Prof. Alok possesses strong technical skills, including proficiency in Python, data analytics, MYSQL, ORACLE, IBM Mainframe Technology, object-oriented programming, and various tools and utilities. He is experienced in working with platforms like Anaconda, Google Colab, MongoDB, and IBM Cloud, etc. His teaching interests encompass a wide range of subjects, such as artificial intelligence, machine learning, deep learning, business analytics, DBMS, operating systems, data structures and algorithms, and software engineering.
-
+              Dr. Yadav firmly believes in prioritizing societal impact over mere technical and economic aspects in education. She strives to design and deliver technical curricula that align with current social needs. By infusing technical education with social imperatives, she empowers students to become responsible engineers and technologists who can contribute positively to society. Her teaching philosophy emphasizes holistic understanding and responsible innovation. She has also organized industrial trips for students to Dhanu thermal power plant to enhance their technical skills.
 </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandCourses} style={styles.summaryContainer}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.summaryHText}>Courses Taught</Text>
+                <Text style={styles.summaryHText}>Teaching Philosophy</Text>
                 <Ionicons name={'chevron-down-outline'} size={24} color="black" />
               </View>
             </TouchableOpacity>
@@ -174,20 +168,17 @@ const Alok_negi = ({ navigation }) => {
 {isExpandedScholarly ? (
             <TouchableOpacity onPress={toggleExpandScholarly} style={styles.summaryContainer}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.summaryHText}>Teaching Philosophy
-</Text>
+                <Text style={styles.summaryHText}>Scholarly Activities</Text>
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Prof. Alok’s teaching philosophy revolves around creating an engaging and student-centered learning environment that fosters critical thinking, creativity, and a passion for lifelong learning. He believes that education is a transformative journey that goes beyond the transmission of information; it is about empowering students to become independent thinkers, problem solvers, and active contributors to society.
-
+              As a mentor, Dr. Yadav has successfully guided a group of undergraduate students in developing cutting-edge technology solutions, resulting in the creation of a Universal portable charging kit. She actively engages students in research, fostering idea exchange and sharing her extensive knowledge in the field, leading to the publication of numerous research papers in prestigious SCI/Scopus-indexed journals and reputable conference proceedings.
 </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandScholarly} style={styles.summaryContainer}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.summaryHText}>Teaching Philosophy
-</Text>
+                <Text style={styles.summaryHText}>Scholarly Activities</Text>
                 <Ionicons name={'chevron-down-outline'} size={24} color="black" />
               </View>
             </TouchableOpacity>
@@ -252,4 +243,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Alok_negi;
+export default Monika_yadav;

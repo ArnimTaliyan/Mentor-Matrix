@@ -4,12 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-const Milly_singh = ({ navigation }) => {
+const Geetanjali_raghav = ({ navigation }) => {
   const handleEmailPress = () => {
-    Linking.openURL('https://in.linkedin.com/in/milly-singh-106782212');
+    Linking.openURL('https://in.linkedin.com/in/geetanjali-raghav-07971451');
   };
   const handleGetInTouchPress = () => {
-    Linking.openURL('mailto:milly.singh@ddn.upes.ac.in');
+    Linking.openURL('mailto:Graghav@ddn.upes.ac.in');
   };
 
 
@@ -81,11 +81,11 @@ const Milly_singh = ({ navigation }) => {
           <Ionicons name="chevron-back-outline" size={24} color="#242760" />
         </TouchableOpacity>
         <ScrollView>
-          <Image source={require('../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
+          <Image source={require('../../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
           <View style={{ flex: 1, alignItems: 'center' }}>
-            <Image source={require('../assets/images/milly_singh.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
-            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Milly Singh</Text>
-            <Text style={{ fontSize: 14, color: 'grey' }}>Associate Professor</Text>
+            <Image source={require('../../assets/images/geetanjali_raghav.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
+            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Dr. Geetanjali Raghav</Text>
+            <Text style={{ fontSize: 14, color: 'grey' }}>Assistant Professor</Text>
             <TouchableOpacity onPress={handleEmailPress} style={{ flexDirection: "row", marginVertical: 6, alignItems: 'center' }}>
   <Ionicons name='logo-linkedin' size={24} color={'grey'} />
   <Text style={{ fontSize: 14, marginLeft: 4, color: 'grey' }}>LinkedIn</Text>
@@ -98,7 +98,9 @@ const Milly_singh = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Milly Singh is a seasoned academician with a teaching career spanning over eighteen years. Throughout her professional journey, she has demonstrated a continuous commitment to personal growth, expanding her expertise and cultivating a deep understanding of various aspects of the arts, particularly in the realm of visual communication, graphic design, typography, type design, and design research methodology. Her extensive knowledge and sensitivity in these areas have made her a valuable resource for her students and peers alike. Passionate and enthusiastic, she consistently explores and adopts new pedagogical approaches to enhance the learning experience of her agile and budding professionals. She understands the importance of adapting teaching methods to meet the evolving needs of her students and believes in fostering a dynamic and interactive learning environment.              </Text>
+              Dr. Ranjan Mishra has 24 years of teaching, administrative, and research experience. He obtained his graduation, post-graduation, and doctoral degrees from premier universities and claims to have teaching and administrative experience from some leading universities in the country. During his 24 years of teaching experience, he fostered knowledge and cultivated an atmosphere of communication and understanding. Proficiency in coordinating and adaptability with diligence in teaching are his strengths.
+
+</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandSummary} style={styles.summaryContainer}>
@@ -116,7 +118,9 @@ const Milly_singh = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              An alum of Maharaja Sayajirao University of Baroda, Vadodara, she holds a bachelor's degree in applied arts and a master's degree in visual arts. Her educational background has equipped her with a solid foundation in the field of arts. Throughout her career, she has held diverse positions, displaying her versatility and expertise. She has excelled as a coordinator and curator of an art gallery demonstrating her keen eye for curation and organizational skills. Worked as a freelance designer, and in academics she has taken on the responsibilities of a course leader and Head of the Department, displaying her leadership abilities and dedication to fostering academic excellence.              </Text>
+              Before joining UPES in 2012, Dr. Ranjan Mishra worked at the ICFAI University, Dehradun, Mody University, Laxmangarh – Rajasthan, and the National Institute of Science and Technology, Berhampur, Orissa. He was associated with the International Centre for Radio Science and ISRO Jodhpur as a research intern. In his previous workplace, he was involved in teaching and administrative work and coordinated many positions.
+
+</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandExperience} style={styles.summaryContainer}>
@@ -134,7 +138,9 @@ const Milly_singh = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Curriculum Design, Typography, Languages and Scripts, Cultural Studies, Partition Narrative, Historical Research              </Text>
+              Microstrip antenna | Cellular communication | Frequency-selective Surface.
+
+</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandResearch} style={styles.summaryContainer}>
@@ -152,7 +158,7 @@ const Milly_singh = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Milly approaches teaching with great passion and enthusiasm to impart comprehensive knowledge and skills, ensuring that students develop a solid foundation in the areas of typography, basics of design, user interface design, design thinking, and design research methodology. She conducts expert sessions on portfolio building to emphasize its importance. Through interactive and engaging teaching methods, she aims to inspire creativity and critical thinking among students.
+              Dr. Ranjan Mishra teaches Analog and Digital Communication, Communication Systems, Satellite Communication, Wireless Communication, Data Communication and Networking, Cellular and Mobile Communication, Information theory and Coding, Microwave Engineering, Analog electronics, Antenna, and wave propagation in the undergraduate program. He is an active member of the course curriculum designing of the program.
 
 </Text>
             </TouchableOpacity>
@@ -168,16 +174,18 @@ const Milly_singh = ({ navigation }) => {
 {isExpandedScholarly ? (
             <TouchableOpacity onPress={toggleExpandScholarly} style={styles.summaryContainer}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.summaryHText}>Teaching Philosophy</Text>
+                <Text style={styles.summaryHText}>Scholarly Activities</Text>
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Milly’s teaching philosophy emphasizes creating an inclusive and dynamic learning environment that encourages students to take risks, think critically, and actively participate in their educational journeys. She aims to instil a love for learning while equipping students with the skills and knowledge they need to succeed in an ever-changing world.              </Text>
+              In addition to supervising multiple PhD students, Dr. Mishra boasts a prolific academic record, with over 50 Scopus-indexed publications and 10 SCI/SCIE indexed articles since obtaining his doctorate in 2016. He has also authored two textbooks and is a certified instructor for the university's Cisco networking course.
+
+</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandScholarly} style={styles.summaryContainer}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.summaryHText}>Teaching Philosophy</Text>
+                <Text style={styles.summaryHText}>Scholarly Activities</Text>
                 <Ionicons name={'chevron-down-outline'} size={24} color="black" />
               </View>
             </TouchableOpacity>
@@ -242,4 +250,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Milly_singh;
+export default Geetanjali_raghav;
