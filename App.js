@@ -53,6 +53,9 @@ import Hitesh from './screens/SOCS/hitesh';
 import Amar_jindal from './screens/SOCS/amar_jindal';
 import Ravi_s_iyer from './screens/SOCS/Ravi_s_iyer';
 import Aanchal_sharma from './screens/SOB/Aanchal_sharma';
+import Deepika_koundal from './screens/SOCS/deepika_koundal';
+import Neelu_jyothi_ahuja from './screens/SOCS/neelu_jyothi_ahuja';
+import Akashdeep_bhardwaj from './screens/SOCS/akashdeep_bhardwaj';
 
 
 
@@ -127,6 +130,9 @@ function App() {
         <Stack.Screen name="hitesh" component={Hitesh} options={{ headerShown: false }} />
         <Stack.Screen name="amrendra_tripathi" component={Amrendra_tripathi} options={{ headerShown: false }} />
         <Stack.Screen name="Ravi_s_iyer" component={Ravi_s_iyer} options={{ headerShown: false }} />
+        <Stack.Screen name="Deepika_koundal" component={Deepika_koundal} options={{ headerShown: false }} />
+        <Stack.Screen name="Neelu_jyothi_ahuja" component={Neelu_jyothi_ahuja} options={{ headerShown: false }} />
+        <Stack.Screen name="Akashdeep_bhardwaj" component={Akashdeep_bhardwaj} options={{ headerShown: false }} />
         
 
 

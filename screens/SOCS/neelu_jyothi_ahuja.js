@@ -4,12 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-const Deepika_koundal = ({ navigation }) => {
+const Neelu_jyothi_ahuja = ({ navigation }) => {
   const handleEmailPress = () => {
-    Linking.openURL('https://in.linkedin.com/in/deepika-koundal?trk=public_post_feed-actor-name');
+    Linking.openURL('https://in.linkedin.com/in/dr-neelu-jyothi-ahuja-5305a15');
   };
   const handleGetInTouchPress = () => {
-    Linking.openURL('dkoundal@ddn.upes.ac.in');
+    Linking.openURL('mailto:neelu@ddn.upes.ac.in');
   };
 
 
@@ -83,9 +83,10 @@ const Deepika_koundal = ({ navigation }) => {
         <ScrollView>
           <Image source={require('../../assets/images/upes.jpeg')} resizeMode='cover' style={{ marginTop: -60, height: 268, width: "120%", }} />
           <View style={{ flex: 1, alignItems: 'center' }}>
-            <Image source={require('../../assets/images/deepika_koundal.png')} resizeMode='contain' style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
-            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Deepika Koundal</Text>
-            <Text style={{ fontSize: 14, color: 'grey' }}>Assistant Professor</Text>
+            <Image source={require('../../assets/images/neelu_jyothi_ahuja.png')} resizeMode='contain' style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
+            <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Neelu Jyothi Ahuja
+</Text>
+            <Text style={{ fontSize: 14, color: 'grey' }}>Professor</Text>
             <TouchableOpacity onPress={() => navigation.push('Schedule')} style={{ flexDirection: "row", marginVertical: 6, alignItems: 'center' }}>
   <Ionicons name='calendar-outline' size={20} color={'grey'} />
   <Text style={{ fontSize: 14, marginLeft: 4, color: 'grey' }}>10108</Text>
@@ -103,8 +104,9 @@ const Deepika_koundal = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Dr.Deepika Koundal has received recognition and honorary membership from Neutrosophic Science Association at University of Mexico, USA. She was selected as a young scientist in 6th BRICS Conclave in 2021. She received her Master's and Ph.D. degrees in Computer Science & Engineering from the Panjab University, Chandigarh in 2015. She received the B. Tech. degree in Computer Science & Engineering from Kurkushetra University, India. She an awardee of the research excellence award given by UPES in 2023 and 2022 and by Chitkara University in 2019. She has published more than 100 research articles in reputed SCI and Scopus-indexed journals, conferences and three books. She served as a guest editor in Computers & Electrical Engineering, Internet of Things Journal and IEEE Transaction of Industrial Informatics. She is also serving as Associate Editor in IEEE Transactions in Artificial Intelligence, IEEE-RAL, Healthcare Analytics, Supply chain Management and International Journal of Computer Applications. She also has served on many technical program committees as well as organizing committees and invited to give guest lectures and tutorials in Faculty development programs, international conferences and summer schools.
-              </Text>
+              An avid academician and researcher, Professor Neelu Ahuja, has successfully delivered government-sponsored R&D projects and consultancies worth 1.5+ crore since 2013. To her credit, she holds successful delivery of half a dozen R&D projects and consultancies funded by the Department of Science and Technology (DST), GOI. The focus area of the projects was primarily towards applications of AI in education, and one of the noteworthy outcomes is the development of tutoring tools for individuals with learning disabilities. She is currently, developing, an AI-based smart snake trapper, presenting a novel method to capture big 4 snakes, without the need for risky human intervention. Common threads across her research work are bringing the benefits of technological interventions closer to the grassroots of society.
+
+</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandSummary} style={styles.summaryContainer}>
@@ -122,7 +124,7 @@ const Deepika_koundal = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              With a wealth of teaching and research experience spanning over 13+ years, Dr. Deepika brings a diverse academic background from reputable institutions to UPES. She held the esteemed position of Associate Professor at Chitkara University in India and fulfilled the role of Assistant Professor at NIT Hamirpur. Her expertise extends further to her contributions at UIET, Panjab University in Chandigarh. Dr. Deepika commenced her teaching career as a Lecturer at Baddi University of Emerging Sciences & Technology in Baddi and shared her knowledge as a Lecturer at NCCE in Israna, Panipat. Her extensive academic journey has greatly enriched her teaching and research capabilities.
+              Dr. Ahuja has had over 24+ years of experience in academics, with over 17+ years being at UPES. Her experience span, teaching computer science courses, both at postgraduate and undergraduate levels. She had started her career in Andhra Pradesh as a Systems Associate in the software development domain, working there for a little over two years, before moving on to academics.
               </Text>
             </TouchableOpacity>
           ) : (
@@ -141,7 +143,7 @@ const Deepika_koundal = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Artificial Intelligence| Biomedical Imaging and Signals| Computer Vision & Image Processing | Soft Computing | Machine Learning | Deep Learning | Cyber Physical Systems | Immersive Technologies
+              AI and ML-based applications, AI applications in Education and Health care, Intelligent Tutoring Systems, Blockchain Technology, and Object-Oriented Development.
               </Text>
             </TouchableOpacity>
           ) : (
@@ -160,7 +162,7 @@ const Deepika_koundal = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Dr. Deepika's expertise lies in teaching a range of subjects including Artificial Intelligence, Image Processing, Digital Forensics, Machine Learning, and Deep Learning. Her knowledge and experience in these areas enable her to provide comprehensive instruction to students. Through her teaching, she aims to equip students with the necessary skills and knowledge to excel in these rapidly evolving fields. She stays updated with the latest advancements and research in these subjects, ensuring that her students receive relevant and up-to-date education. Her teaching approach emphasizes practical application, critical thinking, and problem-solving, preparing students for successful careers in these technology-driven disciplines.
+              Professor Neelu Ahuja teaches Artificial Intelligence, Operating Systems, Object Oriented Analysis and Design, Object Oriented Programming, Cloud Computing Fundamentals and Virtualization Basics. Under Cloud Fundamentals course, she also teaches different cloud delivery and deployment models further deepening into cloud workload suitability concepts. Under virtualization basics, she teaches different types of virtualizations.
               </Text>
             </TouchableOpacity>
           ) : (
@@ -179,8 +181,9 @@ const Deepika_koundal = ({ navigation }) => {
                 <Ionicons name={'chevron-up-outline'} size={24} color="black" />
               </View>
               <Text style={styles.summaryText}>
-              Dr. Deepika has a remarkable publication track record, with numerous research articles published in well-regarded SCI-indexed journals, showcasing a high impact factor. She has also achieved the distinction of being granted a patent and successfully completing a consultancy project. Furthermore, she has edited a total of seven books, published by reputable publishers such as Elsevier, Springer, IGI, and Wiley. Her editorial contributions extend to serving as an Associate Editor for prestigious publishers like IEEE, Elsevier and Taylor Francis, while also holding guest editor roles in esteemed publications like Computers & Electrical Engineering (Elsevier), Internet of Things (Elsevier), and IEEE Transaction of Industrial Informatics. Additionally, she actively participates in technical program committees and organizing committees and shares her knowledge through guest lectures and tutorials in faculty development programs, international conferences, and summer schools.
-              </Text>
+              She has successfully delivered R&D Projects sponsored by the Department of Science and Technology (DST), in the capacity of Principal Investigator, under various schemes such as TIDE (Technology Interventions for Disabled and Elderly), CSRI (Cognitive Science Research Initiative), SEED (Science for Equity, Empowerment and Development, TSP, etc. The total grant across six R&D projects is about 1.5 crores. She has published 70+ papers in reputed journals and conferences at international and national levels. Some of the journals, that she has published are Journal of Human-Computer Interaction, Medical and Biological Engineering and Computing, Journal of Computing in Higher Education, Disability and Rehabilitation: Assistive Technology, Journal of Network and Computer Applications, IEEE Access. She is a member of professional societies such as IEEE, ACM, and ACM-Women. She is IRCA & CQI Certified ISO-27001:2013 Lead Auditor (from BSI).
+
+</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={toggleExpandScholarly} style={styles.summaryContainer}>
@@ -250,4 +253,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Deepika_koundal;
+export default Neelu_jyothi_ahuja;
