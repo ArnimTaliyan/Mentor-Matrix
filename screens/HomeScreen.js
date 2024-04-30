@@ -29,7 +29,7 @@ export default function HomeScreen() {
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 
                 <View style={styles.container}>
-                    <View style={{ flex: 1, marginTop: 10 }}>
+                    <View style={{ flex: 1, marginTop: 10}}>
                         {userName ? <Text style={styles.greetingText}>Hello, {userName}</Text> : null}
                     </View>
                     <TouchableOpacity
@@ -286,6 +286,8 @@ export default function HomeScreen() {
                             )}
                             {modalType === 'AdvancedEngineering' && (
                                 <ScrollView>
+                                    
+                                    <Text style={styles.greetingText}>School Of Advanced Engineering</Text>
                                   <View style={styles.cardContainer}>
                                     {/* Monika Yadav */}
                                     <View style={styles.card}>
@@ -420,7 +422,7 @@ export default function HomeScreen() {
                             {modalType === 'Business' && (
                                 <ScrollView>
                                     <View style={styles.cardContainer}>
-                                    {/* First Card */}
+                                    {/* atul_rawat */}
                                     <View style={styles.card}>
                                         <TouchableOpacity onPress={() => {navigation.push('atul_rawat'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
@@ -434,7 +436,7 @@ export default function HomeScreen() {
                                             <Text style={styles.cardSubtitle}>Assistant Professor</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {/* Second Card */}
+                                    {/* alok_negi */}
                                     <View style={styles.card}>
                                         <TouchableOpacity onPress={() => {navigation.push('alok_negi'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
@@ -653,7 +655,7 @@ const styles = StyleSheet.create({
     },
     greetingText: {
         fontSize: 30,
-        color: '#0B646B',
+        color:'rgb(22, 132, 199)' ,
         fontWeight: 'bold',
         marginBottom: 8,
     },

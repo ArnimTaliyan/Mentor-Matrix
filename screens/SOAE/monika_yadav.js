@@ -86,6 +86,10 @@ const Monika_yadav = ({ navigation }) => {
             <Image source={require('../../assets/images/monika_yadav.png')}  style={{ height: 190, width: 190, borderRadius: 999, borderColor: '#242760', borderWidth: 2, marginTop: -120 }} />
             <Text style={{ fontSize: 26, color: '#242760', marginVertical: 8 }}>Monika Yadav</Text>
             <Text style={{ fontSize: 14, color: 'grey' }}>Assistant Professor</Text>
+            <TouchableOpacity onPress={() => navigation.push('Schedule')} style={{ flexDirection: "row", marginVertical: 6, alignItems: 'center' }}>
+  <Ionicons name='calendar-outline' size={20} color={'grey'} />
+  <Text style={{ fontSize: 14, marginLeft: 4, color: 'grey' }}>10108</Text>
+</TouchableOpacity>
             <TouchableOpacity onPress={handleEmailPress} style={{ flexDirection: "row", marginVertical: 6, alignItems: 'center' }}>
   <Ionicons name='logo-linkedin' size={24} color={'grey'} />
   <Text style={{ fontSize: 14, marginLeft: 4, color: 'grey' }}>LinkedIn</Text>
