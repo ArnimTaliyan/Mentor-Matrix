@@ -49,6 +49,7 @@ import Alok_negi from './screens/SOB/alok_negi';
 import Atul_rawat from './screens/SOB/atul_rawat';
 import Rahul_nainwal from './screens/SOB/Rahul_nainwal';
 import Niraj_shirish_mankad from './screens/SOB/Niraj_shirish_mankad';
+import Anita_sengar from './screens/SOB/Anita_sengar';
 
 
 
@@ -109,6 +110,7 @@ function App() {
         <Stack.Screen name="atul_rawat" component={Atul_rawat} options={{ headerShown: false }} />
         <Stack.Screen name="Rahul_nainwal" component={Rahul_nainwal} options={{ headerShown: false }} />
         <Stack.Screen name="Niraj_shirish_mankad" component={Niraj_shirish_mankad} options={{ headerShown: false }} />
+        <Stack.Screen name="Anita_sengar" component={Anita_sengar} options={{ headerShown: false }} />
 
 
 

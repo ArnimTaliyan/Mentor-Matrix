@@ -450,7 +450,63 @@ export default function HomeScreen() {
                                             <Text style={styles.cardSubtitle}>Assistant Professor</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {/* atul_rawat */}
+                                    {/* Rahul_nainwal */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('Rahul_nainwal'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/Rahul_nainwal.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Rahul Nainwal</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Director, School of Business</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Niraj_shirish_mankad */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('Niraj_shirish_mankad'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/Niraj_shirish_mankad.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Alok Negi</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Anita_segnar */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('Anita_sengar'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/Anita_sengar.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Dr. Anita Sengar</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Associate Professor, Cluster Head School of Business</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* alok_negi */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('alok_negi'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/alok_negi.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Alok Negi</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Rahul_nainwal */}
                                     <View style={styles.card}>
                                         <TouchableOpacity onPress={() => {navigation.push('Rahul_nainwal'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
