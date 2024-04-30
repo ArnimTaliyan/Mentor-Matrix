@@ -15,12 +15,6 @@ import AnnouncementScheduler from './screens/Announcement';
 import Timetableprofile from './screens/Timetableprofile';
 
 
-//School of Computer Science
-import Amrendra_tripathi from './screens/SOCS/amrendra_tripathi';
-import Hitesh from './screens/SOCS/hitesh';
-import Amar_jindal from './screens/SOCS/amar_jindal';
-
-
 
 
 
@@ -50,6 +44,11 @@ import Atul_rawat from './screens/SOB/atul_rawat';
 import Rahul_nainwal from './screens/SOB/Rahul_nainwal';
 import Niraj_shirish_mankad from './screens/SOB/Niraj_shirish_mankad';
 
+//School of Computer Science
+import Amrendra_tripathi from './screens/SOCS/amrendra_tripathi';
+import Hitesh from './screens/SOCS/hitesh';
+import Amar_jindal from './screens/SOCS/amar_jindal';
+import Ravi_s_iyer from './screens/SOCS/Ravi_s_iyer';
 
 
 
@@ -118,6 +117,7 @@ function App() {
         <Stack.Screen name="amar_jindal" component={Amar_jindal} options={{ headerShown: false }} />
         <Stack.Screen name="hitesh" component={Hitesh} options={{ headerShown: false }} />
         <Stack.Screen name="amrendra_tripathi" component={Amrendra_tripathi} options={{ headerShown: false }} />
+        <Stack.Screen name="Ravi_s_iyer" component={Ravi_s_iyer} options={{ headerShown: false }} />
 
 
 
