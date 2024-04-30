@@ -182,18 +182,18 @@ export default function HomeScreen() {
                                             <Text style={styles.cardSubtitle}>Senior Associate Professor</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {/* 4 Card */}
+                                    {/*Dr Ravi S Iyer */}
                                     <View style={styles.card}>
-                                        <TouchableOpacity onPress={() => {navigation.push('hitesh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                        <TouchableOpacity onPress={() => {navigation.push('Ravi_s_iyer'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
                                             <Image
-                                                source={require('../assets/images/hitesh.png')}
+                                                source={require('../assets/images/Ravi_s_iyer.png')}
                                                 style={styles.cardImage}
                                             />
                                             {/* Title */}
-                                            <Text style={styles.cardTitle}>Dr. Hitesh Kumar Sharma</Text>
+                                            <Text style={styles.cardTitle}>Dr Ravi S Iyer</Text>
                                             {/* Assistant Professor */}
-                                            <Text style={styles.cardSubtitle}>Senior Associate Professor</Text>
+                                            <Text style={styles.cardSubtitle}>Dean, School of Computer Science</Text>
                                         </TouchableOpacity>
                                     </View>
                                     {/* 5 Card */}
