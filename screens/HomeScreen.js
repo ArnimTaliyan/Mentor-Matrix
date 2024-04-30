@@ -238,18 +238,18 @@ export default function HomeScreen() {
                                             <Text style={styles.cardSubtitle}>Professor</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {/* 8 Card */}
+                                    {/* Anushree_sah*/}
                                     <View style={styles.card}>
-                                        <TouchableOpacity onPress={() => {navigation.push('Akashdeep_bhardwaj'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                        <TouchableOpacity onPress={() => {navigation.push('Anushree_sah'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
                                             <Image
-                                                source={require('../assets/images/Akashdeep_bhardwaj.png')}
+                                                source={require('../assets/images/Anushree_sah.png')}
                                                 style={styles.cardImage}
                                             />
                                             {/* Title */}
-                                            <Text style={styles.cardTitle}>Dr. Hitesh Kumar Sharma</Text>
+                                            <Text style={styles.cardTitle}>Anushree Sah</Text>
                                             {/* Assistant Professor */}
-                                            <Text style={styles.cardSubtitle}>Senior Associate Professor</Text>
+                                            <Text style={styles.cardSubtitle}>Assistant Professor (Selection Grade)</Text>
                                         </TouchableOpacity>
                                     </View>
                                     {/* 9 Card */}

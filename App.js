@@ -56,6 +56,7 @@ import Aanchal_sharma from './screens/SOB/Aanchal_sharma';
 import Deepika_koundal from './screens/SOCS/deepika_koundal';
 import Neelu_jyothi_ahuja from './screens/SOCS/neelu_jyothi_ahuja';
 import Akashdeep_bhardwaj from './screens/SOCS/akashdeep_bhardwaj';
+import Anushree_sah from './screens/SOCS/Anushree_sah';
 
 
 
@@ -133,6 +134,7 @@ function App() {
         <Stack.Screen name="Deepika_koundal" component={Deepika_koundal} options={{ headerShown: false }} />
         <Stack.Screen name="Neelu_jyothi_ahuja" component={Neelu_jyothi_ahuja} options={{ headerShown: false }} />
         <Stack.Screen name="Akashdeep_bhardwaj" component={Akashdeep_bhardwaj} options={{ headerShown: false }} />
+        <Stack.Screen name="Anushree_sah" component={Anushree_sah} options={{ headerShown: false }} />
         
 
 
