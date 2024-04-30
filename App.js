@@ -44,12 +44,17 @@ import Atul_rawat from './screens/SOB/atul_rawat';
 import Rahul_nainwal from './screens/SOB/Rahul_nainwal';
 import Niraj_shirish_mankad from './screens/SOB/Niraj_shirish_mankad';
 import Anita_sengar from './screens/SOB/Anita_sengar';
+import Inder_singh from './screens/SOB/Inder_singh';
+import Anil_kumar from './screens/SOB/Anil_kumar';
 
 //School of Computer Science
 import Amrendra_tripathi from './screens/SOCS/amrendra_tripathi';
 import Hitesh from './screens/SOCS/hitesh';
 import Amar_jindal from './screens/SOCS/amar_jindal';
 import Ravi_s_iyer from './screens/SOCS/Ravi_s_iyer';
+import Aanchal_sharma from './screens/SOB/Aanchal_sharma';
+
+
 
 
 
@@ -110,7 +115,9 @@ function App() {
         <Stack.Screen name="Rahul_nainwal" component={Rahul_nainwal} options={{ headerShown: false }} />
         <Stack.Screen name="Niraj_shirish_mankad" component={Niraj_shirish_mankad} options={{ headerShown: false }} />
         <Stack.Screen name="Anita_sengar" component={Anita_sengar} options={{ headerShown: false }} />
-
+        <Stack.Screen name="Inder_singh" component={Inder_singh} options={{ headerShown: false }} />
+        <Stack.Screen name="Anil_kumar" component={Anil_kumar} options={{ headerShown: false }} />
+        <Stack.Screen name="Aanchal_sharma" component={Aanchal_sharma} options={{ headerShown: false }} />
 
 
 
@@ -120,6 +127,7 @@ function App() {
         <Stack.Screen name="hitesh" component={Hitesh} options={{ headerShown: false }} />
         <Stack.Screen name="amrendra_tripathi" component={Amrendra_tripathi} options={{ headerShown: false }} />
         <Stack.Screen name="Ravi_s_iyer" component={Ravi_s_iyer} options={{ headerShown: false }} />
+        
 
 
 

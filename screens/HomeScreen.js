@@ -138,7 +138,7 @@ export default function HomeScreen() {
                         <View style={styles.modalContent}>
                             {modalType === 'ComputerScience' && (
                                 <ScrollView>
-                                
+                                <Text style={styles.greetingText}>School Of Computer Science</Text>
                                 <View style={styles.cardContainer}>
                                     {/* Amar Jindal */}
                                     <View style={styles.card}>
@@ -285,6 +285,7 @@ export default function HomeScreen() {
                             </ScrollView>
                             )}
                             {modalType === 'AdvancedEngineering' && (
+                                
                                 <ScrollView>
                                     
                                     <Text style={styles.greetingText}>School Of Advanced Engineering</Text>
@@ -421,6 +422,7 @@ export default function HomeScreen() {
                             )}
                             {modalType === 'Business' && (
                                 <ScrollView>
+                                    <Text style={styles.greetingText}>School Of Business</Text>
                                     <View style={styles.cardContainer}>
                                     {/* atul_rawat */}
                                     <View style={styles.card}>
@@ -492,46 +494,46 @@ export default function HomeScreen() {
                                             <Text style={styles.cardSubtitle}>Associate Professor, Cluster Head School of Business</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {/* alok_negi */}
+                                    {/* Inder_singh */}
                                     <View style={styles.card}>
-                                        <TouchableOpacity onPress={() => {navigation.push('alok_negi'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                        <TouchableOpacity onPress={() => {navigation.push('Inder_singh'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
                                             <Image
-                                                source={require('../assets/images/alok_negi.png')}
+                                                source={require('../assets/images/Inder_singh.png')}
                                                 style={styles.cardImage}
                                             />
                                             {/* Title */}
-                                            <Text style={styles.cardTitle}>Alok Negi</Text>
+                                            <Text style={styles.cardTitle}>Inder Singh</Text>
                                             {/* Assistant Professor */}
-                                            <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                            <Text style={styles.cardSubtitle}>Associate Professor</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {/* Rahul_nainwal */}
+                                    {/* Anil_kumar */}
                                     <View style={styles.card}>
-                                        <TouchableOpacity onPress={() => {navigation.push('Rahul_nainwal'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                        <TouchableOpacity onPress={() => {navigation.push('Anil_kumar'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
                                             <Image
-                                                source={require('../assets/images/Rahul_nainwal.png')}
+                                                source={require('../assets/images/Anil_kumar.png')}
                                                 style={styles.cardImage}
                                             />
                                             {/* Title */}
-                                            <Text style={styles.cardTitle}>Rahul Nainwal</Text>
+                                            <Text style={styles.cardTitle}>Anil Kumar</Text>
                                             {/* Assistant Professor */}
-                                            <Text style={styles.cardSubtitle}>Director, School of Business</Text>
+                                            <Text style={styles.cardSubtitle}>Professor</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    {/* Niraj_shirish_mankad */}
+                                    {/* Aanchal_sharma */}
                                     <View style={styles.card}>
-                                        <TouchableOpacity onPress={() => {navigation.push('Niraj_shirish_mankad'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                        <TouchableOpacity onPress={() => {navigation.push('Aanchal_sharma'); setTimeout(() => {setModalVisible(false);}, 90);}}>
                                             {/* Image */}
                                             <Image
-                                                source={require('../assets/images/Niraj_shirish_mankad.png')}
+                                                source={require('../assets/images/Aanchal_sharma.png')}
                                                 style={styles.cardImage}
                                             />
                                             {/* Title */}
-                                            <Text style={styles.cardTitle}>Alok Negi</Text>
+                                            <Text style={styles.cardTitle}>Aanchal Sharma</Text>
                                             {/* Assistant Professor */}
-                                            <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                            <Text style={styles.cardSubtitle}>Assistant Professor - Selection Grade</Text>
                                         </TouchableOpacity>
                                     </View>
                                     
@@ -540,6 +542,7 @@ export default function HomeScreen() {
                             )}
                             {modalType === 'Design' && (
                                 <ScrollView>
+                                    <Text style={styles.greetingText}>School Of Design</Text>
                                   <View style={styles.cardContainer}>
                                     {/* First Card */}
                                     <View style={styles.card}>
@@ -575,6 +578,7 @@ export default function HomeScreen() {
                             )}
                             {modalType === 'Law' && (
                                 <ScrollView>
+                                    <Text style={styles.greetingText}>School Of Law</Text>
                                 <View style={styles.cardContainer}>
                                   {/* First Card */}
                                   <View style={styles.card}>
@@ -610,6 +614,7 @@ export default function HomeScreen() {
                             )}
                             {modalType === 'Life' && (
                                 <ScrollView>
+                                    <Text style={styles.greetingText}>School Of Life</Text>
                                 <View style={styles.cardContainer}>
                                   {/* First Card */}
                                   <View style={styles.card}>
@@ -645,6 +650,7 @@ export default function HomeScreen() {
                             )}
                             {modalType === 'Health' && (
                                <ScrollView>
+                                <Text style={styles.greetingText}>School Of Health Science</Text>
                                <View style={styles.cardContainer}>
                                  {/* First Card */}
                                  <View style={styles.card}>
@@ -679,7 +685,9 @@ export default function HomeScreen() {
                              </ScrollView>
                             )}
                             {modalType === 'Liberal' && (
+                                
                                 <ScrollView>
+                                    <Text style={styles.greetingText}>School Of Liberal Studies</Text>
                                 <View style={styles.cardContainer}>
                                   {/* First Card */}
                                   <View style={styles.card}>
