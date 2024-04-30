@@ -138,7 +138,7 @@ export default function HomeScreen() {
                         <View style={styles.modalContent}>
                             {modalType === 'ComputerScience' && (
                                 <ScrollView>
-                                <Text style={styles.greetingText}>School Of Computer Science</Text>
+                                
                                 <View style={styles.cardContainer}>
                                     {/* Amar Jindal */}
                                     <View style={styles.card}>
@@ -422,7 +422,6 @@ export default function HomeScreen() {
                             )}
                             {modalType === 'Business' && (
                                 <ScrollView>
-                                    <Text style={styles.greetingText}>School Of Business</Text>
                                     <View style={styles.cardContainer}>
                                     {/* atul_rawat */}
                                     <View style={styles.card}>
@@ -542,7 +541,6 @@ export default function HomeScreen() {
                             )}
                             {modalType === 'Design' && (
                                 <ScrollView>
-                                    <Text style={styles.greetingText}>School Of Design</Text>
                                   <View style={styles.cardContainer}>
                                     {/* First Card */}
                                     <View style={styles.card}>
@@ -578,7 +576,6 @@ export default function HomeScreen() {
                             )}
                             {modalType === 'Law' && (
                                 <ScrollView>
-                                    <Text style={styles.greetingText}>School Of Law</Text>
                                 <View style={styles.cardContainer}>
                                   {/* First Card */}
                                   <View style={styles.card}>
@@ -614,7 +611,6 @@ export default function HomeScreen() {
                             )}
                             {modalType === 'Life' && (
                                 <ScrollView>
-                                    <Text style={styles.greetingText}>School Of Life</Text>
                                 <View style={styles.cardContainer}>
                                   {/* First Card */}
                                   <View style={styles.card}>
@@ -650,7 +646,6 @@ export default function HomeScreen() {
                             )}
                             {modalType === 'Health' && (
                                <ScrollView>
-                                <Text style={styles.greetingText}>School Of Health Science</Text>
                                <View style={styles.cardContainer}>
                                  {/* First Card */}
                                  <View style={styles.card}>
@@ -685,9 +680,7 @@ export default function HomeScreen() {
                              </ScrollView>
                             )}
                             {modalType === 'Liberal' && (
-                                
                                 <ScrollView>
-                                    <Text style={styles.greetingText}>School Of Liberal Studies</Text>
                                 <View style={styles.cardContainer}>
                                   {/* First Card */}
                                   <View style={styles.card}>
