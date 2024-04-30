@@ -450,6 +450,34 @@ export default function HomeScreen() {
                                             <Text style={styles.cardSubtitle}>Assistant Professor</Text>
                                         </TouchableOpacity>
                                     </View>
+                                    {/* atul_rawat */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('Rahul_nainwal'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/Rahul_nainwal.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Rahul Nainwal</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Director, School of Business</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Niraj_shirish_mankad */}
+                                    <View style={styles.card}>
+                                        <TouchableOpacity onPress={() => {navigation.push('Niraj_shirish_mankad'); setTimeout(() => {setModalVisible(false);}, 90);}}>
+                                            {/* Image */}
+                                            <Image
+                                                source={require('../assets/images/Niraj_shirish_mankad.png')}
+                                                style={styles.cardImage}
+                                            />
+                                            {/* Title */}
+                                            <Text style={styles.cardTitle}>Alok Negi</Text>
+                                            {/* Assistant Professor */}
+                                            <Text style={styles.cardSubtitle}>Assistant Professor</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                     
                                 </View> 
                                 </ScrollView>

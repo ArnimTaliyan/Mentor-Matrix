@@ -24,9 +24,7 @@ import Amar_jindal from './screens/SOCS/amar_jindal';
 
 
 
-//School of Business
-import Alok_negi from './screens/SOB/alok_negi';
-import Atul_rawat from './screens/SOB/atul_rawat';
+
 
 
 //School of Design
@@ -43,6 +41,14 @@ import Geetanjali_raghav from './screens/SOAE/geetanjali_raghav';
 import Ashish_karn from './screens/SOAE/ashish_karn';
 import Madhuben_sharma from './screens/SOAE/madhuben_sharma';
 import Abhishek_nandan from './screens/SOAE/abhishek_nandan';
+
+
+
+//School of Business
+import Alok_negi from './screens/SOB/alok_negi';
+import Atul_rawat from './screens/SOB/atul_rawat';
+import Rahul_nainwal from './screens/SOB/Rahul_nainwal';
+import Niraj_shirish_mankad from './screens/SOB/Niraj_shirish_mankad';
 
 
 
@@ -101,6 +107,8 @@ function App() {
         {/*SOB */}
         <Stack.Screen name="alok_negi" component={Alok_negi} options={{ headerShown: false }} />
         <Stack.Screen name="atul_rawat" component={Atul_rawat} options={{ headerShown: false }} />
+        <Stack.Screen name="Rahul_nainwal" component={Rahul_nainwal} options={{ headerShown: false }} />
+        <Stack.Screen name="Niraj_shirish_mankad" component={Niraj_shirish_mankad} options={{ headerShown: false }} />
 
 
 
