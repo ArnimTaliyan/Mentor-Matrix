@@ -57,6 +57,8 @@ import Deepika_koundal from './screens/SOCS/deepika_koundal';
 import Neelu_jyothi_ahuja from './screens/SOCS/neelu_jyothi_ahuja';
 import Akashdeep_bhardwaj from './screens/SOCS/akashdeep_bhardwaj';
 import Anushree_sah from './screens/SOCS/Anushree_sah';
+import Alind from './screens/SOCS/Alind';
+import Dhirendra_kumar_sharma from './screens/SOCS/Dhirendra_kumar_sharma';
 
 
 
@@ -135,6 +137,9 @@ function App() {
         <Stack.Screen name="Neelu_jyothi_ahuja" component={Neelu_jyothi_ahuja} options={{ headerShown: false }} />
         <Stack.Screen name="Akashdeep_bhardwaj" component={Akashdeep_bhardwaj} options={{ headerShown: false }} />
         <Stack.Screen name="Anushree_sah" component={Anushree_sah} options={{ headerShown: false }} />
+        <Stack.Screen name="Alind" component={Alind} options={{ headerShown: false }} />
+        <Stack.Screen name="Dhirendra_kumar_sharma" component={Dhirendra_kumar_sharma} options={{ headerShown: false }} />
+        
         
 
 
@@ -159,13 +164,13 @@ function MainTabScreen() {
         <AntDesign name="home" size={24} color="black" />
       ) }} />
       <Tab.Screen name="Scheduler" component={Scheduler} options={{ tabBarIcon: ({ focused }) => (
-        <MaterialCommunityIcons name="timetable" size={24} color="black" />
+        <MaterialCommunityIcons name="cloud-upload" size={24} color="black" />
       ) }} />
       <Tab.Screen name="TimeTable" component={Timetable} options={{ tabBarIcon: ({ focused }) => (
         <Ionicons name="calendar-outline" size={24} color="black" />
         ) }} />
         <Tab.Screen name="FetchData" component={FetchData} options={{ tabBarIcon: ({ focused }) => (
-          <Ionicons name="notifications-outline" size={35} color="black" />
+          <Ionicons name="notifications-outline" size={24} color="black" />
          ) }} />
       <Tab.Screen name="Settings" component={SettingScreen} options={{ tabBarIcon: ({ focused }) => (
         <Ionicons name="settings-outline" size={24} color="black" />
