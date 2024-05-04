@@ -1,12 +1,16 @@
+// Import the necessary modules
 import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
-import { ref, set } from 'firebase/database';
-import { db } from '../firebase';
-import { encode } from 'base-64';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView, Button } from 'react-native';
+import * as DocumentPicker from 'expo-document-picker';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/storage';
 import { AntDesign } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
-import Animated from 'react-native-reanimated'; // Replaced FadeIn, FadeInDown, FadeInUp, FadeOut with Animated
-import * as DocumentPicker from 'expo-document-picker';
+import { encode } from 'base-64';
+import { ref, set } from 'firebase/database';
+import { db } from '../firebase';
+import Animated from 'react-native-reanimated';
 
 export default function AnnouncementScheduler() {
     const route = useRoute(); 
@@ -16,18 +20,18 @@ export default function AnnouncementScheduler() {
     const [ProjectName, setProjectName] = useState(''); 
     const [Role, setRole] = useState('');
     const [Number, setNumber] = useState('');
-    const [ProjectDetail, setProjectDetail] = useState('');
+    const [document, setDocument] = useState(null);
+    const [document1, setDocument1] = useState(null);
+    const [uploading, setUploading] = useState(false);
 
     const [isProjectNameFocused, setIsProjectNameFocused] = useState(false);
     const [isRoleFocused, setIsRoleFocused] = useState(false);
     const [isNumberFocused, setIsNumberFocused] = useState(false);
-    const [isProjectDetailFocused, setIsProjectDetailFocused] = useState(false);
 
     const inputRefs = {
         ProjectName: useRef(),
         Role: useRef(),
         Number: useRef(),
-        ProjectDetail: useRef(),
     };
 
     const handleFocus = (field) => {
@@ -40,9 +44,6 @@ export default function AnnouncementScheduler() {
                 break;
             case 'Number':
                 setIsNumberFocused(true);
-                break;
-            case 'ProjectDetail':
-                setIsProjectDetailFocused(true);
                 break;
             default:
                 break;
@@ -60,9 +61,6 @@ export default function AnnouncementScheduler() {
             case 'Number':
                 setIsNumberFocused(Number !== '');
                 break;
-            case 'ProjectDetail':
-                setIsProjectDetailFocused(ProjectDetail !== '');
-                break;
             default:
                 break;
         }
@@ -72,27 +70,69 @@ export default function AnnouncementScheduler() {
         const encodedProjectName = encode(ProjectName);
     
         try {
+            // Store announcement details in the real-time database
             await set(ref(db, `announcement/${encodedProjectName}`), {
                 ProjectName: ProjectName,
                 Role: Role,
                 Number: Number,
-                ProjectDetail: ProjectDetail,
                 Publisher: userName, // Store the username as the publisher
                 UserEmail: userEmail,
-                MailTo: userEmail, // Add the email address as MailTo field
             });
+    
+            // If a document is uploaded
+            if (document) {
+                setUploading(true);
+                const blob = await new Promise((resolve, reject) => {
+                    const xhr = new XMLHttpRequest();
+                    xhr.onload = () => {
+                        resolve(xhr.response);
+                    };
+                    xhr.onerror = (e) => {
+                        reject(new TypeError('Network request failed'));
+                    };
+                    xhr.responseType = 'blob';
+                    xhr.open('GET', document, true); 
+                    xhr.send(null);
+                });
+    
+                // Upload the document to Firebase Storage
+                const storageRef = firebase.storage().ref();
+                const fileRef = storageRef.child(document1);
+                await fileRef.put(blob);
+    
+                // Get the download URL of the uploaded document
+                const downloadURL = await fileRef.getDownloadURL();
+    
+                // Store the download URL in the real-time database
+                await set(ref(db, `announcement/${encodedProjectName}/documentURL`), downloadURL);
+    
+                setUploading(false);
+                setDocument(null);
+            }
+    
+            // Clear input fields and states
             setProjectName('');
             setRole('');
             setNumber('');
-            setProjectDetail('');
             setIsProjectNameFocused(false);
             setIsRoleFocused(false);
             setIsNumberFocused(false);
-            setIsProjectDetailFocused(false);
+    
             Alert.alert('Announcement posted successfully!');
         } catch (error) {
             console.error('Error adding data:', error);
+            setUploading(false);
             Alert.alert('Failed to post announcement!');
+        }
+    };
+    
+    
+
+    const pickDocument = async () => {
+        let result = await DocumentPicker.getDocumentAsync({});
+        if (!result.canceled) {
+            setDocument(result.assets[0].uri);
+            setDocument1(result.assets[0].name);
         }
     };
 
@@ -140,32 +180,30 @@ export default function AnnouncementScheduler() {
                     />
                 </Animated.View>
 
-                <Animated.View style={[styles.inputContainer, { borderBottomColor: isProjectDetailFocused ? '#7289DA' : 'black' }]}>
-                    <Text style={[styles.placeholder, { top: ProjectDetail !== '' || isProjectDetailFocused ? -20 : 12 }]}>Project Detail</Text>
-                    <TextInput
-                        ref={inputRefs.ProjectDetail}
-                        style={styles.input}
-                        value={ProjectDetail}
-                        onChangeText={(text) => setProjectDetail(text)}
-                        onFocus={() => handleFocus('ProjectDetail')}
-                        onBlur={() => handleBlur('ProjectDetail')}
-                    />
-                </Animated.View>
-
+                <Button title={document ? "Change document" : "Upload Details"} onPress={pickDocument} style={{ marginTop: 20 }} />
+                {document && (
+                    <View style={styles.documentContainer}>
+                        <Text style={styles.document}>{document1}</Text>
+                        <TouchableOpacity onPress={() => setDocument(null)}>
+                            <AntDesign name="closecircle" size={18} color="grey" />
+                        </TouchableOpacity>
+                    </View>
+                )}
                 <TouchableOpacity
                     style={[styles.uploadButton, { marginTop: 20 }]}
                     onPress={() => {
-                        if (ProjectName && Role && Number && ProjectDetail) {
-                            // Pass the username to dataAddon
+                        if (ProjectName && Role && Number) {
                             dataAddon();
                         } else {
                             Alert.alert('Please fill in all fields');
                         }
                     }}
-                    disabled={!ProjectName || !Role || !Number || !ProjectDetail}
+                    disabled={!ProjectName || !Role || !Number}
                 >
                     <Text style={styles.buttonText}>Post Announcement</Text>
                 </TouchableOpacity>
+
+                
             </View>
         </ScrollView>
     );
@@ -208,5 +246,14 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#fff',
         fontWeight: 'bold',
+    },
+    documentContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    document: {
+        marginVertical: 10,
+        marginRight: 10,
+        
     },
 });

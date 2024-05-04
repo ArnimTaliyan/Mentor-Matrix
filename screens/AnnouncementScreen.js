@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Linking, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Linking, TouchableOpacity, Button } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { ref, onValue } from 'firebase/database';
@@ -28,9 +28,16 @@ const FetchData = () => {
                         <View key={index} style={styles.bubble}>
                             <Text style={styles.Htext}>"{item.ProjectName} "{'\n'}</Text>
                             <Text style={styles.text}>
-                                I want "{item.Number} Students" for "{item.Role}" {'\n'}
+                                I want {item.Number} Students for {item.Role} {'\n'}
                             </Text>
-                            <Text style={styles.text}>Project Description: "{item.ProjectDetail} "{'\n'}</Text>
+                            
+                            <Text
+                                style={[styles.documentLink]}
+                                onPress={() => { Linking.openURL(item.documentURL);
+                                }}>
+                                Project Details
+                            </Text>
+                           
                             <View style={styles.publisherContainer}>
                                 <Text style={styles.publisherText}>
                                     Published By:{item.Publisher}
@@ -110,6 +117,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#007bff',
         textDecorationLine: 'underline',
+    },
+    documentLink: {
+        fontSize: 16,
+        color: '#007bff',
+        alignSelf:'center'
+        
     },
     underline: {
         textDecorationLine: 'underline',
