@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput,Image, TouchableOpacity, Text } from 'react-native';
-import { StatusBar } from 'react-native';
+import { View, TextInput, Image, TouchableOpacity, Text, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ref, get } from 'firebase/database';
 import { db } from '../firebase';
@@ -46,54 +45,49 @@ export default function LoginScreen() {
             });
     }
     
-    
-
     return (
-        <View className="bg-white h-full w-full">
-            <StatusBar style="light" />
-            <Image className="h-full w-full absolute" source={require('../assets/images/background.png')}/>
-    
-            {/*Lights */}
-            <View className="flex-row justify-around w-full absolute">
-                <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} className="h-[205] w-[90]" source={require('../assets/images/light.png')}/>
-                <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()} className="h-[140] w-[65]" source={require('../assets/images/light.png')}/>
-    
-            </View>
-            
-            {/* title and form */}
-            <View className="h-full  w-full flex justify-around pt-40 pb-10">
-                {/*title*/}
-                <View className="flex items-center "style={{marginTop: 50}}>
-                    <Animated.Text entering={FadeInUp.duration(1000).springify()}  className="text-white  font-bold tracking-wider text-5xl">Login</Animated.Text>
+        <KeyboardAvoidingView style={{ flex: 1, backgroundColor: 'white', height: '100%', width: '100%' }} behavior='padding'>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={{ flex: 1 }}>
+                    <StatusBar style="light" />
+                    <Image style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1 }} source={require('../assets/images/background.png')} />
+
+                    {/* Lights */}
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '100%', position: 'absolute' }}>
+                        <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={{ height: 225, width: 90 }} source={require('../assets/images/light.png')} />
+                        <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()} style={{ height: 160, width: 65 }} source={require('../assets/images/light.png')} />
+                    </View>
+
+                    {/* Title and form */}
+                    <View style={{ height: '100%', width: '100%', justifyContent: 'space-around', paddingTop: 40, paddingBottom: 10 }}>
+                        {/* Title */}
+                        <View style={{ alignItems: 'center', marginTop: 110 }}>
+                            <Animated.Text entering={FadeInUp.duration(1000).springify()}  style={{ color: 'white', fontWeight: 'bold', fontSize: 40 }}>Login</Animated.Text>
+                        </View>
+
+                        {/* Form for login */}
+                        <View style={{ marginTop: 40 }}>
+                            <Animated.View entering={FadeInDown.duration(1000).springify()} style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: 10, borderRadius: 20, marginBottom: 15 }}>
+                                <TextInput placeholder="Email" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "email")} />
+                            </Animated.View>
+                            <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: 10, borderRadius: 20, marginBottom: 15 }}>
+                                <TextInput placeholder="Password" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "pwd")} secureTextEntry={true} />
+                            </Animated.View>
+                            <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
+                                <TouchableOpacity onPress={Login} style={{ backgroundColor: 'rgb(22, 132, 199)', padding: 15, borderRadius: 30, marginBottom: 15 }}>
+                                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Login</Text>
+                                </TouchableOpacity>
+                            </Animated.View>
+                            <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                                <Text>Don't have an account? </Text>
+                                <TouchableOpacity onPress={() => navigation.push('SignupScreen')}>
+                                    <Text style={{ color: '#4299E1' }}>Signup</Text>
+                                </TouchableOpacity>
+                            </Animated.View>
+                        </View>
+                    </View>
                 </View>
-    
-                {/*form for login */}
-                <View className="flex items-center  mx-4 space-y-4"style={{marginTop: 120}}>
-                    <Animated.View entering={FadeInDown.duration(1000).springify()} className="bg-black/5 p-5  rounded-2xl w-full">
-                        <TextInput placeholder="Email" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "email")}  ></TextInput>
-                    </Animated.View>
-                    <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full mb-3">
-                        <TextInput placeholder="Password" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "pwd")} secureTextEntry={true} ></TextInput>
-                    </Animated.View>
-                    <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()} className="w-full">
-                    <TouchableOpacity onPress={()=>Login()} className="w-full bg-sky-400 p-3 rounded-3xl mb-3">
-                        <Text className="text-2xl font-blod text-white text-center">Login</Text>
-                    </TouchableOpacity>
-                    </Animated.View>
-                    <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} className="flex-row justify-center" >
-                        <Text>Don't have an account?</Text>
-                    <TouchableOpacity onPress={() => navigation.push('SignupScreen')}>
-      <Text className="text-sky-600">Signup</Text>
-    </TouchableOpacity>
-    
-                    </Animated.View>
-                </View>
-                
-                
-               
-            </View>
-    
-    
-        </View>
-      );
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+    );
 }

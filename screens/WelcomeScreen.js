@@ -1,46 +1,106 @@
-import { View, Text, Image} from 'react-native'
+import { View, Text, Image, StyleSheet, StatusBar, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { StatusBar, TextInput } from 'react-native'
-import { TouchableOpacity } from 'react-native'
 import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOut } from 'react-native-reanimated';
 import {useNavigation} from '@react-navigation/native';
+
+
+
 export default function WelcomeScreen() {
     const navigation= useNavigation();
-  return (
-    <View className="bg-white h-full w-full">
-        <StatusBar style="light" />
-        <Image className="h-full w-full absolute" source={require('../assets/images/background.png')}/>
+    return (
+        <View style={styles.container}>
+            <StatusBar style="light" />
+            <Image style={styles.image} source={require('../assets/images/background.png')}/>
 
-        {/*Lights */}
-        <View className="flex-row justify-around w-full absolute">
-            <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} className="h-[205] w-[90]" source={require('../assets/images/light.png')}/>
-            <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()} className="h-[140] w-[65]" source={require('../assets/images/light.png')}/>
-
-        </View>
-        
-        {/* title and form */}
-        <View className="h-full  w-full flex justify-around pt-40 pb-10">
-            {/*title*/}
-            <View className="flex items-center "style={{marginTop: -50}}>
-                <Animated.Text entering={FadeInUp.duration(1000).springify()}  className="text-white  font-bold tracking-wider text-5xl">Mentor Matrix</Animated.Text>
-            </View>
-
-            {/*form for login */}
-            <View className="flex items-center  mx-3 space-y-4">
-                
-                <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()} className="w-full">
-                <TouchableOpacity onPress={()=> navigation.push('LoginScreen')} className="w-full bg-sky-400 p-3 rounded-3xl mb-3">
-                    <Text className="text-2xl font-blod text-white text-center">Welcome</Text>
-                </TouchableOpacity>
-                </Animated.View>
-                
+            {/*Lights */}
+            <View style={styles.lightsContainer}>
+                <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={{height: 225,width: 90}} source={require('../assets/images/light.png')}/>
+                <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()}  style={{height: 160,width: 65}}  source={require('../assets/images/light.png')}/>
             </View>
             
-            
-           
+            {/* title and form */}
+            <View style={styles.titleFormContainer}>
+                {/*title*/}
+                <View style={styles.titleContainer}>
+                    <Animated.Text entering={FadeInUp.duration(1000).springify()}  style={styles.titleText}>
+                        Mentor Matrix
+                    </Animated.Text>
+                </View>
+
+                {/*form for login */}
+                <View style={styles.formContainer}>
+                    <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()} style={styles.buttonContainer}>
+                        <TouchableOpacity onPress={()=> navigation.push('LoginScreen')} style={styles.button}>
+                            <Text style={styles.buttonText}>
+                                Welcome
+                            </Text>
+                        </TouchableOpacity>
+                    </Animated.View>
+                </View>
+            </View>
         </View>
-
-
-    </View>
-  )
+    )
 }
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'white',
+        height: '100%',
+        width: '100%'
+    },
+    image: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        position: 'absolute'
+    },
+    lightsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        position: 'absolute',
+        marginTop: -20
+    },
+    titleFormContainer: {
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-around',
+        paddingTop: 40,
+        paddingBottom: 10
+    },
+    titleContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: 55
+    },
+    titleText: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 40
+    },
+    formContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        marginLeft: 12,
+        marginRight: 12,
+        marginTop: 16,
+        marginBottom: 16,
+        flexDirection: 'column'
+    },
+    buttonContainer: {
+        width: '100%'
+    },
+    button: {
+        width: '100%',
+        backgroundColor: 'rgb(22, 132, 199)',
+        padding: 12,
+        borderRadius: 24,
+        marginBottom: 12
+    },
+    buttonText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: 'white',
+        textAlign: 'center'
+    }
+});

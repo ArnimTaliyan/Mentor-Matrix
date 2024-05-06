@@ -73,45 +73,43 @@ export default function SignupScreen() {
     }
 
     return (
-        <View>
-        <ScrollView className="bg-white h-full w-full">
+        
+        <View style={{ backgroundColor: 'white', height: '100%', width: '100%' }}>
             <StatusBar style="light" />
-            <Image className="h-full w-full absolute" source={require('../assets/images/background.png')}/>
-            <View className="flex-row justify-around w-full absolute">
-                {/*Lights */}
-                
-                    <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} className="h-[205] w-[90]" source={require('../assets/images/light.png')} />
-                    <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()} className="h-[140] w-[65]" source={require('../assets/images/light.png')} />
-                
+            <Image style={{ flex: 1, width: '100%', height: '100%', position: 'absolute' }} source={require('../assets/images/background.png')} />
+             {/* Lights */}
+             <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '100%', position: 'absolute' }}>
+                <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={{ height: 225, width: 90 }} source={require('../assets/images/light.png')} />
+                <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()} style={{ height: 160, width: 65 }} source={require('../assets/images/light.png')} />
             </View>
             
             {/* title and form */}
-            <View className="h-full  w-full flex justify-around pt-48">
+            <View style={{ height: '100%', width: '100%', justifyContent: 'space-around', paddingTop: 40, paddingBottom: 10 }}>
                 {/*title*/}
-                <View className="flex items-center "style={{marginTop: 50}}>
-                    <Animated.Text entering={FadeInUp.duration(1000).springify()} className="text-white  font-bold tracking-wider text-5xl">Signup</Animated.Text>
+                <View style={{ alignItems: 'center', marginTop: 160 }}>
+                    <Animated.Text entering={FadeInUp.duration(1000).springify()}  style={{ color: 'white', fontWeight: 'bold', fontSize: 40 }}>Signup</Animated.Text>
                 </View>
 
                 {/*form for signup */}
-                <View className="flex items-center  mx-4 space-y-4"style={{marginTop: 120}}>
-                    <Animated.View entering={FadeInDown.duration(1000).springify()} className="bg-black/5 p-5  rounded-2xl w-full">
+                <View style={{ marginTop: 40 }}>
+                    <Animated.View entering={FadeInDown.duration(1000).springify()}  style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: 10, borderRadius: 20, marginBottom: 15 }} >
                         <TextInput placeholder="Name" placeholderTextColor={'gray'} value={name} onChangeText={text => setName(text)} />
                     </Animated.View>
-                    <Animated.View entering={FadeInDown.duration(1000).springify()} className="bg-black/5 p-5  rounded-2xl w-full">
+                    <Animated.View entering={FadeInDown.duration(1000).springify()}  style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: 10, borderRadius: 20, marginBottom: 15 }}>
                         <TextInput placeholder="Email" placeholderTextColor={'gray'} value={email} onChangeText={text => setEmail(text)}  />
                     </Animated.View>
-                    <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} className="bg-black/5 p-5  rounded-2xl w-full mb-3">
+                    <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()}  style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: 10, borderRadius: 20, marginBottom: 15 }}>
                         <TextInput placeholder="Password" placeholderTextColor={'gray'} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true}  />
                     </Animated.View>
-                    <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()} className="w-full">
-                        <TouchableOpacity onPress={dataAddon} className="w-full bg-sky-400 p-3 rounded-3xl mb-0">
-                            <Text className="text-2xl font-blod text-white text-center">SignUp</Text>
+                    <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
+                        <TouchableOpacity onPress={dataAddon} style={{  backgroundColor: 'rgb(22, 132, 199)', padding: 15, borderRadius: 30, marginBottom: 15 }}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>SignUp</Text>
                         </TouchableOpacity>
                     </Animated.View>
-                    <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} className="flex-row justify-center">
+                    <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} style={{ flexDirection: 'row', justifyContent: 'center' }}>
                         <Text>Already have an account?</Text>
                         <TouchableOpacity onPress={() => navigation.push('LoginScreen')}>
-                            <Text className="text-sky-600">Login</Text>
+                            <Text style={{ color: 'rgb(22, 132, 199)' }}>Login</Text>
                         </TouchableOpacity>
                     </Animated.View>
                     {showNotification && <Notification message="Account added successfully" />}
@@ -119,7 +117,7 @@ export default function SignupScreen() {
                 </View>
             </View>
             
-        </ScrollView></View>
+        </View>
     );
 }
 
