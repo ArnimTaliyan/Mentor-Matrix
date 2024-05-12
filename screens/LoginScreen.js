@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Image, TouchableOpacity, Text, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StatusBar } from 'react-native';
+import { View, TextInput, Image, TouchableOpacity, Text, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StatusBar, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ref, get } from 'firebase/database';
 import { db } from '../firebase';
@@ -15,6 +15,11 @@ export default function LoginScreen() {
     });
 
     function handleChange(text, eventName) {
+        // Check if the eventName is 'email' and the text does not end with '@gmail.com'
+        if (eventName === 'email' && !text.endsWith('@gmail.com')) {
+            alert('Please enter a valid Gmail address.');
+            return;
+        }
         setValues(prev => ({
             ...prev,
             [eventName]: text
@@ -46,48 +51,124 @@ export default function LoginScreen() {
     }
     
     return (
-        <KeyboardAvoidingView style={{ flex: 1, backgroundColor: 'white', height: '100%', width: '100%' }} behavior='padding'>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={{ flex: 1 }}>
-                    <StatusBar style="light" />
-                    <Image style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1 }} source={require('../assets/images/background.png')} />
+        <View style={styles.container}>
+            <StatusBar style="light" />
+            <Image style={styles.backgroundImage} source={require('../assets/images/background.png')} />
 
-                    {/* Lights */}
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '100%', position: 'absolute' }}>
-                        <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={{ height: 225, width: 90 }} source={require('../assets/images/light.png')} />
-                        <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()} style={{ height: 160, width: 65 }} source={require('../assets/images/light.png')} />
-                    </View>
+            {/* Lights */}
+            <View style={styles.lightsContainer}>
+                <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={styles.light1} source={require('../assets/images/light.png')} />
+                <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()} style={styles.light2} source={require('../assets/images/light.png')} />
+            </View>
 
-                    {/* Title and form */}
-                    <View style={{ height: '100%', width: '100%', justifyContent: 'space-around', paddingTop: 40, paddingBottom: 10 }}>
-                        {/* Title */}
-                        <View style={{ alignItems: 'center', marginTop: 110 }}>
-                            <Animated.Text entering={FadeInUp.duration(1000).springify()}  style={{ color: 'white', fontWeight: 'bold', fontSize: 40 }}>Login</Animated.Text>
-                        </View>
-
-                        {/* Form for login */}
-                        <View style={{ marginTop: 40 }}>
-                            <Animated.View entering={FadeInDown.duration(1000).springify()} style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: 10, borderRadius: 20, marginBottom: 15 }}>
-                                <TextInput placeholder="Email" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "email")} />
-                            </Animated.View>
-                            <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: 10, borderRadius: 20, marginBottom: 15 }}>
-                                <TextInput placeholder="Password" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "pwd")} secureTextEntry={true} />
-                            </Animated.View>
-                            <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
-                                <TouchableOpacity onPress={Login} style={{ backgroundColor: 'rgb(22, 132, 199)', padding: 15, borderRadius: 30, marginBottom: 15 }}>
-                                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Login</Text>
-                                </TouchableOpacity>
-                            </Animated.View>
-                            <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                                <Text>Don't have an account? </Text>
-                                <TouchableOpacity onPress={() => navigation.push('SignupScreen')}>
-                                    <Text style={{ color: '#4299E1' }}>Signup</Text>
-                                </TouchableOpacity>
-                            </Animated.View>
-                        </View>
-                    </View>
+            {/* Title and form */}
+            <View style={styles.titleAndFormContainer}>
+                {/* Title */}
+                <View style={styles.titleContainer}>
+                    <Animated.Text entering={FadeInUp.duration(1000).springify()}  style={styles.title}>Login</Animated.Text>
                 </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+
+                {/* Form for login */}
+                <KeyboardAvoidingView behavior='padding'>
+                    <View style={styles.formContainer}>
+                        <Animated.View entering={FadeInDown.duration(1000).springify()} style={styles.inputContainer}>
+                            <TextInput placeholder="Email" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "email")} />
+                        </Animated.View>
+                        <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} style={styles.inputContainer}>
+                            <TextInput placeholder="Password" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "pwd")} secureTextEntry={true} />
+                        </Animated.View>
+                        <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
+                            <TouchableOpacity onPress={Login} style={styles.loginButton}>
+                                <Text style={styles.loginButtonText}>Login</Text>
+                            </TouchableOpacity>
+                        </Animated.View>
+                        <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} style={styles.signupContainer}>
+                            <Text>Don't have an account? </Text>
+                            <TouchableOpacity onPress={() => navigation.push('SignupScreen')}>
+                                <Text style={styles.signupText}>Signup</Text>
+                            </TouchableOpacity>
+                        </Animated.View>
+                    </View>
+                </KeyboardAvoidingView>
+            </View>
+        </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1, 
+        backgroundColor: 'white', 
+        height: '100%', 
+        width: '100%'
+    },
+    innerContainer: {
+        flex: 1
+    },
+    backgroundImage: {
+        width: '100%', 
+        height: '100%', 
+        position: 'absolute', 
+        top: 0, 
+        left: 0, 
+        zIndex: -1
+    },
+    lightsContainer: {
+        flexDirection: 'row', 
+        justifyContent: 'space-around', 
+        width: '100%', 
+        position: 'absolute'
+    },
+    light1: {
+        height: 225, 
+        width: 90
+    },
+    light2: {
+        height: 160, 
+        width: 65
+    },
+    titleAndFormContainer: {
+        height: '100%', 
+        width: '100%', 
+        justifyContent: 'space-around', 
+        paddingTop: 40, 
+        paddingBottom: 10
+    },
+    titleContainer: {
+        alignItems: 'center', 
+        marginTop: 110
+    },
+    title: {
+        color: 'white', 
+        fontWeight: 'bold', 
+        fontSize: 40
+    },
+    formContainer: {
+        marginTop: 40
+    },
+    inputContainer: {
+        backgroundColor: 'rgba(0, 0, 0, 0.05)', 
+        padding: 10, 
+        borderRadius: 20, 
+        marginBottom: 15
+    },
+    loginButton: {
+        backgroundColor: 'rgb(22, 132, 199)', 
+        padding: 15, 
+        borderRadius: 30, 
+        marginBottom: 15
+    },
+    loginButtonText: {
+        fontSize: 20, 
+        fontWeight: 'bold', 
+        color: 'white', 
+        textAlign: 'center'
+    },
+    signupContainer: {
+        flexDirection: 'row', 
+        justifyContent: 'center'
+    },
+    signupText: {
+        color: '#4299E1'
+    }
+});
