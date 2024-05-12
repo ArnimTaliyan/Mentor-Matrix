@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Image, TouchableOpacity, Text, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StatusBar, StyleSheet } from 'react-native';
+import { View, TextInput, Image, TouchableOpacity, Text, KeyboardAvoidingView, StatusBar, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ref, get } from 'firebase/database';
 import { db } from '../firebase';
@@ -8,14 +8,16 @@ import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated'
 
 export default function LoginScreen() {
     const navigation = useNavigation();
+    const [loginError, setLoginError] = useState(false);
+    const [loginErrorMessage, setLoginErrorMessage] = useState('');
 
     const [values, setValues] = useState({
         email: "",
         pwd: ""
     });
+    const [showNotification, setShowNotification] = useState(false);
 
     function handleChange(text, eventName) {
-        
         setValues(prev => ({
             ...prev,
             [eventName]: text
@@ -31,28 +33,30 @@ export default function LoginScreen() {
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const userData = snapshot.val();
-                    console.log("User Data:", userData);
                     const storedPassword = userData.password.trim(); // Trim stored password
                     const enteredPassword = pwd.trim(); // Trim entered password
-                    console.log("Stored Password:", storedPassword);
-                    console.log("Entered Password:", enteredPassword);
                     if (storedPassword === enteredPassword) {
+                        setShowNotification(true);
+                        setTimeout(() => setShowNotification(false), 3000); // Hide notification after 3 seconds
                         navigation.navigate('Main', { screen: 'Home', params: { userName: userData.name, userEmail: email } });
                     } else {
-                        alert("Invalid password");
+                        setLoginErrorMessage('Invalid password');
+                        setLoginError(true);
+                        setTimeout(() => setLoginError(false), 3000);
                     }
                 } else {
-                    alert("User not found");
+                    setLoginErrorMessage('User not found');
+                    setLoginError(true);
+                    setTimeout(() => setLoginError(false), 3000);
                 }
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
-                alert("An error occurred while fetching user data");
+                setLoginErrorMessage('An error occurred while fetching user data');
+                setLoginError(true);
+                setTimeout(() => setLoginError(false), 3000);
             });
     }
-    
-    
-    
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
@@ -94,6 +98,9 @@ export default function LoginScreen() {
                     </View>
                 </KeyboardAvoidingView>
             </View>
+            {loginError && <View style={styles.notification}>
+                <Text style={styles.notificationText}>{loginErrorMessage}</Text>
+            </View>}
         </View>
     );
 }
@@ -173,5 +180,17 @@ const styles = StyleSheet.create({
     },
     signupText: {
         color: '#4299E1'
-    }
+    },
+    notification: {
+        backgroundColor: 'green',
+        padding: 10,
+        borderRadius: 5,
+        alignSelf: 'center',
+        position: 'absolute',
+        bottom: 70, // Adjust position as needed
+        zIndex: 999,
+    },
+    notificationText: {
+        color: 'white',
+    },
 });
