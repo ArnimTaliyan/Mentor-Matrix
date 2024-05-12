@@ -15,11 +15,7 @@ export default function LoginScreen() {
     });
 
     function handleChange(text, eventName) {
-        // Check if the eventName is 'email' and the text does not end with '@gmail.com'
-        if (eventName === 'email' && !text.endsWith('@gmail.com')) {
-            alert('Please enter a valid Gmail address.');
-            return;
-        }
+        
         setValues(prev => ({
             ...prev,
             [eventName]: text
@@ -36,8 +32,12 @@ export default function LoginScreen() {
                 if (snapshot.exists()) {
                     const userData = snapshot.val();
                     console.log("User Data:", userData);
-                    if (userData.password === pwd) {
-                        navigation.navigate('Main', { screen: 'Home', params: { userName: userData.name,userEmail: email } });
+                    const storedPassword = userData.password.trim(); // Trim stored password
+                    const enteredPassword = pwd.trim(); // Trim entered password
+                    console.log("Stored Password:", storedPassword);
+                    console.log("Entered Password:", enteredPassword);
+                    if (storedPassword === enteredPassword) {
+                        navigation.navigate('Main', { screen: 'Home', params: { userName: userData.name, userEmail: email } });
                     } else {
                         alert("Invalid password");
                     }
@@ -47,8 +47,11 @@ export default function LoginScreen() {
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
+                alert("An error occurred while fetching user data");
             });
     }
+    
+    
     
     return (
         <View style={styles.container}>
