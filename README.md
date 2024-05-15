@@ -14,7 +14,5 @@ Reuirements - nodejs --version v21.4.0
 
 ## 🚀 How to use 
 
--Welcome Screen
-![](./assets/images/screenshots/welcomescreen.jpeg)
 
  
