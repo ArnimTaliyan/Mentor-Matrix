@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Image, TouchableOpacity, Text, KeyboardAvoidingView, StatusBar, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ref, get } from 'firebase/database';
@@ -6,7 +6,7 @@ import { db } from '../firebase';
 import { encode } from 'base-64';
 import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
 
-export default function LoginScreen() {
+export default function LoginScreen({ route }) {
     const navigation = useNavigation();
     const [loginError, setLoginError] = useState(false);
     const [loginErrorMessage, setLoginErrorMessage] = useState('');
@@ -16,6 +16,14 @@ export default function LoginScreen() {
         pwd: ""
     });
     const [showNotification, setShowNotification] = useState(false);
+
+    useEffect(() => {
+        // Reset email and password values when component receives props
+        setValues({
+            email: "",
+            pwd: ""
+        });
+    }, [route]);
 
     function handleChange(text, eventName) {
         setValues(prev => ({

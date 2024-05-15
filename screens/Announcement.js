@@ -1,4 +1,3 @@
-// Import the necessary modules
 import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView, Button } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
@@ -6,14 +5,17 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/storage';
 import { AntDesign } from '@expo/vector-icons';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native'; 
 import { encode } from 'base-64';
 import { ref, set } from 'firebase/database';
 import { db } from '../firebase';
 import Animated from 'react-native-reanimated';
+import LottieView from 'lottie-react-native';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 export default function AnnouncementScheduler() {
     const route = useRoute(); 
+    const navigation = useNavigation(); 
     const userName = route.params?.userName;
     const userEmail = route.params?.userEmail;
 
@@ -23,10 +25,13 @@ export default function AnnouncementScheduler() {
     const [document, setDocument] = useState(null);
     const [document1, setDocument1] = useState(null);
     const [uploading, setUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0); 
 
     const [isProjectNameFocused, setIsProjectNameFocused] = useState(false);
     const [isRoleFocused, setIsRoleFocused] = useState(false);
     const [isNumberFocused, setIsNumberFocused] = useState(false);
+    
+    const [showLoadingAnimation, setShowLoadingAnimation] = useState(false);
 
     const inputRefs = {
         ProjectName: useRef(),
@@ -66,20 +71,24 @@ export default function AnnouncementScheduler() {
         }
     };
 
+    const trackUploadProgress = (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadProgress(progress);
+    };
+
     const dataAddon = async () => {
+        setShowLoadingAnimation(true);
         const encodedProjectName = encode(ProjectName);
     
         try {
-            // Store announcement details in the real-time database
             await set(ref(db, `announcement/${encodedProjectName}`), {
                 ProjectName: ProjectName,
                 Role: Role,
                 Number: Number,
-                Publisher: userName, // Store the username as the publisher
+                Publisher: userName,
                 UserEmail: userEmail,
             });
     
-            // If a document is uploaded
             if (document) {
                 setUploading(true);
                 const blob = await new Promise((resolve, reject) => {
@@ -95,39 +104,68 @@ export default function AnnouncementScheduler() {
                     xhr.send(null);
                 });
     
-                // Upload the document to Firebase Storage
                 const storageRef = firebase.storage().ref();
                 const fileRef = storageRef.child(document1);
-                await fileRef.put(blob);
-    
-                // Get the download URL of the uploaded document
-                const downloadURL = await fileRef.getDownloadURL();
-    
-                // Store the download URL in the real-time database
-                await set(ref(db, `announcement/${encodedProjectName}/documentURL`), downloadURL);
-    
+
+                const uploadTask = fileRef.put(blob); 
+
+               
+                uploadTask.on('state_changed', 
+                    (snapshot) => {
+                       
+                        trackUploadProgress(snapshot);
+                    }, 
+                    (error) => {
+                        console.error('Error uploading document:', error);
+                        setUploading(false);
+                        setShowLoadingAnimation(false);
+                        Alert.alert('Failed to upload document!');
+                    }, 
+                    () => {
+                       
+                        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                           
+                            set(ref(db, `announcement/${encodedProjectName}/documentURL`), downloadURL)
+                            .then(() => {
+                                setUploading(false);
+                                setDocument(null);
+                                setUploadProgress(0);
+                                setShowLoadingAnimation(false);
+                                Alert.alert('Announcement posted successfully!');
+                            })
+                            .catch((error) => {
+                                console.error('Error storing download URL:', error);
+                                setUploading(false);
+                                setShowLoadingAnimation(false);
+                                Alert.alert('Failed to post announcement!');
+                            });
+                        });
+                    }
+                );
+
+            } else {
+                
                 setUploading(false);
                 setDocument(null);
+                setShowLoadingAnimation(false);
+                Alert.alert('Announcement posted successfully!');
             }
     
-            // Clear input fields and states
             setProjectName('');
             setRole('');
             setNumber('');
             setIsProjectNameFocused(false);
             setIsRoleFocused(false);
             setIsNumberFocused(false);
-    
-            Alert.alert('Announcement posted successfully!');
+
         } catch (error) {
             console.error('Error adding data:', error);
             setUploading(false);
+            setShowLoadingAnimation(false);
             Alert.alert('Failed to post announcement!');
         }
     };
     
-    
-
     const pickDocument = async () => {
         let result = await DocumentPicker.getDocumentAsync({});
         if (!result.canceled) {
@@ -138,6 +176,13 @@ export default function AnnouncementScheduler() {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            {/* Render back button */}
+            {!uploading && (
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 20, left: 20, zIndex: 999 }}>
+                    <Ionicons name="chevron-back-outline" size={24} color="#242760" />
+                </TouchableOpacity>
+            )}
+
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
                     <AntDesign name="pushpin" size={24} color="#7289DA" style={{ marginRight: 10 }} />
@@ -153,6 +198,7 @@ export default function AnnouncementScheduler() {
                         onChangeText={(text) => setProjectName(text)}
                         onFocus={() => handleFocus('ProjectName')}
                         onBlur={() => handleBlur('ProjectName')}
+                        editable={!uploading} 
                     />
                 </Animated.View>
 
@@ -165,6 +211,7 @@ export default function AnnouncementScheduler() {
                         onChangeText={(text) => setRole(text)}
                         onFocus={() => handleFocus('Role')}
                         onBlur={() => handleBlur('Role')}
+                        editable={!uploading} // Disable input when uploading
                     />
                 </Animated.View>
 
@@ -177,20 +224,24 @@ export default function AnnouncementScheduler() {
                         onChangeText={(text) => setNumber(text)}
                         onFocus={() => handleFocus('Number')}
                         onBlur={() => handleBlur('Number')}
+                        editable={!uploading} // Disable input when uploading
                     />
                 </Animated.View>
 
-                <Button title={document ? "Change document" : "Upload Details"} onPress={pickDocument} style={{ marginTop: 20 }} />
+                    <TouchableOpacity onPress={pickDocument} disabled={uploading} style={[styles.button, { marginTop: 20 }]}>
+        <Text style={styles.uploadbuttonText}>{document ? "Change document" : "Upload Details"}</Text>
+    </TouchableOpacity>
                 {document && (
                     <View style={styles.documentContainer}>
                         <Text style={styles.document}>{document1}</Text>
-                        <TouchableOpacity onPress={() => setDocument(null)}>
+                        <TouchableOpacity onPress={() => setDocument(null)} disabled={uploading}>
                             <AntDesign name="closecircle" size={18} color="grey" />
                         </TouchableOpacity>
                     </View>
                 )}
+
                 <TouchableOpacity
-                    style={[styles.uploadButton, { marginTop: 20 }]}
+                    style={[styles.postButton, { marginTop: 20 }]}
                     onPress={() => {
                         if (ProjectName && Role && Number) {
                             dataAddon();
@@ -198,12 +249,25 @@ export default function AnnouncementScheduler() {
                             Alert.alert('Please fill in all fields');
                         }
                     }}
-                    disabled={!ProjectName || !Role || !Number}
+                    disabled={!ProjectName || !Role || !Number || uploading} // Disable button when uploading or fields are empty
                 >
                     <Text style={styles.buttonText}>Post Announcement</Text>
                 </TouchableOpacity>
 
-                
+                {showLoadingAnimation && (
+                    <LottieView
+                        source={require('../assets/animations/post.json')}
+                        autoPlay
+                        loop
+                        style={{ width: 100, height: 100 }}
+                    />
+                )}
+
+                {/* Render progress percentage */}
+                {uploading && (
+                    <Text style={styles.progressText}>{uploadProgress.toFixed(2)}% </Text>
+                )}
+
             </View>
         </ScrollView>
     );
@@ -234,7 +298,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'gray',
     },
-    uploadButton: {
+    postButton: {
         borderRadius: 5,
         width: 200,
         height: 50,
@@ -242,6 +306,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 20,
+    },
+    button: {
+        borderRadius: 5,
+        width: 200,
+        height: 50,
+        backgroundColor: 'transparent',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    uploadbuttonText: {
+        color: '#7289DA',
+        fontWeight: 'bold',
     },
     buttonText: {
         color: '#fff',
@@ -255,5 +331,11 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginRight: 10,
         
+    },
+    progressText: {
+        marginTop: 10,
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#7289DA',
     },
 });

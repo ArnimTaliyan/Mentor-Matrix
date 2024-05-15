@@ -95,7 +95,7 @@ function App() {
         <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainTabScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: true }} />
-        <Stack.Screen name="AnnouncementScheduler" component={AnnouncementScheduler} options={{ headerShown: true }} />
+        <Stack.Screen name="AnnouncementScheduler" component={AnnouncementScheduler} options={{ headerShown: false }} />
         <Stack.Screen name="FetchData" component={FetchData} options={{ headerShown: true }} />
         <Stack.Screen name="Schedule" component={Timetableprofile} options={{ headerShown: true }} />
 
