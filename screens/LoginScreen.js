@@ -41,7 +41,8 @@ export default function LoginScreen({ route }) {
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const userData = snapshot.val();
-                    const storedPassword = userData.password.trim(); // Trim stored password
+                    const storedPassword = userData.password ? userData.password.trim() : ''; // Trim stored password if it exists
+
                     const enteredPassword = pwd.trim(); // Trim entered password
                     if (storedPassword === enteredPassword) {
                         setShowNotification(true);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Modal, Text, TouchableOpacity } from 'react-native';
+import { View, Modal, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Calendar } from 'react-native-big-calendar';
 import { events } from './events'; // Import events data
 
@@ -13,7 +13,7 @@ export default function CalendarScreen() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Calendar
         events={events}
         height={600}
@@ -46,6 +46,6 @@ export default function CalendarScreen() {
           </View>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }

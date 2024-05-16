@@ -13,7 +13,7 @@ import Timetable from './screens/Timetable';
 import FetchData from './screens/AnnouncementScreen';
 import AnnouncementScheduler from './screens/Announcement';
 import Timetableprofile from './screens/Timetableprofile';
-
+import CalendarScreen from './screens/calanderscreen';
 
 
 
@@ -164,7 +164,7 @@ function MainTabScreen() {
         <AntDesign name="home" size={24} color="black" />
       ) }} />
       
-      <Tab.Screen name="TimeTable" component={Timetable} options={{ tabBarIcon: ({ focused }) => (
+      <Tab.Screen name="Calendar" component={CalendarScreen} options={{ tabBarIcon: ({ focused }) => (
         <Ionicons name="calendar-outline" size={24} color="black" />
         ) }} />
         <Tab.Screen name="FetchData" component={FetchData} options={{ tabBarIcon: ({ focused }) => (

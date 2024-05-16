@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { ref, onValue } from 'firebase/database';
 import { ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const FetchData = () => {
     const [todoData, setTodoData] = useState([]);
@@ -20,6 +21,7 @@ const FetchData = () => {
     }, []);
 
     return (
+        <SafeAreaView>
         <ScrollView>
             <View style={styles.container}>
                 <Text style={styles.header}>Announcements</Text>
@@ -62,6 +64,7 @@ const FetchData = () => {
 </TouchableOpacity>
             </View>
         </ScrollView>
+        </SafeAreaView>
     );
 };
 
@@ -78,7 +81,6 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 30,
         textAlign: 'center',
-        marginTop: 10,
         fontWeight: 'bold',
     },
     Htext: {
