@@ -178,7 +178,7 @@ export default function AnnouncementScheduler() {
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             {/* Render back button */}
             {!uploading && (
-                <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 20, left: 20, zIndex: 999 }}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 60, left: 20, zIndex: 999 }}>
                     <Ionicons name="chevron-back-outline" size={24} color="#242760" />
                 </TouchableOpacity>
             )}
