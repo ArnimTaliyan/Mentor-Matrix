@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, MaterialCommunityIcons,MaterialIcons, Ionicons } from '@expo/vector-icons';
-import HomeScreen, { Scheduler } from './screens/HomeScreen';
+import HomeScreen from './screens/HomeScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import SettingScreen from './screens/SettingScreen'; // Correct import
 import SignupScreen from './screens/SignupScreen';
@@ -94,7 +94,7 @@ function App() {
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainTabScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: true }} />
+        
         <Stack.Screen name="AnnouncementScheduler" component={AnnouncementScheduler} options={{ headerShown: false }} />
         <Stack.Screen name="FetchData" component={FetchData} options={{ headerShown: true }} />
         <Stack.Screen name="Schedule" component={Timetableprofile} options={{ headerShown: true }} />
@@ -163,9 +163,7 @@ function MainTabScreen() {
       <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: ({ focused }) => (
         <AntDesign name="home" size={24} color="black" />
       ) }} />
-      <Tab.Screen name="Scheduler" component={Scheduler} options={{ tabBarIcon: ({ focused }) => (
-        <MaterialCommunityIcons name="cloud-upload" size={24} color="black" />
-      ) }} />
+      
       <Tab.Screen name="TimeTable" component={Timetable} options={{ tabBarIcon: ({ focused }) => (
         <Ionicons name="calendar-outline" size={24} color="black" />
         ) }} />
