@@ -4,7 +4,7 @@ import { db } from '../firebase';
 import { ref, onValue } from 'firebase/database';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { Ionicons } from '@expo/vector-icons';
 const FetchData = () => {
     const [todoData, setTodoData] = useState([]);
     useEffect(() => {
@@ -42,22 +42,15 @@ const FetchData = () => {
                                     <Text style={styles.text}>
                                         Number of Student Required: {item.Number}
                                     </Text>
-                                </View>
-                                <View style={styles.actionContainer}>
-                                    <Text
-                                        style={styles.documentLink}
-                                        onPress={() => { Linking.openURL(item.documentURL); }}
-                                    >
+                                    <Text style={styles.documentLink} onPress={() => { Linking.openURL(item.documentURL); }}>
                                         Project Details
                                     </Text>
-                                    <Text
-                                        style={styles.contactLink}
-                                        onPress={() => {
-                                            Linking.openURL(`mailto:${item.UserEmail}`);
-                                        }}
-                                    >
-                                        Contact
-                                    </Text>
+                                </View>
+                                <View style={styles.actionContainer}>
+                                    
+                                <TouchableOpacity style={styles.contactLink} onPress={() => {Linking.openURL(`mailto:${item.UserEmail}`);}}>
+                                    <Ionicons name="paper-plane-outline" size={32} color="#4299E1" />
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         );
@@ -124,7 +117,7 @@ const styles = StyleSheet.create({
         borderTopColor: '#e3e3e3',
         paddingTop: 10,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
     },
     documentLink: {
         fontSize: 16,
@@ -132,6 +125,7 @@ const styles = StyleSheet.create({
     },
     contactLink: {
         fontSize: 16,
-        color: '#007bff',
+        color: '#4299E1',
+        
     },
 });
