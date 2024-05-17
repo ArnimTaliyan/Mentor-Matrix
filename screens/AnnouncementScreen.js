@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Linking, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, View, Text, Linking, TouchableOpacity, Image } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { ref, onValue } from 'firebase/database';
@@ -21,49 +21,49 @@ const FetchData = () => {
     }, []);
 
     return (
-        <SafeAreaView>
-        <ScrollView>
-            <View style={styles.container}>
-                <Text style={styles.header}>Announcements</Text>
-                {todoData.map((item, index) => {
-                    return (
-                        <View key={index} style={styles.bubble}>
-                            <Text style={styles.Htext}>"{item.ProjectName} "{'\n'}</Text>
-                            <Text style={styles.text}>
-                                I want {item.Number} Students for {item.Role} {'\n'}
-                            </Text>
-                            
-                            <Text
-                                style={[styles.documentLink]}
-                                onPress={() => { Linking.openURL(item.documentURL);
-                                }}>
-                                Project Details
-                            </Text>
-                           
-                            <View style={styles.publisherContainer}>
-                                <Text style={styles.publisherText}>
-                                    Published By:{item.Publisher}
-                                </Text>
+        <SafeAreaView style={styles.safeArea}>
+            <ScrollView>
+                <View style={styles.container}>
+                    {todoData.map((item, index) => {
+                        return (
+                            <View key={index} style={styles.postContainer}>
+                                <View style={styles.headerContainer}>
+                                    <Image
+                                        style={styles.avatar}
+                                        source={ require ('../assets/images/upes.jpeg')} // Replace with actual avatar URL or a default one
+                                    />
+                                    <Text style={styles.publisherText}>{item.Publisher}</Text>
+                                </View>
+                                <View style={styles.contentContainer}>
+                                    <Text style={styles.Htext}>{item.ProjectName}</Text>
+                                    <Text style={styles.text}>
+                                        Role: {item.Role}
+                                    </Text>
+                                    <Text style={styles.text}>
+                                        Number of Student Required: {item.Number}
+                                    </Text>
+                                </View>
+                                <View style={styles.actionContainer}>
+                                    <Text
+                                        style={styles.documentLink}
+                                        onPress={() => { Linking.openURL(item.documentURL); }}
+                                    >
+                                        Project Details
+                                    </Text>
+                                    <Text
+                                        style={styles.contactLink}
+                                        onPress={() => {
+                                            Linking.openURL(`mailto:${item.UserEmail}`);
+                                        }}
+                                    >
+                                        Contact
+                                    </Text>
+                                </View>
                             </View>
-                            <View style={styles.contactContainer}>
-                                
-                                <Text
-                                style={[styles.contactLink, styles.underline]}
-                                onPress={() => {
-                                    Linking.openURL(`mailto:${item.UserEmail}`);
-                                }}>
-                                Contact
-                            </Text>
-                            </View>
-                          
-                        </View>
-                    );
-                })}
-                  <TouchableOpacity>
-  <Text style={{ fontSize: 80, color: 'white' }}>hi</Text>
-</TouchableOpacity>
-            </View>
-        </ScrollView>
+                        );
+                    })}
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 };
@@ -71,62 +71,67 @@ const FetchData = () => {
 export default FetchData;
 
 const styles = StyleSheet.create({
+    safeArea: {
+        flex: 1,
+        backgroundColor: '#f2f2f2',
+    },
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
+        paddingVertical: 10,
+    },
+    postContainer: {
         backgroundColor: '#fff',
-        paddingTop: 20,
-    },
-    header: {
-        fontSize: 30,
-        textAlign: 'center',
-        fontWeight: 'bold',
-    },
-    Htext: {
-        fontSize: 24,
-        textAlign: 'center',
-        marginTop: 5,
-        fontWeight:'bold'
-    },
-    text: {
-        fontSize: 20,
-        textAlign: 'center',
-        marginTop: 5,
-    },
-    bubble: {
-        backgroundColor: '#e3e3e3',
         borderRadius: 10,
-        padding: 10,
+        padding: 15,
         marginBottom: 20,
-        width: '80%',
+        width: '90%',
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 5,
+        elevation: 5,
     },
-    publisherContainer: {
+    headerContainer: {
         flexDirection: 'row',
-        justifyContent: 'flex-end', // Align "Published by" to the right
-        marginTop: 10,
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    avatar: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        marginRight: 10,
     },
     publisherText: {
         fontSize: 16,
-        color: '#888',
-        textAlign: 'right',
+        fontWeight: 'bold',
     },
-    contactContainer: {
-        marginTop: 5,
-        alignSelf: 'flex-end',
+    contentContainer: {
+        marginBottom: 10,
     },
-    contactLink: {
+    Htext: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    text: {
         fontSize: 16,
-        color: '#007bff',
-        textDecorationLine: 'underline',
+        marginTop: 5,
+    },
+    actionContainer: {
+        borderTopWidth: 1,
+        borderTopColor: '#e3e3e3',
+        paddingTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     documentLink: {
         fontSize: 16,
         color: '#007bff',
-        alignSelf:'center'
-        
     },
-    underline: {
-        textDecorationLine: 'underline',
+    contactLink: {
+        fontSize: 16,
+        color: '#007bff',
     },
 });
