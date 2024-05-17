@@ -32,6 +32,8 @@ export default function AnnouncementScheduler() {
     const [isNumberFocused, setIsNumberFocused] = useState(false);
     
     const [showLoadingAnimation, setShowLoadingAnimation] = useState(false);
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
 
     const inputRefs = {
         ProjectName: useRef(),
@@ -131,7 +133,10 @@ export default function AnnouncementScheduler() {
                                 setDocument(null);
                                 setUploadProgress(0);
                                 setShowLoadingAnimation(false);
-                                Alert.alert('Announcement posted successfully!');
+                                setNotificationMessage('Announcement posted successfully!');
+                                setShowNotification(true);
+                                setTimeout(() => setShowNotification(false), 3000);
+                               
                             })
                             .catch((error) => {
                                 console.error('Error storing download URL:', error);
@@ -148,7 +153,9 @@ export default function AnnouncementScheduler() {
                 setUploading(false);
                 setDocument(null);
                 setShowLoadingAnimation(false);
-                Alert.alert('Announcement posted successfully!');
+                setNotificationMessage('Announcement posted successfully!');
+                setShowNotification(true);
+                setTimeout(() => setShowNotification(false), 3000);
             }
     
             setProjectName('');
@@ -267,6 +274,15 @@ export default function AnnouncementScheduler() {
                 {uploading && (
                     <Text style={styles.progressText}>{uploadProgress.toFixed(2)}% </Text>
                 )}
+                 {showNotification && (
+                    <View style={styles.notificationContainer}>
+                        <View style={styles.notification}>
+                            <AntDesign name="checkcircle" size={24} color="green" />
+                            <Text style={styles.notificationText}>{notificationMessage}</Text>
+                        </View>
+                    </View>
+                )}
+
 
             </View>
         </ScrollView>
@@ -337,5 +353,30 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: '#7289DA',
+    },
+     notificationContainer: {
+        position: 'absolute',
+        bottom: 50,
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+    },
+    notification: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderRadius: 5,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
+    },
+    notificationText: {
+        fontSize: 16,
+        color: 'green',
+        marginLeft: 10,
     },
 });

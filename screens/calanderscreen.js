@@ -22,7 +22,7 @@ export default function CalendarScreen() {
   };
 
   const handleAddEvent = () => {
-    // Show the form modal
+    setSelectedEvent(null); // Reset selected event
     setModalVisible(true);
   };
 
@@ -59,54 +59,66 @@ export default function CalendarScreen() {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <TextInput
-              placeholder="Title"
-              value={newEvent.title}
-              onChangeText={(text) => setNewEvent({ ...newEvent, title: text })}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Location"
-              value={newEvent.location}
-              onChangeText={(text) => setNewEvent({ ...newEvent, location: text })}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Teacher"
-              value={newEvent.Teacher}
-              onChangeText={(text) => setNewEvent({ ...newEvent, Teacher: text })}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Day (e.g., Monday)"
-              value={newEvent.day}
-              onChangeText={(text) => setNewEvent({ ...newEvent, day: text })}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Start Time (e.g., 10:00 AM)"
-              value={newEvent.start}
-              onChangeText={(text) => setNewEvent({ ...newEvent, start: text })}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="End Time (e.g., 11:00 AM)"
-              value={newEvent.end}
-              onChangeText={(text) => setNewEvent({ ...newEvent, end: text })}
-              style={styles.input}
-            />
-            {/* You can add more input fields for start and end time */}
-            <TouchableOpacity onPress={handleSaveEvent}>
-              <Text style={{ color: 'blue' }}>Save Event</Text>
-            </TouchableOpacity>
+            {selectedEvent ? (
+              // Show event details if an event is selected
+              <>
+                <Text style={styles.detailText}> {selectedEvent.title}</Text>
+                <Text style={styles.detailText}> {selectedEvent.location}</Text>
+                <Text style={styles.detailText}> {selectedEvent.Teacher}</Text>
+                
+              </>
+            ) : (
+              // Show the form to add a new event
+              <>
+                <TextInput
+                  placeholder="Title"
+                  value={newEvent.title}
+                  onChangeText={(text) => setNewEvent({ ...newEvent, title: text })}
+                  style={styles.input}
+                />
+                <TextInput
+                  placeholder="Location"
+                  value={newEvent.location}
+                  onChangeText={(text) => setNewEvent({ ...newEvent, location: text })}
+                  style={styles.input}
+                />
+                <TextInput
+                  placeholder="Teacher"
+                  value={newEvent.Teacher}
+                  onChangeText={(text) => setNewEvent({ ...newEvent, Teacher: text })}
+                  style={styles.input}
+                />
+                <TextInput
+                  placeholder="Day (e.g., Monday)"
+                  value={newEvent.day}
+                  onChangeText={(text) => setNewEvent({ ...newEvent, day: text })}
+                  style={styles.input}
+                />
+                <TextInput
+                  placeholder="Start Time (e.g., 10:00 AM)"
+                  value={newEvent.start.toString()}
+                  onChangeText={(text) => setNewEvent({ ...newEvent, start: new Date(text) })}
+                  style={styles.input}
+                />
+                <TextInput
+                  placeholder="End Time (e.g., 11:00 AM)"
+                  value={newEvent.end.toString()}
+                  onChangeText={(text) => setNewEvent({ ...newEvent, end: new Date(text) })}
+                  style={styles.input}
+                />
+                <TouchableOpacity onPress={handleSaveEvent}>
+                  <Text style={{ color: 'blue' }}>Save Event</Text>
+                </TouchableOpacity>
+              </>
+            )}
             <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text style={{ color: 'red' }}>Cancel</Text>
+              <Text style={{ color: 'red', textAlign:'right' }}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
       <TouchableOpacity onPress={handleAddEvent} style={styles.uploadButton}>
-        <Text style={{ color: 'white' }}>Upload Event</Text>
+        <Text style={{ color: 'white' }}>Add Event</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -124,7 +136,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: '80%',
-    
   },
   input: {
     height: 40,
@@ -132,7 +143,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
-    
   },
   uploadButton: {
     position: 'absolute',
@@ -141,5 +151,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#4299E1',
     padding: 10,
     borderRadius: 5,
+  },
+  detailText: {
+    marginBottom: 10,
+    fontSize: 16,
+    justifyContent:'center',
+    
   },
 });
