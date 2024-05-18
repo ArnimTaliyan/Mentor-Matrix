@@ -25,8 +25,8 @@ export const generateWeeklyEvents = (startDate, numberOfWeeks) => {
       },
       {
         title: "Test Automation Lab",
-        start: new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate(), 15, 0),  // Monday, 3:00 PM
-        end: new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate(), 16, 50),   // Monday, 4:50 PM
+        start: new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate(), 15, 0),  
+        end: new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate(), 16, 50),   
         location: "Classroom 10004",
         Teacher: "Mitali Chugh"
       },

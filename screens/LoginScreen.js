@@ -47,7 +47,9 @@ export default function LoginScreen({ route }) {
                     if (storedPassword === enteredPassword) {
                         setShowNotification(true);
                         setTimeout(() => setShowNotification(false), 3000); // Hide notification after 3 seconds
-                        navigation.navigate('Main', { screen: 'Home', params: { userName: userData.name, userEmail: email } });
+                       
+                        navigation.navigate('Main', { screen: 'CalendarScreen', params: { userName: userData.name, userEmail: email } });
+                        navigation.navigate('Main', { screen: 'Home', params: { userName: userData.name, userEmail: email },  });
                     } else {
                         setLoginErrorMessage('Invalid password');
                         setLoginError(true);

@@ -1,20 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Modal, Text, TouchableOpacity, SafeAreaView, TextInput, StyleSheet } from 'react-native';
 import { Calendar } from 'react-native-big-calendar';
-import { updateEvents, getEvents } from './events'; // Import events data
+import { get, ref, set, onValue } from 'firebase/database';
+import { db } from '../firebase'; // Import your Firebase configuration
+import { useNavigation } from '@react-navigation/native';
+import { encode } from 'base-64';
 
-export default function CalendarScreen() {
+export default function CalendarScreen({ route }) {
+  const navigation = useNavigation();
+  const { userEmail } = route.params; // Get the userEmail from the route params
+  const encodedEmail = encode(userEmail);
+  const eventsRef = ref(db, `users/${encodedEmail}/events`);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [newEvent, setNewEvent] = useState({
     title: '',
-    start: new Date(),
-    end: new Date(),
+    start: '',
+    end: '',
     location: '',
-    Teacher: '',
-    day: ''
+    Teacher: ''
   });
-  const [events, setEvents] = useState(getEvents());
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    // Fetch events from Firebase when the component mounts
+    onValue(eventsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const eventsArray = Object.values(data).map(event => ({
+          ...event,
+          start: new Date(event.start),
+          end: new Date(event.end)
+        }));
+        setEvents(eventsArray);
+      } else {
+        setEvents([]);
+      }
+    });
+  }, []);
 
   const handleEventPress = (event) => {
     setSelectedEvent(event);
@@ -22,24 +46,40 @@ export default function CalendarScreen() {
   };
 
   const handleAddEvent = () => {
-    setSelectedEvent(null); // Reset selected event
+    setSelectedEvent(null);
     setModalVisible(true);
   };
 
   const handleSaveEvent = () => {
-    // Save the new event to the events state
-    updateEvents(newEvent);
-    setEvents(getEvents());
-    setModalVisible(false);
-    // Reset the new event state
-    setNewEvent({
-      title: '',
-      start: new Date(),
-      end: new Date(),
-      location: '',
-      Teacher: '',
-      day: ''
-    });
+    const startDateTime = new Date(newEvent.start);
+    const endDateTime = new Date(newEvent.end);
+
+    if (isNaN(startDateTime) || isNaN(endDateTime)) {
+      console.error('Invalid date format. Please use a valid date format.');
+      return;
+    }
+
+    const eventToSave = {
+      ...newEvent,
+      start: startDateTime.toISOString(),
+      end: endDateTime.toISOString()
+    };
+
+    const newEventRef = ref(db, `users/${encodedEmail}/events/${new Date().getTime()}`);
+    set(newEventRef, eventToSave)
+      .then(() => {
+        setModalVisible(false);
+        setNewEvent({
+          title: '',
+          start: '',
+          end: '',
+          location: '',
+          Teacher: ''
+        });
+      })
+      .catch((error) => {
+        console.error('Error saving event:', error);
+      });
   };
 
   return (
@@ -47,7 +87,7 @@ export default function CalendarScreen() {
       <Calendar
         events={events}
         height={600}
-        onPressEvent={handleEventPress} // Handle event click
+        onPressEvent={handleEventPress}
       />
       <Modal
         animationType="slide"
@@ -60,15 +100,12 @@ export default function CalendarScreen() {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             {selectedEvent ? (
-              // Show event details if an event is selected
               <>
-                <Text style={styles.detailText}> {selectedEvent.title}</Text>
-                <Text style={styles.detailText}> {selectedEvent.location}</Text>
-                <Text style={styles.detailText}> {selectedEvent.Teacher}</Text>
-                
+                <Text style={styles.detailText}>{selectedEvent.title}</Text>
+                <Text style={styles.detailText}>{selectedEvent.location}</Text>
+                <Text style={styles.detailText}>{selectedEvent.Teacher}</Text>
               </>
             ) : (
-              // Show the form to add a new event
               <>
                 <TextInput
                   placeholder="Title"
@@ -89,21 +126,15 @@ export default function CalendarScreen() {
                   style={styles.input}
                 />
                 <TextInput
-                  placeholder="Day (e.g., Monday)"
-                  value={newEvent.day}
-                  onChangeText={(text) => setNewEvent({ ...newEvent, day: text })}
+                  placeholder="Start Time (e.g., 2024-05-18T10:00:00)"
+                  value={newEvent.start}
+                  onChangeText={(text) => setNewEvent({ ...newEvent, start: text })}
                   style={styles.input}
                 />
                 <TextInput
-                  placeholder="Start Time (e.g., 10:00 AM)"
-                  value={newEvent.start.toString()}
-                  onChangeText={(text) => setNewEvent({ ...newEvent, start: new Date(text) })}
-                  style={styles.input}
-                />
-                <TextInput
-                  placeholder="End Time (e.g., 11:00 AM)"
-                  value={newEvent.end.toString()}
-                  onChangeText={(text) => setNewEvent({ ...newEvent, end: new Date(text) })}
+                  placeholder="End Time (e.g., 2024-05-18T11:00:00)"
+                  value={newEvent.end}
+                  onChangeText={(text) => setNewEvent({ ...newEvent, end: text })}
                   style={styles.input}
                 />
                 <TouchableOpacity onPress={handleSaveEvent}>
@@ -112,7 +143,7 @@ export default function CalendarScreen() {
               </>
             )}
             <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text style={{ color: 'red', textAlign:'right' }}>Close</Text>
+              <Text style={{ color: 'red', textAlign: 'right' }}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -155,7 +186,6 @@ const styles = StyleSheet.create({
   detailText: {
     marginBottom: 10,
     fontSize: 16,
-    justifyContent:'center',
-    
+    justifyContent: 'center',
   },
 });

@@ -33,13 +33,13 @@ export default function SignupScreen() {
         }
     
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-if (!regex.test(email)) {
-    console.log('Invalid email. Showing notification...');
-    setNotificationMessage1('Please enter a valid email address');
-    setShowNotification1(true);
-    setTimeout(() => setShowNotification1(false), 3000);
-    return;
-}
+        if (!regex.test(email)) {
+            console.log('Invalid email. Showing notification...');
+            setNotificationMessage1('Please enter a valid email address');
+            setShowNotification1(true);
+            setTimeout(() => setShowNotification1(false), 3000);
+            return;
+        }
     
         // Encode the email to create a valid database path
         const encodedEmail = encode(email);
@@ -55,9 +55,8 @@ if (!regex.test(email)) {
                     setShowNotification1(true);
                     setTimeout(() => setShowNotification1(false), 3000);
                 } else {
-                   
                     // Set data in the database with the encoded email as part of the path
-                    set(ref(db, `users/${encodedEmail}`), {
+                    set(userRef, {
                         name: name,
                         email: email,
                         password: password,
@@ -69,6 +68,8 @@ if (!regex.test(email)) {
                         console.log('Data added successfully');
                         setShowNotification(true);
                         setTimeout(() => setShowNotification(false), 3000);
+                        
+                        
                     })
                     .catch((error) => {
                         console.error('Error adding data:', error);

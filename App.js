@@ -164,7 +164,7 @@ function MainTabScreen() {
         <AntDesign name="home" size={24} color="black" />
       ) }} />
       
-      <Tab.Screen name="Calendar" component={CalendarScreen} options={{ tabBarIcon: ({ focused }) => (
+      <Tab.Screen name="CalendarScreen" component={CalendarScreen} options={{ tabBarIcon: ({ focused }) => (
         <Ionicons name="calendar-outline" size={24} color="black" />
         ) }} />
         <Tab.Screen name="FetchData" component={FetchData} options={{ tabBarIcon: ({ focused }) => (
