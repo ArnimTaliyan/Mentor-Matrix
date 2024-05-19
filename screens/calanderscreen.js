@@ -16,12 +16,13 @@ export default function CalendarScreen({ route }) {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [newEvent, setNewEvent] = useState({
     title: '',
-    start: '',
-    end: '',
+    startTime: '', // Separate state for start time
+    endTime: '',   // Separate state for end time
     location: '',
     Teacher: ''
   });
   const [events, setEvents] = useState([]);
+  const [commonDate, setCommonDate] = useState(''); // State for common date
 
   useEffect(() => {
     // Fetch events from Firebase when the component mounts
@@ -51,8 +52,8 @@ export default function CalendarScreen({ route }) {
   };
 
   const handleSaveEvent = () => {
-    const startDateTime = new Date(newEvent.start);
-    const endDateTime = new Date(newEvent.end);
+    const startDateTime = new Date(`${commonDate}T${newEvent.startTime}`);
+    const endDateTime = new Date(`${commonDate}T${newEvent.endTime}`);
 
     if (isNaN(startDateTime) || isNaN(endDateTime)) {
       console.error('Invalid date format. Please use a valid date format.');
@@ -71,8 +72,8 @@ export default function CalendarScreen({ route }) {
         setModalVisible(false);
         setNewEvent({
           title: '',
-          start: '',
-          end: '',
+          startTime: '',
+          endTime: '',
           location: '',
           Teacher: ''
         });
@@ -101,42 +102,56 @@ export default function CalendarScreen({ route }) {
           <View style={styles.modalContent}>
             {selectedEvent ? (
               <>
-                <Text style={styles.detailText}>{selectedEvent.title}</Text>
-                <Text style={styles.detailText}>{selectedEvent.location}</Text>
-                <Text style={styles.detailText}>{selectedEvent.Teacher}</Text>
+                <Text style={styles.detailText}>Subject Name: {selectedEvent.title}</Text>
+                <Text style={styles.detailText}>ClassRoom: {selectedEvent.location}</Text>
+                <Text style={styles.detailText}>Teacher: {selectedEvent.Teacher}</Text>
               </>
             ) : (
               <>
                 <TextInput
-                  placeholder="Title"
+                  placeholder="Subject" 
+                  placeholderTextColor="darkgrey"               
                   value={newEvent.title}
                   onChangeText={(text) => setNewEvent({ ...newEvent, title: text })}
                   style={styles.input}
                 />
                 <TextInput
                   placeholder="Location"
+                  placeholderTextColor="darkgrey"
                   value={newEvent.location}
                   onChangeText={(text) => setNewEvent({ ...newEvent, location: text })}
                   style={styles.input}
                 />
                 <TextInput
                   placeholder="Teacher"
+                  placeholderTextColor="darkgrey"
                   value={newEvent.Teacher}
                   onChangeText={(text) => setNewEvent({ ...newEvent, Teacher: text })}
                   style={styles.input}
                 />
                 <TextInput
-                  placeholder="Start Time (e.g., 2024-05-18T10:00:00)"
-                  value={newEvent.start}
-                  onChangeText={(text) => setNewEvent({ ...newEvent, start: text })}
+                  placeholder="(e.g., 2024-05-18)"
+                  placeholderTextColor="darkgrey"
+                  value={commonDate}
+                  onChangeText={(text) => setCommonDate(text)}
                   style={styles.input}
                 />
-                <TextInput
-                  placeholder="End Time (e.g., 2024-05-18T11:00:00)"
-                  value={newEvent.end}
-                  onChangeText={(text) => setNewEvent({ ...newEvent, end: text })}
-                  style={styles.input}
-                />
+                <View style={{ flexDirection: 'row' }}>
+                  <TextInput
+                    placeholder="Start Time (e.g., 10:00)"
+                    placeholderTextColor="darkgrey"
+                    value={newEvent.startTime}
+                    onChangeText={(text) => setNewEvent({ ...newEvent, startTime: text })}
+                    style={[styles.input, { flex: 1, marginRight: 5 }]}
+                  />
+                  <TextInput
+                    placeholder="End Time (e.g., 11:00)"
+                    placeholderTextColor="darkgrey"
+                    value={newEvent.endTime}
+                    onChangeText={(text) => setNewEvent({ ...newEvent, endTime: text })}
+                    style={[styles.input, { flex: 1, marginLeft: 5 }]}
+                  />
+                </View>
                 <TouchableOpacity onPress={handleSaveEvent}>
                   <Text style={{ color: 'blue' }}>Save Event</Text>
                 </TouchableOpacity>
@@ -189,3 +204,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
