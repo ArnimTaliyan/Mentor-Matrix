@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { encode } from 'base-64';
 import { db } from '../firebase'; // Import db from firebase.js
 import { get, ref, set } from 'firebase/database';
+import RNPickerSelect from 'react-native-picker-select';
 
 export default function SignupScreen() {
     const navigation = useNavigation();
@@ -16,6 +17,22 @@ export default function SignupScreen() {
     const [showNotification1, setShowNotification1] = useState(false);
     const [notificationMessage1, setNotificationMessage1] = useState('');
 
+    const departmentOptions = [
+        { label: 'SOAE', value: 'SOAE' },
+        { label: 'SOB', value: 'SOB' },
+        { label: 'SOCS', value: 'SOCS' },
+        { label: 'SOD', value: 'SOD' },
+        { label: 'SOHS', value: 'SOHS' },
+        { label: 'SOLA', value: 'SOLA' },
+        { label: 'SOLI', value: 'SOLI' },
+        { label: 'SOLS', value: 'SOLS' },
+        
+      ];
+
+      const [department, setDepartment] = useState('');
+
+
+
     const Notification = ({ message }) => (
         <View style={styles.notification}>
             <Text style={styles.notificationText}>{message}</Text>
@@ -23,8 +40,7 @@ export default function SignupScreen() {
     );
 
     const dataAddon = () => {
-        // Check if any of the fields are empty
-        if (!name || !email || !password) {
+        if (!name || !email || !password || !department) {
             console.log('Fields are empty. Showing notification...');
             setNotificationMessage1('Please fill in all fields');
             setShowNotification1(true);
@@ -41,35 +57,31 @@ export default function SignupScreen() {
             return;
         }
     
-        // Encode the email to create a valid database path
         const encodedEmail = encode(email);
         const userRef = ref(db, `users/${encodedEmail}`);
     
-        // Fetch the data for the specified email
         get(userRef, 'value')
             .then((snapshot) => {
                 if (snapshot.exists()) {
-                    // If the snapshot exists, it means the email already exists in the database
                     console.log('Email already exists. Showing notification...');
                     setNotificationMessage1('Email already exists');
                     setShowNotification1(true);
                     setTimeout(() => setShowNotification1(false), 3000);
                 } else {
-                    // Set data in the database with the encoded email as part of the path
                     set(userRef, {
-                        name: name,
-                        email: email,
-                        password: password,
+                        name,
+                        email,
+                        password,
+                        department,  // Include department in the user data
                     })
                     .then(() => {
                         setName('');
                         setEmail('');
                         setPassword('');
+                        setDepartment('');
                         console.log('Data added successfully');
                         setShowNotification(true);
                         setTimeout(() => setShowNotification(false), 3000);
-                        
-                        
                     })
                     .catch((error) => {
                         console.error('Error adding data:', error);
@@ -80,6 +92,7 @@ export default function SignupScreen() {
                 console.error('Error fetching data:', error);
             });
     }
+    
     
 
     return (
@@ -104,6 +117,15 @@ export default function SignupScreen() {
                     <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()}  style={styles.inputContainer}>
                         <TextInput placeholder="Password" placeholderTextColor={'gray'} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true}  />
                     </Animated.View>
+                    <Animated.View entering={FadeInDown.duration(1000).springify()} style={styles.inputContainer}>
+    <RNPickerSelect
+        onValueChange={(value) => setDepartment(value)}
+        items={departmentOptions}
+        placeholder={{ label: "Select Department", value: null }}
+        style={styles}
+        value={department}
+    />
+</Animated.View>
                     <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
                         <TouchableOpacity onPress={dataAddon} style={styles.signupButton}>
                             <Text style={styles.signupButtonText}>SignUp</Text>
@@ -168,12 +190,7 @@ const styles = StyleSheet.create({
     formContainer: {
         marginTop: 40
     },
-    inputContainer: {
-        backgroundColor: 'rgba(0, 0, 0, 0.05)', 
-        padding: 10, 
-        borderRadius: 20, 
-        marginBottom: 15
-    },
+    
     signupButton: {
         backgroundColor: 'rgb(22, 132, 199)', 
         padding: 15, 
@@ -204,5 +221,31 @@ const styles = StyleSheet.create({
     },
     notificationText: {
         color: 'white',
+    },
+    inputContainer: {
+        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+        padding: 10,
+        borderRadius: 20,
+        marginBottom: 15
+    },
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 8, 
+        paddingHorizontal: 10,
+        borderWidth: 0.5, 
+        borderColor: 'purple', // unified borderColor
+        borderRadius: 8, // unified borderRadius
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+        fontSize: 16,
+        paddingVertical: 8, // unified paddingVertical
+        paddingHorizontal: 10,
+        borderWidth: 0.5, // unified borderWidth
+        borderColor: 'purple', // unified borderColor
+        borderRadius: 8, // unified borderRadius
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
     },
 });

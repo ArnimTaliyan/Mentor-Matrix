@@ -59,6 +59,7 @@ import Akashdeep_bhardwaj from './screens/SOCS/akashdeep_bhardwaj';
 import Anushree_sah from './screens/SOCS/Anushree_sah';
 import Alind from './screens/SOCS/Alind';
 import Dhirendra_kumar_sharma from './screens/SOCS/Dhirendra_kumar_sharma';
+import SearchScreen from './screens/SearchScreen';
 
 
 
@@ -166,6 +167,9 @@ function MainTabScreen() {
       
       <Tab.Screen name="CalendarScreen" component={CalendarScreen} options={{ tabBarIcon: ({ focused }) => (
         <Ionicons name="calendar-outline" size={24} color="black" />
+        ) }} />
+        <Tab.Screen name="SearchScreen" component={SearchScreen} options={{ tabBarIcon: ({ focused }) => (
+        <Ionicons name="search-outline" size={24} color="black" />
         ) }} />
         <Tab.Screen name="FetchData" component={FetchData} options={{ tabBarIcon: ({ focused }) => (
           <Ionicons name="notifications-outline" size={24} color="black" />
