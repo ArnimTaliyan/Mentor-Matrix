@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal, Text, TouchableOpacity, SafeAreaView, TextInput, StyleSheet } from 'react-native';
+import { View, Modal, Text,TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Platform } from 'react-native';
 import { Calendar } from 'react-native-big-calendar';
-import { get, ref, set, onValue } from 'firebase/database';
+import { ref, set, onValue } from 'firebase/database';
 import { db } from '../firebase'; // Import your Firebase configuration
 import { useNavigation } from '@react-navigation/native';
 import { encode } from 'base-64';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function CalendarScreen({ route }) {
   const navigation = useNavigation();
@@ -16,13 +17,15 @@ export default function CalendarScreen({ route }) {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [newEvent, setNewEvent] = useState({
     title: '',
-    startTime: '', // Separate state for start time
-    endTime: '',   // Separate state for end time
+    startTime: new Date(), // Set default start time
+    endTime: new Date(),   // Set default end time
     location: '',
     Teacher: ''
   });
   const [events, setEvents] = useState([]);
   const [commonDate, setCommonDate] = useState(''); // State for common date
+  const [showStartTimePicker, setShowStartTimePicker] = useState(false); // State for showing start time picker
+  const [showEndTimePicker, setShowEndTimePicker] = useState(false); // State for showing end time picker
 
   useEffect(() => {
     // Fetch events from Firebase when the component mounts
@@ -52,8 +55,8 @@ export default function CalendarScreen({ route }) {
   };
 
   const handleSaveEvent = () => {
-    const startDateTime = new Date(`${commonDate}T${newEvent.startTime}`);
-    const endDateTime = new Date(`${commonDate}T${newEvent.endTime}`);
+    const startDateTime = new Date(`${commonDate}T${newEvent.startTime.getHours()}:${newEvent.startTime.getMinutes()}`);
+    const endDateTime = new Date(`${commonDate}T${newEvent.endTime.getHours()}:${newEvent.endTime.getMinutes()}`);
 
     if (isNaN(startDateTime) || isNaN(endDateTime)) {
       console.error('Invalid date format. Please use a valid date format.');
@@ -72,8 +75,8 @@ export default function CalendarScreen({ route }) {
         setModalVisible(false);
         setNewEvent({
           title: '',
-          startTime: '',
-          endTime: '',
+          startTime: new Date(),
+          endTime: new Date(),
           location: '',
           Teacher: ''
         });
@@ -81,6 +84,18 @@ export default function CalendarScreen({ route }) {
       .catch((error) => {
         console.error('Error saving event:', error);
       });
+  };
+
+  const handleStartTimeChange = (event, selectedTime) => {
+    const currentTime = selectedTime || newEvent.startTime;
+    setShowStartTimePicker(Platform.OS === 'ios');
+    setNewEvent({ ...newEvent, startTime: currentTime });
+  };
+
+  const handleEndTimeChange = (event, selectedTime) => {
+    const currentTime = selectedTime || newEvent.endTime;
+    setShowEndTimePicker(Platform.OS === 'ios');
+    setNewEvent({ ...newEvent, endTime: currentTime });
   };
 
   return (
@@ -136,22 +151,34 @@ export default function CalendarScreen({ route }) {
                   onChangeText={(text) => setCommonDate(text)}
                   style={styles.input}
                 />
-                <View style={{ flexDirection: 'row' }}>
-                  <TextInput
-                    placeholder="Start Time (e.g., 10:00)"
-                    placeholderTextColor="darkgrey"
-                    value={newEvent.startTime}
-                    onChangeText={(text) => setNewEvent({ ...newEvent, startTime: text })}
-                    style={[styles.input, { flex: 1, marginRight: 5 }]}
-                  />
-                  <TextInput
-                    placeholder="End Time (e.g., 11:00)"
-                    placeholderTextColor="darkgrey"
-                    value={newEvent.endTime}
-                    onChangeText={(text) => setNewEvent({ ...newEvent, endTime: text })}
-                    style={[styles.input, { flex: 1, marginLeft: 5 }]}
-                  />
-                </View>
+                <TouchableOpacity onPress={() => setShowStartTimePicker(true)}>
+                  <Text style={{ color: 'blue' }}>Select Start Time</Text>
+                  {showStartTimePicker && (
+        <DateTimePicker
+          value={newEvent.startTime}
+          mode="time"
+          is24Hour={true}
+          display="default"
+          onChange={handleStartTimeChange}
+        />
+      )}
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={() => setShowEndTimePicker(true)}>
+                  <Text style={{ color: 'blue' }}>Select End Time</Text>
+                  {showEndTimePicker && (
+        <DateTimePicker
+          value={newEvent.endTime}
+          mode="time"
+          is24Hour={true}
+          display="default"
+          onChange={handleEndTimeChange}
+        />
+      )}
+                </TouchableOpacity>
+
+
+                
                 <TouchableOpacity onPress={handleSaveEvent}>
                   <Text style={{ color: 'blue' }}>Save Event</Text>
                 </TouchableOpacity>
@@ -163,6 +190,8 @@ export default function CalendarScreen({ route }) {
           </View>
         </View>
       </Modal>
+      
+      
       <TouchableOpacity onPress={handleAddEvent} style={styles.uploadButton}>
         <Text style={{ color: 'white' }}>Add Event</Text>
       </TouchableOpacity>
@@ -204,4 +233,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
 

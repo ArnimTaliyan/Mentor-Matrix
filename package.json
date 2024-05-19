@@ -7,6 +7,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/react-native-fontawesome": "^0.3.0",
     "@react-native-community/datetimepicker": "^8.0.1",
+    "@react-native-picker/picker": "^2.7.5",
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
@@ -39,7 +40,10 @@
     "react-native-timetable": "^1.0.6",
     "react-native-vector-icons": "^10.0.3",
     "react-native-web": "~0.19.6",
+    "react-native-wheel-scroll-picker": "^0.2.4",
+    "react-native-wheel-scrollview-picker": "^2.0.4",
     "rn-fetch-blob": "^0.12.0",
+    "styled-components": "^6.1.11",
     "tailwindcss": "^3.3.2",
     "yet": "^0.1.0"
   },
