@@ -32,7 +32,8 @@ export default function CalendarScreen({ route }) {
     onValue(eventsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const eventsArray = Object.values(data).map(event => ({
+        const eventsArray = Object.entries(data).map(([id, event]) => ({
+          id,
           ...event,
           start: new Date(event.start),
           end: new Date(event.end)
@@ -42,6 +43,7 @@ export default function CalendarScreen({ route }) {
         setEvents([]);
       }
     });
+    
   }, []);
 
   const handleEventPress = (event) => {
@@ -97,6 +99,19 @@ export default function CalendarScreen({ route }) {
     setShowEndTimePicker(Platform.OS === 'ios');
     setNewEvent({ ...newEvent, endTime: currentTime });
   };
+  const handleRemoveEvent = () => {
+    if (!selectedEvent) return;
+  
+    const eventRef = ref(db, `users/${encodedEmail}/events/${selectedEvent.id}`);
+    set(eventRef, null)
+      .then(() => {
+        setModalVisible(false);
+      })
+      .catch((error) => {
+        console.error('Error removing event:', error);
+      });
+  };
+  
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -120,6 +135,9 @@ export default function CalendarScreen({ route }) {
                 <Text style={styles.detailText}>Subject Name: {selectedEvent.title}</Text>
                 <Text style={styles.detailText}>ClassRoom: {selectedEvent.location}</Text>
                 <Text style={styles.detailText}>Teacher: {selectedEvent.Teacher}</Text>
+                <TouchableOpacity onPress={handleRemoveEvent}>
+                  <Text style={{ color: 'red' }}>Remove Event</Text>
+                </TouchableOpacity>
               </>
             ) : (
               <>
