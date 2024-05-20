@@ -91,7 +91,7 @@ function App() {
       <Stack.Navigator>
         {/* Adjusted screen structure based on user authentication */}
         
-        <Stack.Screen name="Profiles" component={Profiles} options={{ headerShown: false }} />
+        
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Timetable" component={Timetable} options={{ headerShown: true }} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
@@ -178,6 +178,9 @@ function MainTabScreen() {
          ) }} />
       <Tab.Screen name="Settings" component={SettingScreen} options={{ tabBarIcon: ({ focused }) => (
         <Ionicons name="settings-outline" size={24} color="black" />
+      ) }} />
+      <Tab.Screen name="Profiles" component={Profiles} options={{ tabBarIcon: ({ focused }) => (
+        <Ionicons name="person-sharp" size={24} color="black" />
       ) }} />
     </Tab.Navigator>
   );

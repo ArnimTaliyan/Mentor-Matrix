@@ -3,12 +3,14 @@ import { View, Text, SafeAreaView, TextInput, FlatList, StyleSheet, ScrollView, 
 import { db } from '../firebase'; // Import db from firebase.js
 import { ref, onValue } from 'firebase/database';
 import { Avatar } from 'react-native-elements';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [userData, setUserData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState('SOAE'); // Default department
+  const [showSearchResults, setShowSearchResults] = useState(false);
 
   // Dummy department options
   const departmentOptions = [
@@ -27,7 +29,7 @@ export default function SearchScreen() {
     const usersRef = ref(db, 'users');
     onValue(usersRef, (snapshot) => {
       const data = snapshot.val();
-      const userList = data ? Object.values(data).map(user => ({ id: user.id, name: user.name, avatar: user.avatar, department: user.department })) : [];
+      const userList = data ? Object.values(data).map(user => ({ id: user.id, name: user.name, avatar: user.avatar, email: user.email, department: user.department })) : [];
       setUserData(userList);
       setFilteredData(userList.filter(user => user.department === selectedDepartment));
     });
@@ -40,24 +42,38 @@ export default function SearchScreen() {
         item.name.toLowerCase().includes(text.toLowerCase())
       );
       setFilteredData(filtered);
+      setShowSearchResults(true);
     } else {
       setFilteredData(userData.filter(user => user.department === selectedDepartment));
+      setShowSearchResults(false);
     }
+  };
+
+  const handleCloseSearch = () => {
+    setSearchQuery('');
+    setFilteredData(userData.filter(user => user.department === selectedDepartment));
+    setShowSearchResults(false);
   };
 
   const renderItem = ({ item }) => (
     <View style={styles.userContainer}>
       <Avatar
         rounded
-        source={{ uri: item.avatar }}
+        source={require('../assets/images/default_profile.jpg')}
         size="medium"
       />
-      <Text style={styles.userName}>{item.name}</Text>
+      <View style={styles.userDetails}>
+        <Text style={styles.userName}>{item.name}</Text>
+        <Text style={styles.userDepartment}>{item.department}</Text>
+      </View>
     </View>
   );
 
   const handleDepartmentSelect = (department) => {
     setSelectedDepartment(department);
+    setSearchQuery('');
+    setFilteredData(userData.filter(user => user.department === department));
+    setShowSearchResults(false);
   };
 
   return (
@@ -69,17 +85,21 @@ export default function SearchScreen() {
           value={searchQuery}
           onChangeText={handleSearch}
           placeholderTextColor="gray"
-          // Set text color
           color="black"
+          onFocus={() => setShowSearchResults(true)}
         />
-        {/* You can add a search icon here if needed */}
+        {showSearchResults && (
+          <TouchableOpacity style={styles.closeIconContainer} onPress={handleCloseSearch}>
+            <Ionicons name="close-outline" size={24} color="black" />
+          </TouchableOpacity>
+        )}
       </View>
       <View style={{ flex: 0 }}>
         <ScrollView horizontal={true} contentContainerStyle={styles.departmentScrollView}>
           <View style={{ flexDirection: 'row' }}>
-            {departmentOptions.map((dept, index) => (
+            {departmentOptions.map((dept) => (
               <TouchableOpacity
-                key={index}
+                key={dept.value}
                 style={[styles.cardContainer, { backgroundColor: selectedDepartment === dept.value ? 'lightblue' : 'white' }]}
                 onPress={() => handleDepartmentSelect(dept.value)}
               >
@@ -89,12 +109,25 @@ export default function SearchScreen() {
           </View>
         </ScrollView>
       </View>
-
       <FlatList
         data={filteredData}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.email}
         renderItem={renderItem}
       />
+
+      {showSearchResults && (
+        <View style={styles.dropdownContainer}>
+          {filteredData.length === 0 ? (
+            <Text style={styles.noResultsText}>No results found</Text>
+          ) : (
+            <FlatList
+              data={filteredData}
+              keyExtractor={(item) => item.email}
+              renderItem={renderItem}
+            />
+          )}
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -119,6 +152,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: '#f0f0f0',
   },
+  closeIconContainer: {
+    position: 'absolute',
+    right: 20,
+    zIndex: 1,
+  },
   userContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -127,16 +165,21 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
-  userName: {
+  userDetails: {
     marginLeft: 15,
+  },
+  userName: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  userDepartment: {
+    fontSize: 12,
+    color: 'darkgray',
   },
   cardContainer: {
     margin: 10,
     width: 60,
     height: 30,
-    backgroundColor: '',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
@@ -147,6 +190,25 @@ const styles = StyleSheet.create({
   },
   departmentScrollView: {
     flexDirection: 'row',
-    
+  },
+  dropdownContainer: {
+    position: 'absolute',
+    top: 60,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'white',
+    zIndex: 1,
+    marginTop: 40, // Margin to ensure it is below the search bar
+  },
+  
+  noResultsText: {
+    fontSize: 18,
+    color: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    flex: 1,
+    marginTop:40
   }
 });

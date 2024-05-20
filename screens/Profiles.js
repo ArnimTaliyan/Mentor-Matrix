@@ -66,10 +66,7 @@ export default function Profiles() {
             </View>
           </View>
 
-          {/* IonIcons on top left */}
-          <View style={styles.iconContainer}>
-            <Ionicons name="chevron-back-outline" size={30} color="#000" />
-          </View>
+         
 
           {/* IonIcons on top right */}
           <View style={[styles.iconContainer, { right: 20 }]}>
