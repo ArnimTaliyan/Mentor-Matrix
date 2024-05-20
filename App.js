@@ -14,6 +14,8 @@ import FetchData from './screens/AnnouncementScreen';
 import AnnouncementScheduler from './screens/Announcement';
 import Timetableprofile from './screens/Timetableprofile';
 import CalendarScreen from './screens/calanderscreen';
+import SearchScreen from './screens/SearchScreen';
+import Profiles from './screens/Profiles';
 
 
 
@@ -59,8 +61,7 @@ import Akashdeep_bhardwaj from './screens/SOCS/akashdeep_bhardwaj';
 import Anushree_sah from './screens/SOCS/Anushree_sah';
 import Alind from './screens/SOCS/Alind';
 import Dhirendra_kumar_sharma from './screens/SOCS/Dhirendra_kumar_sharma';
-import SearchScreen from './screens/SearchScreen';
-import Profiles from './screens/Profiles';
+
 
 
 

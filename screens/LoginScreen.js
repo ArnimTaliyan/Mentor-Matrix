@@ -25,29 +25,44 @@ export default function LoginScreen({ route }) {
         });
     }, [route]);
 
+    // Clear input fields when loginError changes to true
+    useEffect(() => {
+        if (loginError) {
+            setValues({ email: "", pwd: "" });
+        }
+    }, [loginError]);
+
     function handleChange(text, eventName) {
         setValues(prev => ({
             ...prev,
             [eventName]: text
         }));
     }
+    function clearInputFields() {
+        setValues({
+            email: "",
+            pwd: ""
+        });
+    }
+    
 
     function Login() {
         const { email, pwd } = values;
         const encodedEmail = encode(email);
         const userRef = ref(db, `users/${encodedEmail}`);
-    
+        
         get(userRef, 'value')
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const userData = snapshot.val();
+                    
                     const storedPassword = userData.password ? userData.password.trim() : ''; // Trim stored password if it exists
-
+    
                     const enteredPassword = pwd.trim(); // Trim entered password
                     if (storedPassword === enteredPassword) {
                         setShowNotification(true);
                         setTimeout(() => setShowNotification(false), 3000); // Hide notification after 3 seconds
-                       
+                        navigation.navigate('Main', { screen: 'Profiles', params: { userName: userData.name, userEmail: email , userDepartment: userData.department }});
                         navigation.navigate('Main', { screen: 'CalendarScreen', params: { userName: userData.name, userEmail: email } });
                         navigation.navigate('Main', { screen: 'Home', params: { userName: userData.name, userEmail: email },  });
                     } else {
@@ -66,8 +81,13 @@ export default function LoginScreen({ route }) {
                 setLoginErrorMessage('An error occurred while fetching user data');
                 setLoginError(true);
                 setTimeout(() => setLoginError(false), 3000);
+            })
+            .finally(() => {
+                clearInputFields(); // Clear input fields after login attempt
             });
     }
+    
+
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
@@ -90,10 +110,10 @@ export default function LoginScreen({ route }) {
                 <KeyboardAvoidingView behavior='padding'>
                     <View style={styles.formContainer}>
                         <Animated.View entering={FadeInDown.duration(1000).springify()} style={styles.inputContainer}>
-                            <TextInput placeholder="Email" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "email")} />
+                            <TextInput placeholder="Email" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "email")} value={values.email} />
                         </Animated.View>
                         <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} style={styles.inputContainer}>
-                            <TextInput placeholder="Password" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "pwd")} secureTextEntry={true} />
+                            <TextInput placeholder="Password" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "pwd")} secureTextEntry={true} value={values.pwd} />
                         </Animated.View>
                         <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
                             <TouchableOpacity onPress={Login} style={styles.loginButton}>
@@ -115,6 +135,7 @@ export default function LoginScreen({ route }) {
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {

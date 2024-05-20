@@ -1,191 +1,285 @@
-import React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Modal, Alert } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as ImagePicker from 'expo-image-picker';
+
 
 export default function Profiles() {
-  // Example project data
-  const projects = [
-    { name: 'Project A', numberOfProjects: 5 },
-    { name: 'Project B', numberOfProjects: 3 },
-    { name: 'Project C', numberOfProjects: 8 },
-  ];
+  const navigation = useNavigation();
+  const route = useRoute();
+  
+  const userName = route.params?.userName;
+  const userEmail = route.params?.userEmail;
+  const userDepartment = route.params?.userDepartment;
+  const [profileImage, setProfileImage] = useState(require('../assets/images/default_profile.jpg'));
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleCamera = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission Denied', 'Camera permission is required to take a photo.');
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setProfileImage({ uri: result.uri });
+    }
+    setModalVisible(false);
+  };
+
+  const handleGallery = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission Denied', 'Gallery permission is required to select a photo.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setProfileImage({ uri: result.uri });
+    }
+    setModalVisible(false);
+  };
+
+  const handleRemove = () => {
+    setProfileImage(require('../assets/images/default_profile.jpg'));
+    setModalVisible(false);
+  };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-        {/* Cover Image */}
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.profileTitle}>Your Profile</Text>
+        
+        <View style={styles.profileImageContainer}>
         <Image
-            source={require('../assets/images/bg.jpeg')}
-            style={styles.coverImage}
-          />
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.container}>
+  source={{ uri: profileImage.uri }}
+  style={styles.profileImage}
+/>
+
+          <TouchableOpacity style={styles.cameraIconContainer} onPress={() => setModalVisible(true)}>
+            <Ionicons name="camera-outline" size={20} color="#FFA726" />
+          </TouchableOpacity>
+        </View>
+        {userName ? <Text style={styles.profileName}>{userName}</Text> : null}
+        <Text style={styles.profileSubtitle}>Assistant Professor</Text>
+        <Text style={styles.profileActiveSince}>{userDepartment}</Text>
+
+        <View style={styles.personalInfoContainer}>
+          <Text style={styles.sectionTitle}>Personal Info</Text>
           
-          
-          
-          {/* Profile Image */}
-          <View style={styles.profileImageContainer}>
-            <Image
-              source={require('../assets/images/upes.jpeg')}
-              style={styles.profileImage}
-            />
+          <Text style={styles.editText}>Edit</Text>
+          <View style={styles.infoItem}>
+            <Ionicons name="mail-outline" size={24} color="#FFA726" />
+            <Text style={styles.infoText}>richbarnes@gmail.com</Text>
           </View>
-
-          {/* Main Content Container */}
-          <View style={styles.mainContentContainer}>
-           
-
-            {/* Projects Container */}
-            <View style={styles.projectsContainer}>
-                <View style={styles.profileInfoTextContainer}>
-                    <Text style={styles.profileInfoText}>John Doe</Text>
-                    <Text style={styles.profileInfoTextd}>University of Petroleum and Energy Studies</Text>
-                    <Text style={styles.profileInfoTextd}>Software Engineer</Text>
-                </View>
-                <View style={styles.iconsRow}>
-                <Ionicons name="location" size={25} color="#000" style={styles.icon} />
-                <Ionicons name="logo-linkedin" size={25} color="#295094" style={styles.icon} />
-                <Ionicons name="paper-plane" size={25} color="#000" style={styles.icon} />
-              </View>
-              <Text style={{ fontWeight: 'bold', fontSize: 30, marginTop: 20 }}>Bio</Text>
-              <View style={styles.bioContentContainer}>
-                <Text>Bio content goes here...</Text>
-              </View>
-              <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Projects</Text>
-              {projects.map((project, index) => (
-                <View key={index} style={styles.projectItem}>
-                  <Text style={styles.projectName}>{project.name}</Text>
-                </View>
-              ))}
-            </View>
-
-            {/* Announcement Section */}
-            <View style={styles.announcementContainer}>
-              <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Announcement</Text>
-              <Text style={{ marginTop: 10 }}>Your announcement content goes here...</Text>
-            </View>
+          <View style={styles.infoItem}>
+            <Ionicons name="call-outline" size={24} color="#FFA726" />
+            <Text style={styles.infoText}>+71138474930</Text>
           </View>
-
-         
-
-          {/* IonIcons on top right */}
-          <View style={[styles.iconContainer, { right: 20 }]}>
-            <Ionicons name="settings-outline" size={30} color="#000" />
+          <View style={styles.infoItem}>
+            <Ionicons name="location-outline" size={24} color="#FFA726" />
+            <Text style={styles.infoText}>Country Side</Text>
           </View>
         </View>
+
+        <View style={styles.utilitiesContainer}>
+          <Text style={styles.sectionTitle}>Utilities</Text>
+          <TouchableOpacity style={styles.utilityItem}>
+            <Ionicons name="download-outline" size={24} color="#FFA726" />
+            <Text style={styles.utilityText}>Downloads</Text>
+            <Ionicons name="chevron-forward-outline" size={24} color="#B0B0B0" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.utilityItem}>
+            <Ionicons name="help-outline" size={24} color="#FFA726" />
+            <Text style={styles.utilityText}>Help</Text>
+            <Ionicons name="chevron-forward-outline" size={24} color="#B0B0B0" />
+          </TouchableOpacity>
+        </View>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.modalView}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Profile Photo</Text>
+              <TouchableOpacity style={styles.modalButton} onPress={handleCamera}>
+                <Ionicons name="camera-outline" size={24} color="#FFA726" />
+                <Text style={styles.modalButtonText}>Camera</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalButton} onPress={handleGallery}>
+                <Ionicons name="image-outline" size={24} color="#FFA726" />
+                <Text style={styles.modalButtonText}>Gallery</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalButton} onPress={handleRemove}>
+                <Ionicons name="trash-outline" size={24} color="#FFA726" />
+                <Text style={styles.modalButtonText}>Remove</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.modalButton, styles.modalCancelButton]} onPress={() => setModalVisible(!modalVisible)}>
+                <Ionicons name="close-outline" size={24} color="#FFA726" />
+                <Text style={styles.modalButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    position: 'relative',
-    zIndex: 2,
-    
+    backgroundColor: '#F5F5F5',
   },
-  scrollContainer: {
-    flexGrow: 1,
+  container: {
+    alignItems: 'center',
+    padding: 20,
   },
-  coverImage: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 1000,
-    resizeMode: 'cover',
+  profileTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 20,
   },
   profileImageContainer: {
-    position: 'absolute',
-    top: 120,
-    left: '50%',
-    marginLeft: -50,
-    zIndex: 1,
+    position: 'relative',
+    marginBottom: 10,
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: '#fff',
+    width: 120,
+    height: 120,
+    borderRadius: 80,
+    borderWidth: 4,
+    borderColor: '#ebebeb',
   },
-  mainContentContainer: {
-    marginTop: 240,
-    paddingHorizontal: 20,
-  },
-  profileInfoTextContainer: {
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  profileInfoText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  profileInfoTextd: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: 'grey',
-    marginBottom: 5,
-  },
-  iconContainer: {
+  cameraIconContainer: {
     position: 'absolute',
-    top: 20,
-    zIndex: 1,
+    bottom: 0,
+    right: 0,
+    backgroundColor: '#ebebeb',
+    borderRadius: 20,
+    padding: 5,
   },
-  iconsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    marginBottom: 10,
-  },
-  icon: {
-    marginRight: 10,
-  },
-  bioContentContainer: {
-    marginTop: 10,
-  },
-  projectsContainer: {
-    width: '100%', // Adjust width as needed
-    padding: 20,
-    backgroundColor: '#FFF',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  projectItem: {
-    backgroundColor: '#FFF',
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 10,
-  },
-  projectName: {
+  profileName: {
+    fontSize: 24,
     fontWeight: 'bold',
-    fontSize: 18,
   },
-  announcementContainer: {
-    marginTop: 20,
-    paddingHorizontal: 20,
+  profileSubtitle: {
+    fontSize: 14,
+    color: '#757575',
+    marginVertical: 5,
+  },
+  profileActiveSince: {
+    fontSize: 12,
+    color: '#757575',
+    marginBottom: 20,
+  },
+  personalInfoContainer: {
+    width: '100%',
     backgroundColor: '#FFF',
     borderRadius: 10,
+    padding: 20,
+    marginBottom: 20,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
     elevation: 5,
-    paddingVertical: 15,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  editText: {
+    position: 'absolute',
+    right: 20,
+    top: 20,
+    fontSize: 14,
+    color: '#FFA726',
+    fontWeight: 'bold',
+  },
+  infoItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  infoText: {
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  utilitiesContainer: {
+    width: '100%',
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  utilityItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginVertical: 10,
+  },
+  utilityText: {
+    fontSize: 16,
+    marginLeft: 10,
+    flex: 1,
+  },
+  modalView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: 300,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  modalButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    width: '100%',
+    marginBottom: 10,
+  },
+  modalButtonText: {
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  modalCancelButton: {
+    marginTop: 20,
   },
 });

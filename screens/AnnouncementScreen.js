@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Linking, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, Linking, TouchableOpacity, Image, Platform } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { ref, onValue } from 'firebase/database';
@@ -21,8 +21,8 @@ const FetchData = () => {
     }, []);
 
     return (
-        <SafeAreaView style={styles.safeArea}>
-            <ScrollView>
+        <SafeAreaView style={[styles.safeArea, Platform.OS =='android'&& {paddingBottom:38}]}>
+            <ScrollView style={[ Platform.OS === 'android' && {paddingBottom:30 }]}>
                 <View style={styles.container}>
                     {todoData.map((item, index) => {
                         return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, TextInput, FlatList, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, TextInput, FlatList, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native'; // Import Platform module
 import { db } from '../firebase'; // Import db from firebase.js
 import { ref, onValue } from 'firebase/database';
 import { Avatar } from 'react-native-elements';
@@ -116,7 +116,7 @@ export default function SearchScreen() {
       />
 
       {showSearchResults && (
-        <View style={styles.dropdownContainer}>
+        <View style={[styles.dropdownContainer, Platform.OS === 'android' && { marginTop: -15 }]}>
           {filteredData.length === 0 ? (
             <Text style={styles.noResultsText}>No results found</Text>
           ) : (
@@ -141,7 +141,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    marginBottom: 5, // Reduced marginBottom from 10 to 5
+    marginBottom: 5,
+    paddingTop:5 
   },
   searchBar: {
     flex: 1,
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: 'white',
     zIndex: 1,
-    marginTop: 40, // Margin to ensure it is below the search bar
+    marginTop: 45, // Margin to ensure it is below the search bar
   },
   
   noResultsText: {
@@ -209,6 +210,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'center',
     flex: 1,
-    marginTop:40
+    marginTop: 40,
   }
 });
+   
