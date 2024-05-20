@@ -60,6 +60,7 @@ import Anushree_sah from './screens/SOCS/Anushree_sah';
 import Alind from './screens/SOCS/Alind';
 import Dhirendra_kumar_sharma from './screens/SOCS/Dhirendra_kumar_sharma';
 import SearchScreen from './screens/SearchScreen';
+import Profiles from './screens/Profiles';
 
 
 
@@ -90,6 +91,7 @@ function App() {
       <Stack.Navigator>
         {/* Adjusted screen structure based on user authentication */}
         
+        <Stack.Screen name="Profiles" component={Profiles} options={{ headerShown: false }} />
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Timetable" component={Timetable} options={{ headerShown: true }} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
