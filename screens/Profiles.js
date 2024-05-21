@@ -9,10 +9,11 @@ import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage
 import { ref as databaseRef, set, get, child } from 'firebase/database';
 import { useNavigation , useRoute} from '@react-navigation/native';
 import { encode } from 'base-64';
+import { remove } from 'firebase/database';
 
 
 
-export default function ProfilePage() {
+export default function Profiles() {
   const navigation = useNavigation();
   const route = useRoute();
   const userName = route.params?.userName;
@@ -126,6 +127,18 @@ export default function ProfilePage() {
       Alert.alert('Upload failed', error.message);
     }
   };
+  const handleRemoveProfileImage = () => {
+    // Remove profile image from Firebase Realtime Database
+    remove(profileImageRef)
+      .then(() => {
+        // Update state to display default profile image
+        setProfileImageUrl(null);
+        setModalVisible(false);
+      })
+      .catch((error) => {
+        console.error('Error removing profile image:', error);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -201,10 +214,10 @@ export default function ProfilePage() {
                     <Ionicons name="image-outline" size={24} color="#FFA726" />
                     <Text style={styles.modalButtonText}>Gallery</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButton} onPress={() => setImage(null)}>
-                    <Ionicons name="trash-outline" size={24} color="#FFA726" />
-                    <Text style={styles.modalButtonText}>Remove</Text>
-                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.modalButton} onPress={handleRemoveProfileImage}>
+                <Ionicons name="trash-outline" size={24} color="#FFA726" />
+                <Text style={styles.modalButtonText}>Remove</Text>
+              </TouchableOpacity>
                   {image && (
                     <TouchableOpacity style={styles.modalButton} onPress={uploadMedia} disabled={uploading}>
                       {uploading ? (
