@@ -3,16 +3,34 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Modal, Tou
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
-import { storage } from '../firebase'; // Replace with your Firebase storage configuration
+import { storage, db } from '../firebase'; // Import Firebase storage and database
 import * as FileSystem from 'expo-file-system';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref as databaseRef, set, get, child } from 'firebase/database';
+import { useNavigation , useRoute} from '@react-navigation/native';
+import { encode } from 'base-64';
+
+
 
 export default function ProfilePage() {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const userName = route.params?.userName;
+  const userEmail = route.params?.userEmail;
+  const userDepartment = route.params?.userDepartment;
+
+
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState(null);
   const [imageName, setImageName] = useState('');
   const [uploading, setUploading] = useState(false);
-  const [profileImageUrl, setProfileImageUrl] = useState(null); // State to store the uploaded image URL
+  const [profileImageUrl, setProfileImageUrl] = useState(null);
+  const [userData, setUserData] = useState({});
+
+  
+  const encodedEmail = encode(userEmail);
+  const userRef = databaseRef(db, `users/${encodedEmail}`);
+  const profileImageRef = child(userRef, 'userdata/profileImageUrl');
 
   useEffect(() => {
     (async () => {
@@ -22,6 +40,20 @@ export default function ProfilePage() {
         Alert.alert('Permission denied', 'Please grant camera and gallery permissions to use this feature.');
       }
     })();
+
+    // Fetch user data from Firebase Realtime Database
+    get(userRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setUserData(snapshot.val());
+          if (snapshot.child('userdata/profileImageUrl').exists()) {
+            setProfileImageUrl(snapshot.child('userdata/profileImageUrl').val());
+          }
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching user data:', error);
+      });
   }, []);
 
   const pickImageFromCamera = async () => {
@@ -30,7 +62,7 @@ export default function ProfilePage() {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 0.5, // Reduce the quality to prevent memory issues
+        quality: 0.5,
       });
       handleImageResult(result);
     } catch (error) {
@@ -44,7 +76,7 @@ export default function ProfilePage() {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 0.5, // Reduce the quality to prevent memory issues
+        quality: 0.5,
       });
       handleImageResult(result);
     } catch (error) {
@@ -55,12 +87,10 @@ export default function ProfilePage() {
   const handleImageResult = (result) => {
     if (!result.canceled) {
       const { uri, fileName } = result.assets[0];
-      const imageName = fileName || uri.split('/').pop(); // Use fileName if available, otherwise extract from URI
+      const imageName = fileName || uri.split('/').pop();
 
       setImage(uri);
       setImageName(imageName);
-      console.log('Image URI:', uri);
-      console.log('Image Name:', imageName);
     }
   };
 
@@ -74,15 +104,16 @@ export default function ProfilePage() {
 
       const blob = await (await fetch(`data:image/jpeg;base64,${base64Data}`)).blob();
 
-      const storageRef = ref(storage, imageName);
+      const storageReference = storageRef(storage, imageName);
 
-      await uploadBytes(storageRef, blob);
+      await uploadBytes(storageReference, blob);
 
-      const downloadURL = await getDownloadURL(storageRef);
-      console.log('Download URL:', downloadURL);
+      const downloadURL = await getDownloadURL(storageReference);
+
+      // Save the download URL to Firebase Realtime Database
+      await set(profileImageRef, downloadURL);
 
       setProfileImageUrl(downloadURL);
-      console.log('Profile image URL set:', downloadURL);
 
       setUploading(false);
       Alert.alert('Photo Uploaded!');
@@ -114,16 +145,16 @@ export default function ProfilePage() {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.profileName}>Richard Barnes</Text>
-        <Text style={styles.profileSubtitle}>22 year old dev from the Country Side</Text>
-        <Text style={styles.profileActiveSince}>Active since - Aug, 2022</Text>
+        <Text style={styles.profileName}>{userName}</Text>
+        <Text style={styles.profileSubtitle}>Assistant Professor</Text>
+        <Text style={styles.profileActiveSince}>{userDepartment}</Text>
 
         <View style={styles.personalInfoContainer}>
           <Text style={styles.sectionTitle}>Personal Info</Text>
           <Text style={styles.editText}>Edit</Text>
           <View style={styles.infoItem}>
             <Ionicons name="mail-outline" size={24} color="#FFA726" />
-            <Text style={styles.infoText}>richbarnes@gmail.com</Text>
+            <Text style={styles.infoText}>{userEmail}</Text>
           </View>
           <View style={styles.infoItem}>
             <Ionicons name="call-outline" size={24} color="#FFA726" />
@@ -195,7 +226,6 @@ export default function ProfilePage() {
     </SafeAreaView>
   );
 }
-
 
 
 
