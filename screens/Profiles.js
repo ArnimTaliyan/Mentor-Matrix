@@ -5,13 +5,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 import { storage, db } from '../firebase'; // Import Firebase storage and database
 import * as FileSystem from 'expo-file-system';
-import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { ref as databaseRef, set, get, child } from 'firebase/database';
-import { useNavigation , useRoute} from '@react-navigation/native';
+import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { ref as databaseRef, set, get, child, remove as removeDatabaseData } from 'firebase/database';
+import { useNavigation , useRoute } from '@react-navigation/native';
 import { encode } from 'base-64';
-import { remove } from 'firebase/database';
-
-
 
 export default function Profiles() {
   const navigation = useNavigation();
@@ -20,7 +17,6 @@ export default function Profiles() {
   const userEmail = route.params?.userEmail;
   const userDepartment = route.params?.userDepartment;
 
-
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState(null);
   const [imageName, setImageName] = useState('');
@@ -28,7 +24,6 @@ export default function Profiles() {
   const [profileImageUrl, setProfileImageUrl] = useState(null);
   const [userData, setUserData] = useState({});
 
-  
   const encodedEmail = encode(userEmail);
   const userRef = databaseRef(db, `users/${encodedEmail}`);
   const profileImageRef = child(userRef, 'userdata/profileImageUrl');
@@ -105,14 +100,14 @@ export default function Profiles() {
 
       const blob = await (await fetch(`data:image/jpeg;base64,${base64Data}`)).blob();
 
-      const storageReference = storageRef(storage, imageName);
-
+      const storageReference = storageRef(storage, `profileImages/${imageName}`);
       await uploadBytes(storageReference, blob);
 
       const downloadURL = await getDownloadURL(storageReference);
 
-      // Save the download URL to Firebase Realtime Database
+      // Save the download URL and image name to Firebase Realtime Database
       await set(profileImageRef, downloadURL);
+      await set(child(userRef, 'profileImageName'), imageName);
 
       setProfileImageUrl(downloadURL);
 
@@ -127,17 +122,34 @@ export default function Profiles() {
       Alert.alert('Upload failed', error.message);
     }
   };
-  const handleRemoveProfileImage = () => {
-    // Remove profile image from Firebase Realtime Database
-    remove(profileImageRef)
-      .then(() => {
+
+  const handleRemoveProfileImage = async () => {
+    try {
+      // Fetch the stored image name from the database
+      const imageNameSnapshot = await get(child(userRef, 'profileImageName'));
+      if (imageNameSnapshot.exists()) {
+        const storedImageName = imageNameSnapshot.val();
+
+        // Delete profile image from Firebase Storage
+        if (profileImageUrl) {
+          const imageRef = storageRef(storage, `profileImages/${storedImageName}`);
+          await deleteObject(imageRef);
+        }
+
+        // Remove profile image reference from Firebase Realtime Database
+        await removeDatabaseData(profileImageRef);
+        await removeDatabaseData(child(userRef, 'profileImageName'));
+
         // Update state to display default profile image
         setProfileImageUrl(null);
         setModalVisible(false);
-      })
-      .catch((error) => {
-        console.error('Error removing profile image:', error);
-      });
+      } else {
+        throw new Error('No profile image found in database');
+      }
+    } catch (error) {
+      console.error('Error removing profile image:', error);
+      Alert.alert('Error', 'Failed to remove profile image');
+    }
   };
 
   return (
@@ -163,20 +175,34 @@ export default function Profiles() {
         <Text style={styles.profileActiveSince}>{userDepartment}</Text>
 
         <View style={styles.personalInfoContainer}>
+          
           <Text style={styles.sectionTitle}>Personal Info</Text>
+
+          <TouchableOpacity>
           <Text style={styles.editText}>Edit</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
           <View style={styles.infoItem}>
             <Ionicons name="mail-outline" size={24} color="#FFA726" />
             <Text style={styles.infoText}>{userEmail}</Text>
           </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
           <View style={styles.infoItem}>
             <Ionicons name="call-outline" size={24} color="#FFA726" />
             <Text style={styles.infoText}>+71138474930</Text>
           </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
           <View style={styles.infoItem}>
             <Ionicons name="location-outline" size={24} color="#FFA726" />
             <Text style={styles.infoText}>Country Side</Text>
           </View>
+          </TouchableOpacity>
+          
         </View>
 
         <View style={styles.utilitiesContainer}>
@@ -311,8 +337,8 @@ const styles = StyleSheet.create({
   },
   editText: {
     position: 'absolute',
-    right: 20,
-    top: 20,
+    right: 10,
+    top: -30,
     fontSize: 14,
     color: '#FFA726',
     fontWeight: 'bold',
