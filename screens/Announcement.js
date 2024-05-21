@@ -289,94 +289,140 @@ export default function AnnouncementScheduler() {
     );
 }
 
+
 const styles = StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: '#F5F5F5',
+    },
     container: {
-        flex: 1,
-        padding: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
+      alignItems: 'center',
+      padding: 20,
     },
-    inputContainer: {
-        width: '80%',
-        borderWidth: 1,
-        borderColor: '#7289DA',
-        borderRadius: 5,
-        marginBottom: 20,
+    profileTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginVertical: 20,
     },
-    input: {
-        height: 40,
-        fontSize: 16,
-        paddingLeft: 10,
+    profileImageContainer: {
+      position: 'relative',
+      marginBottom: 10,
     },
-    placeholder: {
-        position: 'absolute',
-        left: 10,
-        fontSize: 16,
-        color: 'gray',
+    profileImage: {
+      width: 120,
+      height: 120,
+      borderRadius: 80,
+      borderWidth: 4,
+      borderColor: '#ebebeb',
     },
-    postButton: {
-        borderRadius: 5,
-        width: 200,
-        height: 50,
-        backgroundColor: '#7289DA',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20,
+    cameraIconContainer: {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      backgroundColor: '#ebebeb',
+      borderRadius: 20,
+      padding: 5,
     },
-    button: {
-        borderRadius: 5,
-        width: 200,
-        height: 50,
-        backgroundColor: 'transparent',
-        alignItems: 'center',
-        justifyContent: 'center',
+    profileName: {
+      fontSize: 24,
+      fontWeight: 'bold',
     },
-    uploadbuttonText: {
-        color: '#7289DA',
-        fontWeight: 'bold',
+    profileSubtitle: {
+      fontSize: 14,
+      color: '#757575',
+      marginVertical: 5,
     },
-    buttonText: {
-        color: '#fff',
-        fontWeight: 'bold',
+    profileActiveSince: {
+      fontSize: 12,
+      color: '#757575',
+      marginBottom: 20,
     },
-    documentContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
+    personalInfoContainer: {
+      width: '100%',
+      backgroundColor: '#FFF',
+      borderRadius: 10,
+      padding: 20,
+      marginBottom: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      elevation: 5,
     },
-    document: {
-        marginVertical: 10,
-        marginRight: 10,
-        
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
     },
-    progressText: {
-        marginTop: 10,
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#7289DA',
+    editText: {
+      position: 'absolute',
+      right: 20,
+      top: 20,
+      fontSize: 14,
+      color: '#FFA726',
+      fontWeight: 'bold',
     },
-     notificationContainer: {
-        position: 'absolute',
-        bottom: 50,
-        left: 0,
-        right: 0,
-        alignItems: 'center',
+    infoItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginVertical: 10,
     },
-    notification: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderRadius: 5,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        elevation: 5,
+    infoText: {
+      fontSize: 16,
+      marginLeft: 10,
     },
-    notificationText: {
-        fontSize: 16,
-        color: 'green',
-        marginLeft: 10,
+    utilitiesContainer: {
+      width: '100%',
+      backgroundColor: '#FFF',
+      borderRadius: 10,
+      padding: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      elevation: 5,
     },
-});
+    utilityItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginVertical: 10,
+    },
+    utilityText: {
+      fontSize: 16,
+      marginLeft: 10,
+      flex: 1,
+    },
+    modalView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+      width: 300,
+      backgroundColor: 'white',
+      borderRadius: 10,
+      padding: 20,
+      alignItems: 'center',
+    },
+    modalTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 20,
+    },
+    modalButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 10,
+      width: '100%',
+      marginBottom: 10,
+    },
+    modalButtonText: {
+      fontSize: 16,
+      marginLeft: 10,
+    },
+    modalCancelButton: {
+      marginTop: 20,
+    },
+  });
