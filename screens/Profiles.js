@@ -7,7 +7,7 @@ import { storage, db } from '../firebase'; // Import Firebase storage and databa
 import * as FileSystem from 'expo-file-system';
 import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { ref as databaseRef, set, get, child, remove as removeDatabaseData } from 'firebase/database';
-import { useNavigation , useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { encode } from 'base-64';
 
 export default function Profiles() {
@@ -170,56 +170,48 @@ export default function Profiles() {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.profileName}>{userName}</Text>
-        <Text style={styles.profileSubtitle}>Assistant Professor</Text>
+        <Text style={styles.profileName}>{userData.name || '...'}</Text>
+        <Text style={styles.profileSubtitle}>{userData.designation || '...'}</Text>
         <Text style={styles.profileActiveSince}>{userDepartment}</Text>
 
         <View style={styles.personalInfoContainer}>
-          
           <Text style={styles.sectionTitle}>Personal Info</Text>
 
-          <TouchableOpacity onPress={() => navigation.push('EditProfile',{ userName: userData.name, userEmail: userEmail , userDepartment: userData.department })}>
-          <Text style={styles.editText}>Edit</Text>
+          <TouchableOpacity onPress={() => navigation.push('EditProfile', { userName: userData.name, userEmail: userEmail, userDepartment: userData.department })}>
+            <Text style={styles.editText}>Edit</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
           <View style={styles.infoItem}>
             <Ionicons name="mail-outline" size={24} color="#FFA726" />
             <Text style={styles.infoText}>{userEmail}</Text>
           </View>
-          </TouchableOpacity>
 
-          <TouchableOpacity>
           <View style={styles.infoItem}>
             <Ionicons name="logo-linkedin" size={24} color="#FFA726" />
-            <Text style={styles.infoText}>Linkedin</Text>
+            <Text style={styles.infoText}>{userData.linkedin || '...'}</Text>
           </View>
-          </TouchableOpacity>
 
-          <TouchableOpacity>
           <View style={styles.infoItem}>
             <Ionicons name="location-outline" size={24} color="#FFA726" />
             <Text style={styles.infoText}>Location</Text>
           </View>
-          </TouchableOpacity>
-          
         </View>
 
         <View style={styles.utilitiesContainer}>
-        <TouchableOpacity style={styles.utilityItem}>
+          <TouchableOpacity style={styles.utilityItem}>
             <Text style={styles.sectionTitle}>Field Of Interest</Text>
             <Ionicons name="chevron-forward-outline" size={24} color="#B0B0B0" />
           </TouchableOpacity>
         </View>
-        
+
         <View style={styles.utilitiesContainer}>
           <TouchableOpacity style={styles.utilityItem}>
-          <Text style={styles.sectionTitle}>Projects</Text>
+            <Text style={styles.sectionTitle}>Projects</Text>
             <Ionicons name="chevron-forward-outline" size={24} color="#B0B0B0" />
           </TouchableOpacity>
         </View>
 
-        <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {  setModalVisible(!modalVisible); }}>
+        <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
           <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
             <View style={styles.modalContainer}>
               <TouchableWithoutFeedback>
@@ -234,31 +226,30 @@ export default function Profiles() {
                     <Text style={styles.modalButtonText}>Gallery</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.modalButton} onPress={handleRemoveProfileImage}>
-                <Ionicons name="trash-outline" size={24} color="#FFA726" />
-                <Text style={styles.modalButtonText}>Remove</Text>
-              </TouchableOpacity>
-                  {image && (
-                    <TouchableOpacity style={styles.modalButton} onPress={uploadMedia} disabled={uploading}>
-                      {uploading ? (
-                        <ActivityIndicator size="small" color="#FFA726" />
-                      ) : (
-                        <>
-                          <Ionicons name="cloud-upload-outline" size={24} color="#FFA726" />
-                          <Text style={styles.modalButtonText}>Upload</Text>
-                        </>
-                      )}
-                    </TouchableOpacity>
-                  )}
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
-          </TouchableWithoutFeedback>
-        </Modal>
-      </ScrollView>
-    </SafeAreaView>
-  );
+                    <Ionicons name="trash-outline" size={24} color="#FFA726" />
+                    <Text style={styles.modalButtonText}>Remove</Text>
+</TouchableOpacity>
+{image && (
+<TouchableOpacity style={styles.modalButton} onPress={uploadMedia} disabled={uploading}>
+{uploading ? (
+<ActivityIndicator size="small" color="#FFA726" />
+) : (
+<>
+<Ionicons name="cloud-upload-outline" size={24} color="#FFA726" />
+<Text style={styles.modalButtonText}>Upload</Text>
+</>
+)}
+</TouchableOpacity>
+)}
+</View>
+</TouchableWithoutFeedback>
+</View>
+</TouchableWithoutFeedback>
+</Modal>
+</ScrollView>
+</SafeAreaView>
+);
 }
-
 
 
 
