@@ -178,7 +178,7 @@ export default function Profiles() {
           
           <Text style={styles.sectionTitle}>Personal Info</Text>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.push('EditProfile',{ userName: userData.name, userEmail: userEmail , userDepartment: userData.department })}>
           <Text style={styles.editText}>Edit</Text>
           </TouchableOpacity>
 
@@ -191,42 +191,35 @@ export default function Profiles() {
 
           <TouchableOpacity>
           <View style={styles.infoItem}>
-            <Ionicons name="call-outline" size={24} color="#FFA726" />
-            <Text style={styles.infoText}>+71138474930</Text>
+            <Ionicons name="logo-linkedin" size={24} color="#FFA726" />
+            <Text style={styles.infoText}>Linkedin</Text>
           </View>
           </TouchableOpacity>
 
           <TouchableOpacity>
           <View style={styles.infoItem}>
             <Ionicons name="location-outline" size={24} color="#FFA726" />
-            <Text style={styles.infoText}>Country Side</Text>
+            <Text style={styles.infoText}>Location</Text>
           </View>
           </TouchableOpacity>
           
         </View>
 
         <View style={styles.utilitiesContainer}>
-          <Text style={styles.sectionTitle}>Utilities</Text>
-          <TouchableOpacity style={styles.utilityItem}>
-            <Ionicons name="download-outline" size={24} color="#FFA726" />
-            <Text style={styles.utilityText}>Downloads</Text>
+        <TouchableOpacity style={styles.utilityItem}>
+            <Text style={styles.sectionTitle}>Field Of Interest</Text>
             <Ionicons name="chevron-forward-outline" size={24} color="#B0B0B0" />
           </TouchableOpacity>
+        </View>
+        
+        <View style={styles.utilitiesContainer}>
           <TouchableOpacity style={styles.utilityItem}>
-            <Ionicons name="help-outline" size={24} color="#FFA726" />
-            <Text style={styles.utilityText}>Help</Text>
+          <Text style={styles.sectionTitle}>Projects</Text>
             <Ionicons name="chevron-forward-outline" size={24} color="#B0B0B0" />
           </TouchableOpacity>
         </View>
 
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
+        <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {  setModalVisible(!modalVisible); }}>
           <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
             <View style={styles.modalContainer}>
               <TouchableWithoutFeedback>

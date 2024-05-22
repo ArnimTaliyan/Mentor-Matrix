@@ -61,6 +61,7 @@ import Akashdeep_bhardwaj from './screens/SOCS/akashdeep_bhardwaj';
 import Anushree_sah from './screens/SOCS/Anushree_sah';
 import Alind from './screens/SOCS/Alind';
 import Dhirendra_kumar_sharma from './screens/SOCS/Dhirendra_kumar_sharma';
+import EditProfile from './screens/EditProfile';
 
 
 
@@ -98,10 +99,10 @@ function App() {
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainTabScreen} options={{ headerShown: false }} />
-        
         <Stack.Screen name="AnnouncementScheduler" component={AnnouncementScheduler} options={{ headerShown: false }} />
         <Stack.Screen name="FetchData" component={FetchData} options={{ headerShown: true }} />
         <Stack.Screen name="Schedule" component={Timetableprofile} options={{ headerShown: true }} />
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
 
 
         {/*profilescreens */}
