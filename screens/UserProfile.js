@@ -1,24 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Modal, TouchableWithoutFeedback, Alert, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { View, Text, Image, TouchableOpacity,StyleSheet, ScrollView, Modal, TouchableWithoutFeedback, Alert, ActivityIndicator, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
-import { storage, db } from '../firebase'; // Import Firebase storage and database
+import { storage, db } from '../firebase';
 import * as FileSystem from 'expo-file-system';
 import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { ref as databaseRef, set, get, child, remove as removeDatabaseData } from 'firebase/database';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { ref as databaseRef, set, get, child, remove as removeDatabaseData, onValue } from 'firebase/database';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { encode } from 'base-64';
 
-export default function Profiles() {
+export default function UserProfile() {
   const navigation = useNavigation();
   const route = useRoute();
-  const userName = route.params?.userName;
-  const userEmail = route.params?.userEmail;
-  const userDepartment = route.params?.userDepartment;
-  const newDesignation = route.params?.designation;
-  const newLinkedin = route.params?.linkedin;
-  const newRoom = route.params?.room;
+  const [userName, setUserName] = useState(route.params?.userName);
+  const [userEmail, setUserEmail] = useState(route.params?.userEmail);
+  const [userDepartment, setUserDepartment] = useState(route.params?.userDepartment);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState(null);
@@ -27,46 +24,54 @@ export default function Profiles() {
   const [profileImageUrl, setProfileImageUrl] = useState(null);
   const [userData, setUserData] = useState({});
 
-  const encodedEmail = encode(userEmail);
-  const userRef = databaseRef(db, `users/${encodedEmail}/userdata`);
-  const profileImageRef = child(userRef, 'profileImageUrl');
+  const encodedEmail = useMemo(() => encode(userEmail), [userEmail]);
+  const userRef = useMemo(() => databaseRef(db, `users/${encodedEmail}/userdata`), [encodedEmail]);
+  const profileImageRef = useMemo(() => child(userRef, 'profileImageUrl'), [userRef]);
+
+  const fetchUserData = useCallback(async () => {
+    try {
+      const snapshot = await get(userRef);
+      if (snapshot.exists()) {
+        setUserData(snapshot.val());
+        if (snapshot.child('profileImageUrl').exists()) {
+          setProfileImageUrl(snapshot.child('profileImageUrl').val());
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  }, [userRef]);
 
   useEffect(() => {
-    (async () => {
-      const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
-      const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (cameraStatus.status !== 'granted' || galleryStatus.status !== 'granted') {
-        Alert.alert('Permission denied', 'Please grant camera and gallery permissions to use this feature.');
-      }
-    })();
-  
-    // Fetch user data from Firebase Realtime Database
-    get(userRef)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          setUserData(snapshot.val());
-          if (snapshot.child('profileImageUrl').exists()) {
-            setProfileImageUrl(snapshot.child('profileImageUrl').val());
-          }
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching user data:', error);
-      });
-  }, []);
-  
+    fetchUserData();
+  }, [fetchUserData]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchUserData();
+    }, [fetchUserData])
+  );
+
   useEffect(() => {
-    if (route.params?.updatedData) {
-      const { designation, linkedin, room } = route.params.updatedData;
-      setUserData((prevUserData) => ({
-        ...prevUserData,
-        designation: designation || prevUserData.designation,
-        linkedin: linkedin || prevUserData.linkedin,
-        room: room || prevUserData.room,
-      }));
-    }
-  }, [route.params?.updatedData]);
-  
+    const unsubscribe = onValue(userRef, (snapshot) => {
+      if (snapshot.exists()) {
+        setUserData(snapshot.val());
+        if (snapshot.child('profileImageUrl').exists()) {
+          setProfileImageUrl(snapshot.child('profileImageUrl').val());
+        } else {
+          setProfileImageUrl(null);
+        }
+        if (snapshot.child('name').exists()) {
+          setUserName(snapshot.child('name').val());
+        }
+        if (snapshot.child('department').exists()) {
+          setUserDepartment(snapshot.child('department').val());
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, [userRef]);
 
   const pickImageFromCamera = async () => {
     try {
@@ -121,7 +126,6 @@ export default function Profiles() {
 
       const downloadURL = await getDownloadURL(storageReference);
 
-      // Save the download URL and image name to Firebase Realtime Database
       await set(profileImageRef, downloadURL);
       await set(child(userRef, 'profileImageName'), imageName);
 
@@ -141,22 +145,18 @@ export default function Profiles() {
 
   const handleRemoveProfileImage = async () => {
     try {
-      // Fetch the stored image name from the database
       const imageNameSnapshot = await get(child(userRef, 'profileImageName'));
       if (imageNameSnapshot.exists()) {
         const storedImageName = imageNameSnapshot.val();
 
-        // Delete profile image from Firebase Storage
         if (profileImageUrl) {
           const imageRef = storageRef(storage, `profileImages/${storedImageName}`);
           await deleteObject(imageRef);
         }
 
-        // Remove profile image reference from Firebase Realtime Database
         await removeDatabaseData(profileImageRef);
         await removeDatabaseData(child(userRef, 'profileImageName'));
 
-        // Update state to display default profile image
         setProfileImageUrl(null);
         setModalVisible(false);
       } else {
@@ -166,6 +166,15 @@ export default function Profiles() {
       console.error('Error removing profile image:', error);
       Alert.alert('Error', 'Failed to remove profile image');
     }
+  };
+
+  const handleLogout = () => {
+    navigation.navigate('LoginScreen');
+  };
+
+  const openEmailInOutlook = () => {
+    const emailUrl = `mailto:${userEmail}`;
+    Linking.openURL(emailUrl).catch(err => console.error('Error opening email client:', err));
   };
 
   return (
@@ -193,14 +202,23 @@ export default function Profiles() {
         <View style={styles.personalInfoContainer}>
           <Text style={styles.sectionTitle}>Personal Info</Text>
 
-          <TouchableOpacity onPress={() => navigation.push('EditProfile', { userName: userData.name, userEmail: userEmail, userDepartment: userData.department })}>
+          <TouchableOpacity onPress={() => navigation.push('EditProfile', {
+            userName: userData.name,
+            userEmail: userEmail,
+            userDepartment: userData.department,
+            designation: userData.designation,
+            linkedin: userData.linkedin,
+            room: userData.room
+          })}>
             <Text style={styles.editText}>Edit</Text>
           </TouchableOpacity>
 
-          <View style={styles.infoItem}>
-            <Ionicons name="mail-outline" size={24} color="#FFA726" />
-            <Text style={styles.infoText}>{userEmail}</Text>
-          </View>
+          <TouchableOpacity onPress={openEmailInOutlook}>
+            <View style={styles.infoItem}>
+              <Ionicons name="mail-outline" size={24} color="#FFA726" />
+              <Text style={styles.infoText}>{userEmail}</Text>
+            </View>
+          </TouchableOpacity>
 
           <View style={styles.infoItem}>
             <Ionicons name="logo-linkedin" size={24} color="#FFA726" />
@@ -209,7 +227,7 @@ export default function Profiles() {
 
           <View style={styles.infoItem}>
             <Ionicons name="location-outline" size={24} color="#FFA726" />
-            <Text style={styles.infoText}>Location</Text>
+            <Text style={styles.infoText}>{userData.room || '...'}</Text>
           </View>
         </View>
 
@@ -227,12 +245,17 @@ export default function Profiles() {
           </TouchableOpacity>
         </View>
 
-        <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
+        <Modal
+          visible={modalVisible}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setModalVisible(false)}
+        >
           <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-            <View style={styles.modalContainer}>
+            <View style={styles.modalOverlay}>
               <TouchableWithoutFeedback>
-                <View style={styles.modalView}>
-                  <Text style={styles.modalText}>Profile Photo</Text>
+                <View style={styles.modalContent}>
+                  <Text style={styles.modalTitle}>Choose an option</Text>
                   <TouchableOpacity style={styles.modalButton} onPress={pickImageFromCamera}>
                     <Ionicons name="camera-outline" size={24} color="#FFA726" />
                     <Text style={styles.modalButtonText}>Camera</Text>
@@ -262,10 +285,21 @@ export default function Profiles() {
             </View>
           </TouchableWithoutFeedback>
         </Modal>
+
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.logoutButtonText}>Logout</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+
+
+
+
+
+
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -402,5 +436,17 @@ const styles = StyleSheet.create({
   modalButtonText: {
     marginLeft: 10,
     fontSize: 16,
+  },
+  logoutButton: {
+    marginTop: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+    backgroundColor: '#FFA726',
+    borderRadius: 5,
+  },
+  logoutButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity,StyleSheet, ScrollView, SafeAreaView, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { db } from '../firebase'; // Import Firebase database
+import { db } from '../firebase';
 import { ref as databaseRef, update } from 'firebase/database';
 import { encode } from 'base-64';
 
 export default function EditProfile() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { userEmail, userName, userDepartment } = route.params;
+  const { userEmail, userName, userDepartment, designation: initialDesignation, linkedin: initialLinkedin, room: initialRoom } = route.params;
 
-  const [designation, setDesignation] = useState('');
-  const [linkedin, setLinkedin] = useState('');
-  const [room, setRoom] = useState('');
+  const [designation, setDesignation] = useState(initialDesignation || '');
+  const [linkedin, setLinkedin] = useState(initialLinkedin || '');
+  const [room, setRoom] = useState(initialRoom || '');
 
   const encodedEmail = encode(userEmail);
   const userRef = databaseRef(db, `users/${encodedEmail}/userdata`);
@@ -26,9 +26,10 @@ export default function EditProfile() {
         room,
       });
       Alert.alert('Profile updated successfully!');
-      navigation.goBack({
-        params: { designation, linkedin, room },
-        merge: true,
+      navigation.navigate('UserProfile', {
+        userName,
+        userEmail,
+        userDepartment
       });
     } catch (error) {
       console.error('Error updating profile:', error);
@@ -85,88 +86,52 @@ export default function EditProfile() {
 
 
 
-
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   container: {
-    flexGrow: 1,
     padding: 20,
-    backgroundColor: '#F5F5F5',
-    alignItems: 'center',
   },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: '100%',
     marginBottom: 20,
-    justifyContent: 'center', // Centers the children horizontally within the container
-    position: 'relative', // Allows for absolute positioning within this container
   },
   backButton: {
-    position: 'absolute', // Keeps the back button at its place
-    left: 0, // Aligns it to the left
     marginRight: 10,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    textAlign: 'center',
-    position: 'absolute', // Allows for absolute positioning
-    left: '50%', // Starts positioning from the center of the container
-    transform: [{ translateX: -50 }], // Shifts the element back by half its width to center it exactly
-  },
-  profileImageContainer: {
-    position: 'relative',
-    marginBottom: 20,
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: '#FFA726',
-  },
-  cameraIconContainer: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    backgroundColor: '#FFF',
-    borderRadius: 20,
-    padding: 5,
+    color: '#FFA726',
   },
   inputContainer: {
-    width: '100%',
-    backgroundColor: '#FFF',
-    borderRadius: 10,
-    padding: 20,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
+    marginBottom: 15,
   },
   label: {
     fontSize: 16,
-    fontWeight: 'bold',
+    color: '#333',
     marginBottom: 5,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#CCC',
+    borderColor: '#ccc',
     borderRadius: 5,
     padding: 10,
     fontSize: 16,
+    color: '#333',
   },
   saveButton: {
-    width: '100%',
     backgroundColor: '#FFA726',
-    borderRadius: 10,
     padding: 15,
+    borderRadius: 5,
     alignItems: 'center',
   },
   saveButtonText: {
     fontSize: 16,
+    color: '#fff',
     fontWeight: 'bold',
-    color: '#FFF',
   },
 });

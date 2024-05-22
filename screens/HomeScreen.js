@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, TextInput, Modal, Image } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import SettingScreen from './SettingScreen';
+
 
 import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
-export {
-    SettingScreen,
-    
-}
+
 
 export default function HomeScreen() {
     const navigation = useNavigation();

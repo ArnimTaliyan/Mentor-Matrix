@@ -38,16 +38,24 @@ export default function LoginScreen({ route }) {
             [eventName]: text
         }));
     }
+
     function clearInputFields() {
         setValues({
             email: "",
             pwd: ""
         });
     }
-    
 
     function Login() {
         const { email, pwd } = values;
+
+        if (email.trim() === "" || pwd.trim() === "") {
+            setLoginErrorMessage('Email and password cannot be empty');
+            setLoginError(true);
+            setTimeout(() => setLoginError(false), 3000);
+            return;
+        }
+
         const encodedEmail = encode(email);
         const userRef = ref(db, `users/${encodedEmail}`);
         
@@ -57,12 +65,12 @@ export default function LoginScreen({ route }) {
                     const userData = snapshot.val();
                     
                     const storedPassword = userData.password ? userData.password.trim() : ''; // Trim stored password if it exists
-    
                     const enteredPassword = pwd.trim(); // Trim entered password
+
                     if (storedPassword === enteredPassword) {
                         setShowNotification(true);
                         setTimeout(() => setShowNotification(false), 3000); // Hide notification after 3 seconds
-                        navigation.navigate('Main', { screen: 'Profiles', params: { userName: userData.name, userEmail: email , userDepartment: userData.department }});
+                        navigation.navigate('Main', { screen: 'UserProfile', params: { userName: userData.name, userEmail: email , userDepartment: userData.department }});
                         navigation.navigate('Main', { screen: 'CalendarScreen', params: { userName: userData.name, userEmail: email } });
                         navigation.navigate('Main', { screen: 'Home', params: { userName: userData.name, userEmail: email },  });
                     } else {
@@ -86,7 +94,6 @@ export default function LoginScreen({ route }) {
                 clearInputFields(); // Clear input fields after login attempt
             });
     }
-    
 
     return (
         <View style={styles.container}>
@@ -135,7 +142,6 @@ export default function LoginScreen({ route }) {
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     container: {

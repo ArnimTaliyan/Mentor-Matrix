@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, MaterialCommunityIcons,MaterialIcons, Ionicons } from '@expo/vector-icons';
 import HomeScreen from './screens/HomeScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
-import SettingScreen from './screens/SettingScreen'; // Correct import
+
 import SignupScreen from './screens/SignupScreen';
 import { db } from './firebase'; // Import db from firebase.js
 import LoginScreen from './screens/LoginScreen';
@@ -15,7 +15,7 @@ import AnnouncementScheduler from './screens/Announcement';
 import Timetableprofile from './screens/Timetableprofile';
 import CalendarScreen from './screens/calanderscreen';
 import SearchScreen from './screens/SearchScreen';
-import Profiles from './screens/Profiles';
+import UserProfile from './screens/UserProfile';
 
 
 
@@ -62,6 +62,7 @@ import Anushree_sah from './screens/SOCS/Anushree_sah';
 import Alind from './screens/SOCS/Alind';
 import Dhirendra_kumar_sharma from './screens/SOCS/Dhirendra_kumar_sharma';
 import EditProfile from './screens/EditProfile';
+
 
 
 
@@ -178,11 +179,9 @@ function MainTabScreen() {
         <Tab.Screen name="FetchData" component={FetchData} options={{ tabBarIcon: ({ focused }) => (
           <Ionicons name="notifications-outline" size={24} color="black" />
          ) }} />
-      <Tab.Screen name="Settings" component={SettingScreen} options={{ tabBarIcon: ({ focused }) => (
-        <Ionicons name="settings-outline" size={24} color="black" />
-      ) }} />
-      <Tab.Screen name="Profiles" component={Profiles} options={{ tabBarIcon: ({ focused }) => (
-        <Ionicons name="person-sharp" size={24} color="black" />
+      
+      <Tab.Screen name="UserProfile" component={UserProfile} options={{ tabBarIcon: ({ focused }) => (
+        <Ionicons name="person-outline" size={24} color="black" />
       ) }} />
     </Tab.Navigator>
   );
