@@ -13,6 +13,7 @@ export default function EditProfile() {
 
   const [designation, setDesignation] = useState('');
   const [linkedin, setLinkedin] = useState('');
+  const [room, setRoom] = useState('');
 
   const encodedEmail = encode(userEmail);
   const userRef = databaseRef(db, `users/${encodedEmail}/userdata`);
@@ -22,9 +23,13 @@ export default function EditProfile() {
       await update(userRef, {
         designation,
         linkedin,
+        room,
       });
       Alert.alert('Profile updated successfully!');
-      navigation.goBack();
+      navigation.goBack({
+        params: { designation, linkedin, room },
+        merge: true,
+      });
     } catch (error) {
       console.error('Error updating profile:', error);
       Alert.alert('Error', 'Failed to update profile');
@@ -59,6 +64,17 @@ export default function EditProfile() {
           />
         </View>
 
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>FacultyRoom-Desk</Text>
+          <TextInput
+            placeholder='eg, 10104-D2'
+            placeholderTextColor={'gray'}
+            style={styles.input}
+            value={room}
+            onChangeText={setRoom}
+          />
+        </View>
+
         <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
           <Text style={styles.saveButtonText}>Save Changes</Text>
         </TouchableOpacity>
@@ -66,6 +82,9 @@ export default function EditProfile() {
     </SafeAreaView>
   );
 }
+
+
+
 
 const styles = StyleSheet.create({
   container: {

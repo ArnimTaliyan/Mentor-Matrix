@@ -16,6 +16,9 @@ export default function Profiles() {
   const userName = route.params?.userName;
   const userEmail = route.params?.userEmail;
   const userDepartment = route.params?.userDepartment;
+  const newDesignation = route.params?.designation;
+  const newLinkedin = route.params?.linkedin;
+  const newRoom = route.params?.room;
 
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState(null);
@@ -25,8 +28,8 @@ export default function Profiles() {
   const [userData, setUserData] = useState({});
 
   const encodedEmail = encode(userEmail);
-  const userRef = databaseRef(db, `users/${encodedEmail}`);
-  const profileImageRef = child(userRef, 'userdata/profileImageUrl');
+  const userRef = databaseRef(db, `users/${encodedEmail}/userdata`);
+  const profileImageRef = child(userRef, 'profileImageUrl');
 
   useEffect(() => {
     (async () => {
@@ -36,14 +39,14 @@ export default function Profiles() {
         Alert.alert('Permission denied', 'Please grant camera and gallery permissions to use this feature.');
       }
     })();
-
+  
     // Fetch user data from Firebase Realtime Database
     get(userRef)
       .then((snapshot) => {
         if (snapshot.exists()) {
           setUserData(snapshot.val());
-          if (snapshot.child('userdata/profileImageUrl').exists()) {
-            setProfileImageUrl(snapshot.child('userdata/profileImageUrl').val());
+          if (snapshot.child('profileImageUrl').exists()) {
+            setProfileImageUrl(snapshot.child('profileImageUrl').val());
           }
         }
       })
@@ -51,6 +54,19 @@ export default function Profiles() {
         console.error('Error fetching user data:', error);
       });
   }, []);
+  
+  useEffect(() => {
+    if (route.params?.updatedData) {
+      const { designation, linkedin, room } = route.params.updatedData;
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        designation: designation || prevUserData.designation,
+        linkedin: linkedin || prevUserData.linkedin,
+        room: room || prevUserData.room,
+      }));
+    }
+  }, [route.params?.updatedData]);
+  
 
   const pickImageFromCamera = async () => {
     try {
@@ -170,7 +186,7 @@ export default function Profiles() {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.profileName}>{userData.name || '...'}</Text>
+        <Text style={styles.profileName}>{userName}</Text>
         <Text style={styles.profileSubtitle}>{userData.designation || '...'}</Text>
         <Text style={styles.profileActiveSince}>{userDepartment}</Text>
 
@@ -228,32 +244,28 @@ export default function Profiles() {
                   <TouchableOpacity style={styles.modalButton} onPress={handleRemoveProfileImage}>
                     <Ionicons name="trash-outline" size={24} color="#FFA726" />
                     <Text style={styles.modalButtonText}>Remove</Text>
-</TouchableOpacity>
-{image && (
-<TouchableOpacity style={styles.modalButton} onPress={uploadMedia} disabled={uploading}>
-{uploading ? (
-<ActivityIndicator size="small" color="#FFA726" />
-) : (
-<>
-<Ionicons name="cloud-upload-outline" size={24} color="#FFA726" />
-<Text style={styles.modalButtonText}>Upload</Text>
-</>
-)}
-</TouchableOpacity>
-)}
-</View>
-</TouchableWithoutFeedback>
-</View>
-</TouchableWithoutFeedback>
-</Modal>
-</ScrollView>
-</SafeAreaView>
-);
+                  </TouchableOpacity>
+                  {image && (
+                    <TouchableOpacity style={styles.modalButton} onPress={uploadMedia} disabled={uploading}>
+                      {uploading ? (
+                        <ActivityIndicator size="small" color="#FFA726" />
+                      ) : (
+                        <>
+                          <Ionicons name="cloud-upload-outline" size={24} color="#FFA726" />
+                          <Text style={styles.modalButtonText}>Upload</Text>
+                        </>
+                      )}
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
-
-
-
-
 
 const styles = StyleSheet.create({
   safeArea: {
