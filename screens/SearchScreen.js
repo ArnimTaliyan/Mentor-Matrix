@@ -56,7 +56,7 @@ export default function SearchScreen() {
   };
 
   const renderItem = ({ item }) => (
-    <View style={styles.userContainer}>
+    <TouchableOpacity style={styles.userContainer} onPress={() => console.log(item.name)}>
       <Avatar
         rounded
         source={require('../assets/images/default_profile.jpg')}
@@ -66,7 +66,7 @@ export default function SearchScreen() {
         <Text style={styles.userName}>{item.name}</Text>
         <Text style={styles.userDepartment}>{item.department}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   const handleDepartmentSelect = (department) => {
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
     marginBottom: 5,
-    paddingTop:5 
+    paddingTop: 5,
   },
   searchBar: {
     flex: 1,
@@ -202,7 +202,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
     marginTop: 45, // Margin to ensure it is below the search bar
   },
-  
   noResultsText: {
     fontSize: 18,
     color: 'black',
@@ -213,4 +212,3 @@ const styles = StyleSheet.create({
     marginTop: 40,
   }
 });
-   

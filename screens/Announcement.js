@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView, Button } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView, Button, SafeAreaView } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -181,21 +181,27 @@ export default function AnnouncementScheduler() {
         }
     };
 
-    return (
+    return (<SafeAreaView>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             {/* Render back button */}
             {!uploading && (
-                <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 60, left: 20, zIndex: 999 }}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 40, left: 20, zIndex: 999 }}>
                     <Ionicons name="chevron-back-outline" size={24} color="#242760" />
                 </TouchableOpacity>
             )}
 
             <View style={styles.container}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-                    <AntDesign name="pushpin" size={24} color="#7289DA" style={{ marginRight: 10 }} />
-                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#7289DA' }}>Announcements</Text>
-                </View>
+            <View style={styles.centeredAnnouncements}>
+  <View style={styles.announcementsContainer}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+      <AntDesign name="pushpin" size={24} color="#7289DA" style={{ marginRight: 10 }} />
+      <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#7289DA' }}>Announcements</Text>
+    </View>
+  </View>
+</View>
 
+
+                <View style={styles.cardContainer}>
                 <Animated.View style={[styles.inputContainer, { borderBottomColor: isProjectNameFocused ? '#7289DA' : 'black' }]}>
                     <Text style={[styles.placeholder, { top: ProjectName !== '' || isProjectNameFocused ? -20 : 12 }]}>Project Name</Text>
                     <TextInput
@@ -238,14 +244,17 @@ export default function AnnouncementScheduler() {
                     <TouchableOpacity onPress={pickDocument} disabled={uploading} style={[styles.button, { marginTop: 20 }]}>
         <Text style={styles.uploadbuttonText}>{document ? "Change document" : "Upload Details"}</Text>
     </TouchableOpacity>
-                {document && (
-                    <View style={styles.documentContainer}>
-                        <Text style={styles.document}>{document1}</Text>
-                        <TouchableOpacity onPress={() => setDocument(null)} disabled={uploading}>
-                            <AntDesign name="closecircle" size={18} color="grey" />
-                        </TouchableOpacity>
-                    </View>
-                )}
+    {document && (
+  <View style={styles.documentContainer}>
+    <View style={styles.documentRow}>
+      <Text style={styles.document}>{document1}</Text>
+      <TouchableOpacity onPress={() => setDocument(null)} disabled={uploading}>
+        <AntDesign name="closecircle" size={18} color="grey" />
+      </TouchableOpacity>
+    </View>
+  </View>
+)}
+
 
                 <TouchableOpacity
                     style={[styles.postButton, { marginTop: 20 }]}
@@ -260,15 +269,18 @@ export default function AnnouncementScheduler() {
                 >
                     <Text style={styles.buttonText}>Post Announcement</Text>
                 </TouchableOpacity>
+                </View>
 
                 {showLoadingAnimation && (
-                    <LottieView
-                        source={require('../assets/animations/post.json')}
-                        autoPlay
-                        loop
-                        style={{ width: 100, height: 100 }}
-                    />
-                )}
+  <View style={styles.centeredAnimation}>
+    <LottieView
+      source={require('../assets/animations/post.json')}
+      autoPlay
+      loop
+      style={{ width: 100, height: 100 }}
+    />
+  </View>
+)}
 
                 {/* Render progress percentage */}
                 {uploading && (
@@ -285,144 +297,120 @@ export default function AnnouncementScheduler() {
 
 
             </View>
-        </ScrollView>
+        </ScrollView></SafeAreaView>
     );
 }
 
 
 const styles = StyleSheet.create({
-    safeArea: {
-      flex: 1,
-      backgroundColor: '#F5F5F5',
-    },
     container: {
-      alignItems: 'center',
-      padding: 20,
+        flex: 1,
+        paddingTop: 150,
+        justifyContent: 'center',
+        
+        backgroundColor: '#FFFFFF',
     },
-    profileTitle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginVertical: 20,
+    centeredAnnouncements: {
+        flex: 1, // Make the container take up all available space
+        justifyContent: 'center', // Center the content horizontally
+        alignItems: 'center', // Center the content vertically
+      },
+    cardContainer: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        elevation: 5,
+        padding: 20,
+        marginBottom: 20,
+        
     },
-    profileImageContainer: {
-      position: 'relative',
-      marginBottom: 10,
+    inputContainer: {
+        position: 'relative',
+        marginBottom: 20,
     },
-    profileImage: {
-      width: 120,
-      height: 120,
-      borderRadius: 80,
-      borderWidth: 4,
-      borderColor: '#ebebeb',
+    placeholder: {
+        position: 'absolute',
+        left: 10,
+        fontSize: 16,
+        color: '#9E9E9E',
+        backgroundColor: '#FFFFFF',
+        paddingHorizontal: 5,
     },
-    cameraIconContainer: {
-      position: 'absolute',
-      bottom: 0,
-      right: 0,
-      backgroundColor: '#ebebeb',
-      borderRadius: 20,
-      padding: 5,
+    input: {
+        height: 40,
+        fontSize: 16,
+        borderBottomWidth: 1,
+        borderColor: 'black',
+        paddingLeft: 10,
     },
-    profileName: {
-      fontSize: 24,
-      fontWeight: 'bold',
+    button: {
+        
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        alignItems: 'center',
     },
-    profileSubtitle: {
-      fontSize: 14,
-      color: '#757575',
-      marginVertical: 5,
+    uploadbuttonText: {
+        color: '#7289DA',
+        fontSize: 16,
     },
-    profileActiveSince: {
-      fontSize: 12,
-      color: '#757575',
-      marginBottom: 20,
+    postButton: {
+        backgroundColor: '#7289DA',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        alignItems: 'center',
     },
-    personalInfoContainer: {
-      width: '100%',
-      backgroundColor: '#FFF',
-      borderRadius: 10,
-      padding: 20,
-      marginBottom: 20,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 5,
-      elevation: 5,
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
     },
-    sectionTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      marginBottom: 10,
+    documentContainer: {
+        alignItems: 'center',
+      },
+      documentRow: {
+        flexDirection: 'row', // This makes elements appear side-by-side
+        alignItems: 'center', // Aligns icon and text vertically
+        justifyContent:'space-evenly'
+      },
+      document: {
+        flex: 1,
+        fontSize: 16,
+        color: 'black',
+        marginRight: 0, // Remove margin to avoid gap
+      },
+    centeredAnimation: {
+        flex: 1, // Make the container take up all available space
+        justifyContent: 'center', // Center the content horizontally
+        alignItems: 'center', // Center the content vertically
+      },
+    progressText: {
+        fontSize: 16,
+        marginTop: 10,
+        textAlign:'center'
+        
     },
-    editText: {
-      position: 'absolute',
-      right: 20,
-      top: 20,
-      fontSize: 14,
-      color: '#FFA726',
-      fontWeight: 'bold',
+    notificationContainer: {
+        position: 'absolute',
+        bottom: 20,
+        width: '100%',
+        alignItems: 'center',
     },
-    infoItem: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginVertical: 10,
+    notification: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#CFF3E0',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
     },
-    infoText: {
-      fontSize: 16,
-      marginLeft: 10,
+    notificationText: {
+        marginLeft: 10,
+        color: '#007E33',
+        fontSize: 16,
     },
-    utilitiesContainer: {
-      width: '100%',
-      backgroundColor: '#FFF',
-      borderRadius: 10,
-      padding: 20,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 5,
-      elevation: 5,
-    },
-    utilityItem: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      marginVertical: 10,
-    },
-    utilityText: {
-      fontSize: 16,
-      marginLeft: 10,
-      flex: 1,
-    },
-    modalView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-      width: 300,
-      backgroundColor: 'white',
-      borderRadius: 10,
-      padding: 20,
-      alignItems: 'center',
-    },
-    modalTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      marginBottom: 20,
-    },
-    modalButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: 10,
-      width: '100%',
-      marginBottom: 10,
-    },
-    modalButtonText: {
-      fontSize: 16,
-      marginLeft: 10,
-    },
-    modalCancelButton: {
-      marginTop: 20,
-    },
-  });
+});
+

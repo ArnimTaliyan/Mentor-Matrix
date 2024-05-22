@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, Text, Image, TouchableOpacity,StyleSheet, ScrollView, Modal, TouchableWithoutFeedback, Alert, ActivityIndicator, Linking } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Modal, TouchableWithoutFeedback, Alert, ActivityIndicator, Linking, RefreshControl  } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
@@ -23,10 +23,36 @@ export default function UserProfile() {
   const [uploading, setUploading] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState(null);
   const [userData, setUserData] = useState({});
+  const [currentEventLocation, setCurrentEventLocation] = useState('');
+  const [imageModalVisible, setImageModalVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const encodedEmail = useMemo(() => encode(userEmail), [userEmail]);
   const userRef = useMemo(() => databaseRef(db, `users/${encodedEmail}/userdata`), [encodedEmail]);
   const profileImageRef = useMemo(() => child(userRef, 'profileImageUrl'), [userRef]);
+
+  const fetchCurrentEventLocation = useCallback(async () => {
+    const eventsRef = databaseRef(db, `users/${encodedEmail}/events`);
+    try {
+      const snapshot = await get(eventsRef);
+      if (snapshot.exists()) {
+        const events = snapshot.val();
+        const now = new Date();
+        for (const eventId in events) {
+          const event = events[eventId];
+          const eventStart = new Date(event.start);
+          const eventEnd = new Date(event.end);
+          if (now >= eventStart && now <= eventEnd) {
+            setCurrentEventLocation(event.location);
+            return;
+          }
+        }
+      }
+      setCurrentEventLocation('');
+    } catch (error) {
+      console.error('Error fetching current event location:', error);
+    }
+  }, [encodedEmail]);
 
   const fetchUserData = useCallback(async () => {
     try {
@@ -40,16 +66,18 @@ export default function UserProfile() {
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
-  }, [userRef]);
+  }, [userRef, setProfileImageUrl]);
 
   useEffect(() => {
     fetchUserData();
-  }, [fetchUserData]);
+    fetchCurrentEventLocation();
+  }, [fetchUserData, fetchCurrentEventLocation]);
 
   useFocusEffect(
     useCallback(() => {
       fetchUserData();
-    }, [fetchUserData])
+      fetchCurrentEventLocation();
+    }, [fetchUserData, fetchCurrentEventLocation])
   );
 
   useEffect(() => {
@@ -59,7 +87,7 @@ export default function UserProfile() {
         if (snapshot.child('profileImageUrl').exists()) {
           setProfileImageUrl(snapshot.child('profileImageUrl').val());
         } else {
-          setProfileImageUrl(null);
+          setProfileImageUrl(null); // Reset profile image URL if not available
         }
         if (snapshot.child('name').exists()) {
           setUserName(snapshot.child('name').val());
@@ -105,7 +133,7 @@ export default function UserProfile() {
     if (!result.canceled) {
       const { uri, fileName } = result.assets[0];
       const imageName = fileName || uri.split('/').pop();
-
+      console.log('Image picked:', { uri, imageName });
       setImage(uri);
       setImageName(imageName);
     }
@@ -115,21 +143,20 @@ export default function UserProfile() {
     setUploading(true);
 
     try {
-      const base64Data = await FileSystem.readAsStringAsync(image, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
+      // Read the image data
+      const response = await fetch(image);
+      const blob = await response.blob();
 
-      const blob = await (await fetch(`data:image/jpeg;base64,${base64Data}`)).blob();
-
-      const storageReference = storageRef(storage, `profileImages/${imageName}`);
+      // Upload image to Firebase Storage
+      const storageReference = storageRef(storage, imageName);
       await uploadBytes(storageReference, blob);
 
+      // Get download URL
       const downloadURL = await getDownloadURL(storageReference);
 
+      // Update profile image URL in the database
       await set(profileImageRef, downloadURL);
       await set(child(userRef, 'profileImageName'), imageName);
-
-      setProfileImageUrl(downloadURL);
 
       setUploading(false);
       Alert.alert('Photo Uploaded!');
@@ -137,7 +164,7 @@ export default function UserProfile() {
       setImage(null);
       setImageName('');
     } catch (error) {
-      console.error('Error uploading media:', error);
+      console.error(error);
       setUploading(false);
       Alert.alert('Upload failed', error.message);
     }
@@ -150,7 +177,7 @@ export default function UserProfile() {
         const storedImageName = imageNameSnapshot.val();
 
         if (profileImageUrl) {
-          const imageRef = storageRef(storage, `profileImages/${storedImageName}`);
+          const imageRef = storageRef(storage, `${storedImageName}`);
           await deleteObject(imageRef);
         }
 
@@ -160,7 +187,9 @@ export default function UserProfile() {
         setProfileImageUrl(null);
         setModalVisible(false);
       } else {
-        throw new Error('No profile image found in database');
+        // Handle case where profile image reference doesn't exist
+        console.log("No profile image found in database");
+        setModalVisible(false);
       }
     } catch (error) {
       console.error('Error removing profile image:', error);
@@ -177,16 +206,32 @@ export default function UserProfile() {
     Linking.openURL(emailUrl).catch(err => console.error('Error opening email client:', err));
   };
 
+  const openLinkedInProfile = () => {
+    const linkedinUrl = `https://www.linkedin.com/in/${userData.linkedin}`;
+    Linking.openURL(linkedinUrl).catch(err => console.error('Error opening LinkedIn profile:', err));
+  };
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    Promise.all([fetchUserData(), fetchCurrentEventLocation()])
+      .then(() => setRefreshing(false))
+      .catch(() => setRefreshing(false));
+  }, [fetchUserData, fetchCurrentEventLocation]);
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView contentContainerStyle={styles.container} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <Text style={styles.profileTitle}>Your Profile</Text>
 
         <View style={styles.profileImageContainer}>
           <Image
-            source={profileImageUrl ? { uri: profileImageUrl } : require('../assets/images/default_profile.jpg')}
+            source={
+              profileImageUrl
+                ? { uri: profileImageUrl }
+                : require('../assets/images/default_profile.jpg')
+            }
             style={styles.profileImage}
           />
+
           <TouchableOpacity 
             style={styles.cameraIconContainer}
             onPress={() => setModalVisible(true)}
@@ -220,14 +265,25 @@ export default function UserProfile() {
             </View>
           </TouchableOpacity>
 
-          <View style={styles.infoItem}>
-            <Ionicons name="logo-linkedin" size={24} color="#FFA726" />
-            <Text style={styles.infoText}>{userData.linkedin || '...'}</Text>
-          </View>
+          {userData.linkedin && userData.linkedin.length > 3 ? (
+            <TouchableOpacity onPress={openLinkedInProfile}>
+              <View style={styles.infoItem}>
+                <Ionicons name="logo-linkedin" size={24} color="#FFA726" />
+                <Text style={styles.infoText}>{userData.linkedin}</Text>
+              </View>
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.infoItem}>
+              <Ionicons name="logo-linkedin" size={24} color="#FFA726" />
+              <Text style={styles.infoText}>...</Text>
+            </View>
+          )}
 
           <View style={styles.infoItem}>
             <Ionicons name="location-outline" size={24} color="#FFA726" />
-            <Text style={styles.infoText}>{userData.room || '...'}</Text>
+            <Text style={styles.infoText}>
+              {currentEventLocation || userData.room || '...'}
+            </Text>
           </View>
         </View>
 
@@ -253,35 +309,33 @@ export default function UserProfile() {
         >
           <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
             <View style={styles.modalOverlay}>
-              <TouchableWithoutFeedback>
-                <View style={styles.modalContent}>
-                  <Text style={styles.modalTitle}>Choose an option</Text>
-                  <TouchableOpacity style={styles.modalButton} onPress={pickImageFromCamera}>
-                    <Ionicons name="camera-outline" size={24} color="#FFA726" />
-                    <Text style={styles.modalButtonText}>Camera</Text>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Choose an option</Text>
+                <TouchableOpacity style={styles.modalButton} onPress={pickImageFromCamera}>
+                  <Ionicons name="camera-outline" size={24} color="#FFA726" />
+                  <Text style={styles.modalButtonText}>Camera</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} onPress={pickImageFromGallery}>
+                  <Ionicons name="image-outline" size={24} color="#FFA726" />
+                  <Text style={styles.modalButtonText}>Gallery</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} onPress={handleRemoveProfileImage}>
+                  <Ionicons name="trash-outline" size={24} color="#FFA726" />
+                  <Text style={styles.modalButtonText}>Remove</Text>
+                </TouchableOpacity>
+                {image && (
+                  <TouchableOpacity style={styles.modalButton} onPress={uploadMedia} disabled={uploading}>
+                    {uploading ? (
+                      <ActivityIndicator size="small" color="#FFA726" />
+                    ) : (
+                      <>
+                        <Ionicons name="cloud-upload-outline" size={24} color="#FFA726" />
+                        <Text style={styles.modalButtonText}>Upload</Text>
+                      </>
+                    )}
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButton} onPress={pickImageFromGallery}>
-                    <Ionicons name="image-outline" size={24} color="#FFA726" />
-                    <Text style={styles.modalButtonText}>Gallery</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButton} onPress={handleRemoveProfileImage}>
-                    <Ionicons name="trash-outline" size={24} color="#FFA726" />
-                    <Text style={styles.modalButtonText}>Remove</Text>
-                  </TouchableOpacity>
-                  {image && (
-                    <TouchableOpacity style={styles.modalButton} onPress={uploadMedia} disabled={uploading}>
-                      {uploading ? (
-                        <ActivityIndicator size="small" color="#FFA726" />
-                      ) : (
-                        <>
-                          <Ionicons name="cloud-upload-outline" size={24} color="#FFA726" />
-                          <Text style={styles.modalButtonText}>Upload</Text>
-                        </>
-                      )}
-                    </TouchableOpacity>
-                  )}
-                </View>
-              </TouchableWithoutFeedback>
+                )}
+              </View>
             </View>
           </TouchableWithoutFeedback>
         </Modal>
@@ -301,10 +355,15 @@ export default function UserProfile() {
 
 
 
+
+
+
+
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: '#F5F5F5',
+    paddingBottom:50,
   },
   container: {
     alignItems: 'center',
@@ -404,7 +463,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flex: 1,
   },
-  modalContainer: {
+  modalOverlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

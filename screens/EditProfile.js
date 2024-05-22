@@ -25,7 +25,7 @@ export default function EditProfile() {
         linkedin,
         room,
       });
-      Alert.alert('Profile updated successfully!');
+      Alert.alert('Upload successful!');
       navigation.navigate('UserProfile', {
         userName,
         userEmail,
