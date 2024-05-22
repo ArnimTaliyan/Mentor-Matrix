@@ -4,13 +4,17 @@ import { db } from '../firebase'; // Import db from firebase.js
 import { ref, onValue } from 'firebase/database';
 import { Avatar } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+
 
 export default function SearchScreen() {
+  const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   const [userData, setUserData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState('SOAE'); // Default department
   const [showSearchResults, setShowSearchResults] = useState(false);
+
 
   // Dummy department options
   const departmentOptions = [
@@ -56,7 +60,7 @@ export default function SearchScreen() {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.userContainer} onPress={() => console.log(item.name)}>
+    <TouchableOpacity style={styles.userContainer} onPress={() => navigation.navigate('Profile', { userEmail: item.email })}>
       <Avatar
         rounded
         source={require('../assets/images/default_profile.jpg')}
@@ -68,6 +72,7 @@ export default function SearchScreen() {
       </View>
     </TouchableOpacity>
   );
+  
 
   const handleDepartmentSelect = (department) => {
     setSelectedDepartment(department);
