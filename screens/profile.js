@@ -154,9 +154,10 @@ export default function Profile() {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.logoutButtonText}>Go Back</Text>
-        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.backButton, {position: 'absolute', top: 20, left: 10}]}>
+  <Ionicons name="arrow-back-outline" size={28} color="#FFA726" />
+</TouchableOpacity>
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -227,6 +228,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     color: '#424242',
+  },
+  backButton: {
+    marginRight: 10,
   },
   logoutButton: {
     backgroundColor: '#FFA726',
