@@ -18,6 +18,7 @@ import SearchScreen from './screens/SearchScreen';
 import UserProfile from './screens/UserProfile';
 import EditProfile from './screens/EditProfile';
 import Profile from './screens/profile';
+import Userevents from './screens/Userevents';
 
 
 
@@ -73,6 +74,7 @@ import Dhirendra_kumar_sharma from './screens/SOCS/Dhirendra_kumar_sharma';
 
 
 
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const screenOptions = {
@@ -106,6 +108,7 @@ function App() {
         <Stack.Screen name="Schedule" component={Timetableprofile} options={{ headerShown: true }} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
         <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+        <Stack.Screen name="Userevents" component={Userevents} options={{ headerShown: false }} />
 
 
         {/*profilescreens */}

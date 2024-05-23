@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal, Text,TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Platform } from 'react-native';
+import { View, Modal, Text, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Platform, Button } from 'react-native';
 import { Calendar } from 'react-native-big-calendar';
 import { ref, set, onValue } from 'firebase/database';
 import { db } from '../firebase'; // Import your Firebase configuration
@@ -99,6 +99,7 @@ export default function CalendarScreen({ route }) {
     setShowEndTimePicker(Platform.OS === 'ios');
     setNewEvent({ ...newEvent, endTime: currentTime });
   };
+  
   const handleRemoveEvent = () => {
     if (!selectedEvent) return;
   
@@ -111,7 +112,6 @@ export default function CalendarScreen({ route }) {
         console.error('Error removing event:', error);
       });
   };
-  
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -135,9 +135,12 @@ export default function CalendarScreen({ route }) {
                 <Text style={styles.detailText}>Subject Name: {selectedEvent.title}</Text>
                 <Text style={styles.detailText}>ClassRoom: {selectedEvent.location}</Text>
                 <Text style={styles.detailText}>Teacher: {selectedEvent.Teacher}</Text>
-                <TouchableOpacity onPress={handleRemoveEvent}>
-                  <Text style={{ color: 'red' }}>Remove Event</Text>
-                </TouchableOpacity>
+                <View style={styles.buttonRow}>
+                  <Button onPress={handleRemoveEvent} title="Remove Event" color="red" />
+                  <TouchableOpacity onPress={() => setModalVisible(false)}>
+                    <Text style={{ color: 'red', marginLeft: 10 }}>Close</Text>
+                  </TouchableOpacity>
+                </View>
               </>
             ) : (
               <>
@@ -172,43 +175,42 @@ export default function CalendarScreen({ route }) {
                 <TouchableOpacity onPress={() => setShowStartTimePicker(true)}>
                   <Text style={{ color: 'blue' }}>Select Start Time</Text>
                   {showStartTimePicker && (
-        <DateTimePicker
-          value={newEvent.startTime}
-          mode="time"
-          is24Hour={true}
-          display="default"
-          onChange={handleStartTimeChange}
-        />
-      )}
+                    <DateTimePicker
+                      value={newEvent.startTime}
+                      mode="time"
+                      is24Hour={true}
+                      display="default"
+                      onChange={handleStartTimeChange}
+                    />
+                  )}
                 </TouchableOpacity>
                 
                 <TouchableOpacity onPress={() => setShowEndTimePicker(true)}>
                   <Text style={{ color: 'blue' }}>Select End Time</Text>
                   {showEndTimePicker && (
-        <DateTimePicker
-          value={newEvent.endTime}
-          mode="time"
-          is24Hour={true}
-          display="default"
-          onChange={handleEndTimeChange}
-        />
-      )}
+                    <DateTimePicker
+                      value={newEvent.endTime}
+                      mode="time"
+                      is24Hour={true}
+                      display="default"
+                      onChange={handleEndTimeChange}
+                    />
+                  )}
                 </TouchableOpacity>
-
-
                 
                 <TouchableOpacity onPress={handleSaveEvent}>
                   <Text style={{ color: 'blue' }}>Save Event</Text>
                 </TouchableOpacity>
               </>
             )}
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text style={{ color: 'red', textAlign: 'right' }}>Close</Text>
-            </TouchableOpacity>
+            {!selectedEvent && (
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text style={{ color: 'red', textAlign: 'right' }}>Close</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </Modal>
-      
       
       <TouchableOpacity onPress={handleAddEvent} style={styles.uploadButton}>
         <Text style={{ color: 'white' }}>Add Event</Text>
@@ -250,6 +252,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     justifyContent: 'center',
   },
+  buttonRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    justifyContent:'flex-end'
+  },
 });
-
-

@@ -1,3 +1,4 @@
+// profile.js
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Linking, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -147,19 +148,21 @@ export default function Profile() {
           )}
 
           <View style={styles.infoItem}>
-            <TouchableOpacity style={styles.infoItem}>
-            <Ionicons name="location-outline" size={24} color="#FFA726" />
-            <Text style={styles.infoText}>
-              {currentEventLocation || userData.room || '...'}
-            </Text>
+            <TouchableOpacity 
+              style={styles.infoItem} 
+              onPress={() => navigation.navigate('Userevents', { userEmail })}
+            >
+              <Ionicons name="location-outline" size={24} color="#FFA726" />
+              <Text style={styles.infoText}>
+                {currentEventLocation || userData.room || '...'}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
 
         <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.backButton, {position: 'absolute', top: 20, left: 10}]}>
-  <Ionicons name="arrow-back-outline" size={28} color="#FFA726" />
-</TouchableOpacity>
-
+          <Ionicons name="arrow-back-outline" size={28} color="#FFA726" />
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -248,4 +251,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-

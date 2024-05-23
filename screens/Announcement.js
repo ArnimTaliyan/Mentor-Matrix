@@ -265,7 +265,7 @@ export default function AnnouncementScheduler() {
                             Alert.alert('Please fill in all fields');
                         }
                     }}
-                    disabled={!ProjectName || !Role || !Number || uploading} // Disable button when uploading or fields are empty
+                    disabled={!ProjectName || !Role || !Number } // Disable button when uploading or fields are empty
                 >
                     <Text style={styles.buttonText}>Post Announcement</Text>
                 </TouchableOpacity>
