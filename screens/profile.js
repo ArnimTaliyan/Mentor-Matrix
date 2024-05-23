@@ -147,10 +147,12 @@ export default function Profile() {
           )}
 
           <View style={styles.infoItem}>
+            <TouchableOpacity style={styles.infoItem}>
             <Ionicons name="location-outline" size={24} color="#FFA726" />
             <Text style={styles.infoText}>
               {currentEventLocation || userData.room || '...'}
             </Text>
+            </TouchableOpacity>
           </View>
         </View>
 

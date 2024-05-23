@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, TextInput, FlatList, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native'; // Import Platform module
-import { db } from '../firebase'; // Import db from firebase.js
-import { ref, onValue } from 'firebase/database';
+import { View, Text, SafeAreaView, TextInput, FlatList, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native';
+import { db } from '../firebase';
+import { ref, onValue, off } from 'firebase/database';
 import { Avatar } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
-
+import { useNavigation } from '@react-navigation/native';
 
 export default function SearchScreen() {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   const [userData, setUserData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [selectedDepartment, setSelectedDepartment] = useState('SOAE'); // Default department
+  const [selectedDepartment, setSelectedDepartment] = useState('SOAE');
   const [showSearchResults, setShowSearchResults] = useState(false);
 
-
-  // Dummy department options
   const departmentOptions = [
     { label: 'SOAE', value: 'SOAE' },
     { label: 'SOB', value: 'SOB' },
@@ -29,14 +26,31 @@ export default function SearchScreen() {
   ];
 
   useEffect(() => {
-    // Fetch user data from Firebase
     const usersRef = ref(db, 'users');
-    onValue(usersRef, (snapshot) => {
+
+    const handleUserDataChange = (snapshot) => {
       const data = snapshot.val();
-      const userList = data ? Object.values(data).map(user => ({ id: user.id, name: user.name, avatar: user.avatar, email: user.email, department: user.department })) : [];
+      const userList = data
+        ? Object.values(data).map(user => ({
+            id: user.id,
+            name: user.name,
+            avatar: user.avatar,
+            email: user.email,
+            department: user.department,
+            profileImageUrl: user.userdata?.profileImageUrl || null,
+          }))
+        : [];
       setUserData(userList);
       setFilteredData(userList.filter(user => user.department === selectedDepartment));
-    });
+    };
+
+    // Set up the listener
+    onValue(usersRef, handleUserDataChange);
+
+    // Clean up the listener on unmount
+    return () => {
+      off(usersRef, 'value', handleUserDataChange);
+    };
   }, [selectedDepartment]);
 
   const handleSearch = (text) => {
@@ -63,7 +77,11 @@ export default function SearchScreen() {
     <TouchableOpacity style={styles.userContainer} onPress={() => navigation.navigate('Profile', { userEmail: item.email })}>
       <Avatar
         rounded
-        source={require('../assets/images/default_profile.jpg')}
+        source={
+          item.profileImageUrl
+            ? { uri: item.profileImageUrl }
+            : require('../assets/images/default_profile.jpg')
+        }
         size="medium"
       />
       <View style={styles.userDetails}>
@@ -72,7 +90,6 @@ export default function SearchScreen() {
       </View>
     </TouchableOpacity>
   );
-  
 
   const handleDepartmentSelect = (department) => {
     setSelectedDepartment(department);
@@ -167,7 +184,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 10, // Reduced paddingVertical from 15 to 10
+    paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
@@ -205,7 +222,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: 'white',
     zIndex: 1,
-    marginTop: 45, // Margin to ensure it is below the search bar
+    marginTop: 45,
   },
   noResultsText: {
     fontSize: 18,
@@ -215,5 +232,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flex: 1,
     marginTop: 40,
-  }
+  },
 });
