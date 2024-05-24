@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity,StyleSheet, ScrollView, SafeAreaView, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import { ref as databaseRef, update } from 'firebase/database';
 import { encode } from 'base-64';
 

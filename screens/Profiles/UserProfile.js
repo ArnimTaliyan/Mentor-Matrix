@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Modal, Tou
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
-import { storage, db } from '../firebase';
+import { storage, db } from '../../firebase';
 import * as FileSystem from 'expo-file-system';
 import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { ref as databaseRef, set, get, child, remove as removeDatabaseData, onValue } from 'firebase/database';
@@ -227,7 +227,7 @@ export default function UserProfile() {
             source={
               profileImageUrl
                 ? { uri: profileImageUrl }
-                : require('../assets/images/default_profile.jpg')
+                : require('../../assets/images/default_profile.jpg')
             }
             style={styles.profileImage}
           />

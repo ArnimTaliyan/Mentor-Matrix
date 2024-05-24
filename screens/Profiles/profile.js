@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ref as databaseRef, get, onValue } from 'firebase/database';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { encode } from 'base-64';
-import { storage, db } from '../firebase';
+import { storage, db } from '../../firebase';
 
 export default function Profile() {
   const navigation = useNavigation();
@@ -113,7 +113,7 @@ export default function Profile() {
             source={
               profileImageUrl
                 ? { uri: profileImageUrl }
-                : require('../assets/images/default_profile.jpg')
+                : require('../../assets/images/default_profile.jpg')
             }
             style={styles.profileImage}
           />

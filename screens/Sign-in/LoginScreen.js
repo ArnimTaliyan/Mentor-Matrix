@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, Image, TouchableOpacity, Text, KeyboardAvoidingView, StatusBar, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, TextInput, Image, TouchableOpacity, Text, KeyboardAvoidingView, StatusBar, StyleSheet, LayoutAnimation } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ref, get } from 'firebase/database';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import { encode } from 'base-64';
 import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
+
+const MemoizedTextInput = React.memo(({ placeholder, onChangeText, value }) => (
+    <TextInput placeholder={placeholder} placeholderTextColor={'gray'} onChangeText={onChangeText} value={value} />
+));
 
 export default function LoginScreen({ route }) {
     const navigation = useNavigation();
     const [loginError, setLoginError] = useState(false);
     const [loginErrorMessage, setLoginErrorMessage] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
 
     const [values, setValues] = useState({
         email: "",
         pwd: ""
     });
-    const [showNotification, setShowNotification] = useState(false);
 
     useEffect(() => {
         // Reset email and password values when component receives props
@@ -25,26 +29,19 @@ export default function LoginScreen({ route }) {
         });
     }, [route]);
 
-    // Clear input fields when loginError changes to true
-    useEffect(() => {
-        if (loginError) {
-            setValues({ email: "", pwd: "" });
-        }
-    }, [loginError]);
-
-    function handleChange(text, eventName) {
+    const handleChange = useCallback((text, eventName) => {
         setValues(prev => ({
             ...prev,
             [eventName]: text
         }));
-    }
+    }, []);
 
-    function clearInputFields() {
+    const clearInputFields = useCallback(() => {
         setValues({
             email: "",
             pwd: ""
         });
-    }
+    }, []);
 
     function Login() {
         const { email, pwd } = values;
@@ -70,9 +67,10 @@ export default function LoginScreen({ route }) {
                     if (storedPassword === enteredPassword) {
                         setShowNotification(true);
                         setTimeout(() => setShowNotification(false), 3000); // Hide notification after 3 seconds
-                        navigation.navigate('Main', { screen: 'UserProfile', params: { userName: userData.name, userEmail: email , userDepartment: userData.department }});
+                        
                         navigation.navigate('Main', { screen: 'CalendarScreen', params: { userName: userData.name, userEmail: email } });
-                        navigation.navigate('Main', { screen: 'Home', params: { userName: userData.name, userEmail: email },  });
+                        navigation.navigate('Main', { screen: 'FetchData', params: { userName: userData.name, userEmail: email },  });
+                        navigation.navigate('Main', { screen: 'UserProfile', params: { userName: userData.name, userEmail: email , userDepartment: userData.department }});
                     } else {
                         setLoginErrorMessage('Invalid password');
                         setLoginError(true);
@@ -98,12 +96,12 @@ export default function LoginScreen({ route }) {
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
-            <Image style={styles.backgroundImage} source={require('../assets/images/background.png')} />
+            <Image style={styles.backgroundImage} source={require('../../assets/images/background.png')} />
 
             {/* Lights */}
             <View style={styles.lightsContainer}>
-                <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={styles.light1} source={require('../assets/images/light.png')} />
-                <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()} style={styles.light2} source={require('../assets/images/light.png')} />
+                <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={styles.light1} source={require('../../assets/images/light.png')} />
+                <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()} style={styles.light2} source={require('../../assets/images/light.png')} />
             </View>
 
             {/* Title and form */}
@@ -112,27 +110,31 @@ export default function LoginScreen({ route }) {
                 <View style={styles.titleContainer}>
                     <Animated.Text entering={FadeInUp.duration(1000).springify()}  style={styles.title}>Login</Animated.Text>
                 </View>
-
                 {/* Form for login */}
-                <KeyboardAvoidingView behavior='padding'>
-                    <View style={styles.formContainer}>
-                        <Animated.View entering={FadeInDown.duration(1000).springify()} style={styles.inputContainer}>
-                            <TextInput placeholder="Email" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "email")} value={values.email} />
-                        </Animated.View>
-                        <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} style={styles.inputContainer}>
-                            <TextInput placeholder="Password" placeholderTextColor={'gray'} onChangeText={text => handleChange(text, "pwd")} secureTextEntry={true} value={values.pwd} />
-                        </Animated.View>
-                        <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
-                            <TouchableOpacity onPress={Login} style={styles.loginButton}>
-                                <Text style={styles.loginButtonText}>Login</Text>
-                            </TouchableOpacity>
-                        </Animated.View>
-                        <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} style={styles.signupContainer}>
-                            <Text>Don't have an account? </Text>
-                            <TouchableOpacity onPress={() => navigation.push('SignupScreen')}>
-                                <Text style={styles.signupText}>Signup</Text>
-                            </TouchableOpacity>
-                        </Animated.View>
+                <KeyboardAvoidingView behavior='padding' style={styles.formContainer} >
+                <Animated.View entering={FadeInDown.duration(1000).springify()} style={styles.inputContainer}>
+                    <MemoizedTextInput
+                        placeholder="Email"
+                        onChangeText={text => handleChange(text, "email")}
+                        value={values.email}
+                    />
+                </Animated.View>
+                <Animated.View entering={FadeInDown.duration(1000).springify()} style={styles.inputContainer}>
+                    <MemoizedTextInput
+                        placeholder="Password"
+                        onChangeText={text => handleChange(text, "pwd")}
+                        secureTextEntry={true}
+                        value={values.pwd}
+                    />
+                </Animated.View>
+                    <TouchableOpacity onPress={Login} style={styles.loginButton}>
+                        <Text style={styles.loginButtonText}>Login</Text>
+                    </TouchableOpacity>
+                    <View style={styles.signupContainer}>
+                        <Text>Don't have an account? </Text>
+                        <TouchableOpacity onPress={() => navigation.push('SignupScreen')}>
+                            <Text style={styles.signupText}>Signup</Text>
+                        </TouchableOpacity>
                     </View>
                 </KeyboardAvoidingView>
             </View>
@@ -142,6 +144,9 @@ export default function LoginScreen({ route }) {
         </View>
     );
 }
+
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -192,7 +197,7 @@ const styles = StyleSheet.create({
         fontSize: 40
     },
     formContainer: {
-        marginTop: 40
+        marginTop: 40,
     },
     inputContainer: {
         backgroundColor: 'rgba(0, 0, 0, 0.05)', 

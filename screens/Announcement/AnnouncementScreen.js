@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Linking, TouchableOpacity, Image, Platform, RefreshControl } from 'react-native';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import { ref, onValue, get } from 'firebase/database';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useRoute } from '@react-navigation/native';
 import { Avatar } from 'react-native-elements';
 import { encode } from 'base-64';
 
 const FetchData = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+    const userName = route.params?.userName;
+    const userEmail = route.params?.userEmail;
   const [todoData, setTodoData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -71,15 +74,17 @@ const FetchData = () => {
 
   return (
     <SafeAreaView style={[styles.safeArea, Platform.OS === 'android' && { paddingBottom: 38 }]}>
-      <ScrollView
-        style={[Platform.OS === 'android' && { paddingBottom: 30 }]}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-      >
+      <ScrollView style={[Platform.OS === 'android' && { paddingBottom: 30 }]}  refreshControl={  <RefreshControl  refreshing={refreshing}  onRefresh={onRefresh}  />} >
+      <View style={styles.Hcontainer}>
+                    <View style={{ flex: 1, marginTop: 10}}>
+                        {userName ? <Text style={styles.greetingText}>Hello, {userName}</Text> : null}
+                    </View>
+                    <TouchableOpacity
+                        style={styles.iconContainer}
+                        onPress={() => navigation.push('AnnouncementScheduler', { userName: userName,  userEmail: userEmail })}>
+                        <Ionicons name="megaphone-outline" size={24} color="black" />
+                    </TouchableOpacity>
+                </View>
         <View style={styles.container}>
           {todoData.map((item, index) => (
             <View key={index} style={styles.postContainer}>
@@ -87,7 +92,7 @@ const FetchData = () => {
                 <TouchableOpacity onPress={() => navigateToUserProfile(item.UserEmail)}>
                   <Avatar
                     rounded
-                    source={item.profileImageUrl ? { uri: item.profileImageUrl } : require('../assets/images/default_profile.jpg')}
+                    source={item.profileImageUrl ? { uri: item.profileImageUrl } : require('../../assets/images/default_profile.jpg')}
                     size="medium"
                   />
                 </TouchableOpacity>
@@ -123,6 +128,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f2f2f2',
   },
+  Hcontainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    alignItems: 'center',
+},
+greetingText: {
+  fontSize: 30,
+  color:'rgb(22, 132, 199)' ,
+  fontWeight: 'bold',
+  marginBottom: 8,
+},
   container: {
     flex: 1,
     alignItems: 'center',

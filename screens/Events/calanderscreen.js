@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Modal, Text, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Platform, Button } from 'react-native';
 import { Calendar } from 'react-native-big-calendar';
 import { ref, set, onValue } from 'firebase/database';
-import { db } from '../firebase'; // Import your Firebase configuration
+import { db } from '../../firebase'; // Import your Firebase configuration
 import { useNavigation } from '@react-navigation/native';
 import { encode } from 'base-64';
 import DateTimePicker from '@react-native-community/datetimepicker';

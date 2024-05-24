@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, SafeAreaView, TextInput, FlatList, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import { ref, onValue, off } from 'firebase/database';
 import { Avatar } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -80,7 +80,7 @@ export default function SearchScreen() {
         source={
           item.profileImageUrl
             ? { uri: item.profileImageUrl }
-            : require('../assets/images/default_profile.jpg')
+            : require('../../assets/images/default_profile.jpg')
         }
         size="medium"
       />

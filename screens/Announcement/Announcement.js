@@ -8,7 +8,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useRoute, useNavigation } from '@react-navigation/native'; 
 import { encode } from 'base-64';
 import { ref, set } from 'firebase/database';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import Animated from 'react-native-reanimated';
 import LottieView from 'lottie-react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
@@ -274,7 +274,7 @@ export default function AnnouncementScheduler() {
                 {showLoadingAnimation && (
   <View style={styles.centeredAnimation}>
     <LottieView
-      source={require('../assets/animations/post.json')}
+      source={require('../../assets/animations/post.json')}
       autoPlay
       loop
       style={{ width: 100, height: 100 }}

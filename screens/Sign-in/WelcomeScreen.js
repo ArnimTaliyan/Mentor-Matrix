@@ -10,12 +10,12 @@ export default function WelcomeScreen() {
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
-            <Image style={styles.image} source={require('../assets/images/background.png')}/>
+            <Image style={styles.image} source={require('../../assets/images/background.png')}/>
 
             {/*Lights */}
             <View style={styles.lightsContainer}>
-                <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={{height: 225,width: 90}} source={require('../assets/images/light.png')}/>
-                <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()}  style={{height: 160,width: 65}}  source={require('../assets/images/light.png')}/>
+                <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={{height: 225,width: 90}} source={require('../../assets/images/light.png')}/>
+                <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()}  style={{height: 160,width: 65}}  source={require('../../assets/images/light.png')}/>
             </View>
             
             {/* title and form */}

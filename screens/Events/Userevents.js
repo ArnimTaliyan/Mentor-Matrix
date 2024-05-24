@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Modal, Text, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-native';
 import { Calendar } from 'react-native-big-calendar';
 import { ref, onValue } from 'firebase/database';
-import { db } from '../firebase'; // Import your Firebase configuration
+import { db } from '../../firebase'; // Import your Firebase configuration
 import { encode } from 'base-64';
 
 export default function Userevents({ route }) {

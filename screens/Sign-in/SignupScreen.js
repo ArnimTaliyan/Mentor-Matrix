@@ -3,7 +3,7 @@ import { View, Image, Text, TextInput, TouchableOpacity, ScrollView, StatusBar, 
 import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import { encode } from 'base-64';
-import { db } from '../firebase'; // Import db from firebase.js
+import { db } from '../../firebase'; // Import db from firebase.js
 import { get, ref, set } from 'firebase/database';
 import RNPickerSelect from 'react-native-picker-select';
 
@@ -98,10 +98,10 @@ export default function SignupScreen() {
     return (
         <KeyboardAvoidingView style={styles.container} behavior='padding'>
             <StatusBar style="light" />
-            <Image style={styles.backgroundImage} source={require('../assets/images/background.png')} />
+            <Image style={styles.backgroundImage} source={require('../../assets/images/background.png')} />
             <View style={styles.lightsContainer}>
-                <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={styles.light1} source={require('../assets/images/light.png')} />
-                <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()} style={styles.light2} source={require('../assets/images/light.png')} />
+                <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={styles.light1} source={require('../../assets/images/light.png')} />
+                <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify()} style={styles.light2} source={require('../../assets/images/light.png')} />
             </View>
             <View style={styles.titleAndFormContainer}>
                 <View style={styles.titleContainer}>
