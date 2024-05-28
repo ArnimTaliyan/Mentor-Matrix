@@ -168,7 +168,6 @@ export default function LoginScreen({ route }) {
                     {focusedInput && (
                         <>
                             <RNAnimated.View style={styles.overlay} />
-                            <RNAnimated.View style={[styles.spotlight, { top: inputLayout.y, height: inputLayout.height, width: inputLayout.width, left: inputLayout.x }]} />
                         </>
                     )}
                 </KeyboardAvoidingView>
@@ -283,10 +282,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0)',
         zIndex: 1,
     },
-    spotlight: {
-        position: 'absolute',
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        borderRadius: 20,
-        zIndex: 2,
-    },
+    
 });
