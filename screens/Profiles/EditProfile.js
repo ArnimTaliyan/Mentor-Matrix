@@ -42,7 +42,7 @@ export default function EditProfile() {
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Ionicons name="arrow-back-outline" size={24} color="#FFA726" />
+            <Ionicons name="arrow-back-outline" size={24} color='rgb(22, 132, 199)' />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Edit Profile</Text>
         </View>
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFA726',
+    color: 'rgb(22, 132, 199)',
   },
   inputContainer: {
     marginBottom: 15,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   saveButton: {
-    backgroundColor: '#FFA726',
+    backgroundColor: 'rgb(22, 132, 199)',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',

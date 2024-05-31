@@ -236,7 +236,7 @@ export default function UserProfile() {
             style={styles.cameraIconContainer}
             onPress={() => setModalVisible(true)}
           >
-            <Ionicons name="camera" size={20} color="#FFA726" />
+            <Ionicons name="camera" size={20} color='rgb(22, 132, 199)' />
           </TouchableOpacity>
         </View>
 
@@ -260,7 +260,7 @@ export default function UserProfile() {
 
           <TouchableOpacity onPress={openEmailInOutlook}>
             <View style={styles.infoItem}>
-              <Ionicons name="mail-outline" size={24} color="#FFA726" />
+              <Ionicons name="mail-outline" size={24} color='rgb(22, 132, 199)' />
               <Text style={styles.infoText}>{userEmail}</Text>
             </View>
           </TouchableOpacity>
@@ -268,19 +268,19 @@ export default function UserProfile() {
           {userData.linkedin && userData.linkedin.length > 3 ? (
             <TouchableOpacity onPress={openLinkedInProfile}>
               <View style={styles.infoItem}>
-                <Ionicons name="logo-linkedin" size={24} color="#FFA726" />
+                <Ionicons name="logo-linkedin" size={24} color='rgb(22, 132, 199)' />
                 <Text style={styles.infoText}>{userData.linkedin}</Text>
               </View>
             </TouchableOpacity>
           ) : (
             <View style={styles.infoItem}>
-              <Ionicons name="logo-linkedin" size={24} color="#FFA726" />
+              <Ionicons name="logo-linkedin" size={24} color='rgb(22, 132, 199)' />
               <Text style={styles.infoText}>...</Text>
             </View>
           )}
 
           <View style={styles.infoItem}>
-            <Ionicons name="location-outline" size={24} color="#FFA726" />
+            <Ionicons name="location-outline" size={24} color='rgb(22, 132, 199)' />
             <Text style={styles.infoText}>
               {currentEventLocation || userData.room || '...'}
             </Text>
@@ -312,24 +312,24 @@ export default function UserProfile() {
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>Choose an option</Text>
                 <TouchableOpacity style={styles.modalButton} onPress={pickImageFromCamera}>
-                  <Ionicons name="camera-outline" size={24} color="#FFA726" />
+                  <Ionicons name="camera-outline" size={24} color='rgb(22, 132, 199)' />
                   <Text style={styles.modalButtonText}>Camera</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} onPress={pickImageFromGallery}>
-                  <Ionicons name="image-outline" size={24} color="#FFA726" />
+                  <Ionicons name="image-outline" size={24} color='rgb(22, 132, 199)' />
                   <Text style={styles.modalButtonText}>Gallery</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} onPress={handleRemoveProfileImage}>
-                  <Ionicons name="trash-outline" size={24} color="#FFA726" />
+                  <Ionicons name="trash-outline" size={24} color='rgb(22, 132, 199)' />
                   <Text style={styles.modalButtonText}>Remove</Text>
                 </TouchableOpacity>
                 {image && (
                   <TouchableOpacity style={styles.modalButton} onPress={uploadMedia} disabled={uploading}>
                     {uploading ? (
-                      <ActivityIndicator size="small" color="#FFA726" />
+                      <ActivityIndicator size="small" color='rgb(22, 132, 199)' />
                     ) : (
                       <>
-                        <Ionicons name="cloud-upload-outline" size={24} color="#FFA726" />
+                        <Ionicons name="cloud-upload-outline" size={24} color='rgb(22, 132, 199)' />
                         <Text style={styles.modalButtonText}>Upload</Text>
                       </>
                     )}
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 2,
-    borderColor: '#FFA726',
+    borderColor: 'rgb(22, 132, 199)',
   },
   cameraIconContainer: {
     position: 'absolute',
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
     right: 10,
     top: -30,
     fontSize: 14,
-    color: '#FFA726',
+    color: 'rgb(22, 132, 199)',
     fontWeight: 'bold',
   },
   infoItem: {
@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     paddingVertical: 10,
     paddingHorizontal: 40,
-    backgroundColor: '#FFA726',
+    backgroundColor: 'rgb(22, 132, 199)',
     borderRadius: 5,
   },
   logoutButtonText: {

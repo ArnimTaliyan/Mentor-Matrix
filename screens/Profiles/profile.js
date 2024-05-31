@@ -128,7 +128,7 @@ export default function Profile() {
 
           <TouchableOpacity onPress={openEmailInOutlook}>
             <View style={styles.infoItem}>
-              <Ionicons name="mail-outline" size={24} color="#FFA726" />
+              <Ionicons name="mail-outline" size={24} color='rgb(22, 132, 199)' />
               <Text style={styles.infoText}>{userEmail}</Text>
             </View>
           </TouchableOpacity>
@@ -136,13 +136,13 @@ export default function Profile() {
           {userData.linkedin && userData.linkedin.length > 3 ? (
             <TouchableOpacity onPress={openLinkedInProfile}>
               <View style={styles.infoItem}>
-                <Ionicons name="logo-linkedin" size={24} color="#FFA726" />
+                <Ionicons name="logo-linkedin" size={24} color='rgb(22, 132, 199)' />
                 <Text style={styles.infoText}>{userData.linkedin}</Text>
               </View>
             </TouchableOpacity>
           ) : (
             <View style={styles.infoItem}>
-              <Ionicons name="logo-linkedin" size={24} color="#FFA726" />
+              <Ionicons name="logo-linkedin" size={24} color='rgb(22, 132, 199)' />
               <Text style={styles.infoText}>...</Text>
             </View>
           )}
@@ -152,7 +152,7 @@ export default function Profile() {
               style={styles.infoItem} 
               onPress={() => navigation.navigate('Userevents', { userEmail })}
             >
-              <Ionicons name="location-outline" size={24} color="#FFA726" />
+              <Ionicons name="location-outline" size={24} color='rgb(22, 132, 199)' />
               <Text style={styles.infoText}>
                 {currentEventLocation || userData.room || '...'}
               </Text>
@@ -161,7 +161,7 @@ export default function Profile() {
         </View>
 
         <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.backButton, {position: 'absolute', top: 20, left: 10}]}>
-          <Ionicons name="arrow-back-outline" size={28} color="#FFA726" />
+          <Ionicons name="arrow-back-outline" size={28} color='rgb(22, 132, 199)' />
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 2,
-    borderColor: '#FFA726',
+    borderColor: 'rgb(22, 132, 199)',
   },
   profileName: {
     fontSize: 24,

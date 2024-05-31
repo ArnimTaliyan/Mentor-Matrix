@@ -122,7 +122,7 @@ export default function SearchScreen() {
             {departmentOptions.map((dept) => (
               <TouchableOpacity
                 key={dept.value}
-                style={[styles.cardContainer, { backgroundColor: selectedDepartment === dept.value ? 'lightblue' : 'white' }]}
+                style={[styles.cardContainer, { backgroundColor: selectedDepartment === dept.value ? 'rgb(22, 132, 199)' : 'white' }]}
                 onPress={() => handleDepartmentSelect(dept.value)}
               >
                 <Text style={[styles.cardText, { color: selectedDepartment === dept.value ? 'white' : 'black' }]}>{dept.label}</Text>
@@ -165,15 +165,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 5,
     paddingTop: 5,
+    
   },
   searchBar: {
     flex: 1,
     height: 40,
-    borderColor: 'gray',
+    borderColor: 'rgb(22, 132, 199)',
     borderWidth: 1,
     borderRadius: 20,
     paddingHorizontal: 15,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#f0f4f9',
   },
   closeIconContainer: {
     position: 'absolute',

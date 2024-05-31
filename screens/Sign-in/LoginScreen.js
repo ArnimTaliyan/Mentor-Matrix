@@ -12,7 +12,7 @@ export default function LoginScreen({ route }) {
     const [loginErrorMessage, setLoginErrorMessage] = useState('');
     const [focusedInput, setFocusedInput] = useState(null);
     const [inputLayout, setInputLayout] = useState({ x: 0, y: 0, width: 0, height: 0 });
-
+    
     const [values, setValues] = useState({
         email: "",
         pwd: ""
@@ -26,6 +26,7 @@ export default function LoginScreen({ route }) {
             pwd: ""
         });
     }, [route]);
+    
 
     // Clear input fields when loginError changes to true
     useEffect(() => {
@@ -58,7 +59,8 @@ export default function LoginScreen({ route }) {
             return;
         }
 
-        const encodedEmail = encode(email);
+        const normalizedEmail = email.toLowerCase(); // Convert email to lowercase
+        const encodedEmail = encode(normalizedEmail);
         const userRef = ref(db, `users/${encodedEmail}`);
         
         get(userRef, 'value')
@@ -73,9 +75,9 @@ export default function LoginScreen({ route }) {
                         setShowNotification(true);
                         setTimeout(() => setShowNotification(false), 3000); // Hide notification after 3 seconds
                        
-                        navigation.navigate('Main', { screen: 'CalendarScreen', params: { userName: userData.name, userEmail: email } });
-                        navigation.navigate('Main', { screen: 'FetchData', params: { userName: userData.name, userEmail: email },  });
-                        navigation.navigate('Main', { screen: 'UserProfile', params: { userName: userData.name, userEmail: email , userDepartment: userData.department }});
+                        navigation.navigate('Main', { screen: 'CalendarScreen', params: { userName: userData.name, userEmail: normalizedEmail } });
+                        navigation.navigate('Main', { screen: 'FetchData', params: { userName: userData.name, userEmail: normalizedEmail } });
+                        navigation.navigate('Main', { screen: 'UserProfile', params: { userName: userData.name, userEmail: normalizedEmail , userDepartment: userData.department } });
                     } else {
                         setLoginErrorMessage('Invalid password');
                         setLoginError(true);
@@ -99,7 +101,7 @@ export default function LoginScreen({ route }) {
     }
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback >
             <View style={styles.container}>
                 <StatusBar style="light" />
                 <Image style={styles.backgroundImage} source={require('../../assets/images/background.png')} />
@@ -117,24 +119,23 @@ export default function LoginScreen({ route }) {
                                 <Animated.View
                                     entering={FadeInDown.duration(1000).springify()}
                                     style={[styles.inputContainer, focusedInput === 'email' && styles.inputFocused]}
-                                    onLayout={event => focusedInput === 'email' && setInputLayout(event.nativeEvent.layout)}
+                                    
                                 >
                                     <TextInput
                                         placeholder="Email"
                                         placeholderTextColor={'gray'}
                                         onChangeText={text => handleChange(text, "email")}
                                         value={values.email}
-                                        onFocus={() => setFocusedInput('email')}
-                                        onBlur={() => setFocusedInput(null)}
+                                       
                                         style={styles.textInput}
                                         autoCorrect={false}
-                                        editable={!focusedInput || focusedInput === 'email'}
+                                        
                                     />
                                 </Animated.View>
                                 <Animated.View
                                     entering={FadeInDown.delay(200).duration(1000).springify()}
                                     style={[styles.inputContainer, focusedInput === 'password' && styles.inputFocused]}
-                                    onLayout={event => focusedInput === 'password' && setInputLayout(event.nativeEvent.layout)}
+                                    
                                 >
                                     <TextInput
                                         placeholder="Password"
@@ -142,10 +143,9 @@ export default function LoginScreen({ route }) {
                                         value={values.pwd}
                                         onChangeText={text => handleChange(text, "pwd")}
                                         secureTextEntry={true}
-                                        onFocus={() => setFocusedInput('password')}
-                                        onBlur={() => setFocusedInput(null)}
+                                        
                                         style={styles.textInput}
-                                        editable={!focusedInput || focusedInput === 'password'}
+                                        
                                     />
                                 </Animated.View>
                                 <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
