@@ -36,7 +36,6 @@ jobs:
 
       - name: Build Android APK
         run: |
-          cd android
           ./gradlew assembleRelease
 
       - name: Upload APK (Optional)
