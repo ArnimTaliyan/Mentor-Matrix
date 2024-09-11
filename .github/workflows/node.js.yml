@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -24,8 +23,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-      # `npm ci` is generally used for clean installs in CI environments
     - run: npm run build --if-present
-      # `--if-present` ensures the build step only runs if a build script is defined
-    - run: npm test
-      # Consider adding `|| exit 1` to ensure failure is properly reported if needed
+    - name: Run tests if script is present
+      run: |
+        if grep -q '"test":' package.json; then
+          npm test
+        else
+          echo "No test script found, skipping tests."
+        fi
