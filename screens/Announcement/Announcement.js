@@ -194,8 +194,8 @@ export default function AnnouncementScheduler() {
             <View style={styles.centeredAnnouncements}>
   <View style={styles.announcementsContainer}>
     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-      <AntDesign name="pushpin" size={24} color="#7289DA" style={{ marginRight: 10 }} />
-      <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#7289DA' }}>Announcements</Text>
+      <AntDesign name="pushpin" size={24} color='rgb(22, 132, 199)' style={{ marginRight: 10 }} />
+      <Text style={{ fontSize: 24, fontWeight: 'bold', color:'rgb(22, 132, 199)' }}>Announcements</Text>
     </View>
   </View>
 </View>
@@ -354,11 +354,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     uploadbuttonText: {
-        color: '#7289DA',
+        color: 'rgb(22, 132, 199)',
         fontSize: 16,
     },
     postButton: {
-        backgroundColor: '#7289DA',
+        backgroundColor: 'rgb(22, 132, 199)',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 5,
